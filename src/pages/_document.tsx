@@ -19,7 +19,7 @@ export default class MyApp extends Document {
 
           {/* <link rel='apple-touch-icon' sizes='180x180' href='/icons/apple-touch-icon.png' /> */}
           <link rel='manifest' href='/manifest.json' />
-          <link rel='shortcut icon' href='/favicon.ico' />
+          <link rel='shortcut icon' type="image/png" href='/favicon.png' />
         </Head>
         <body>
           <Main />

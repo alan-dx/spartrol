@@ -1,0 +1,33 @@
+.container {
+  height: 100vh;
+  width: 100vw;
+  
+  margin: 0 auto;
+  padding: 1.6rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  h1 {
+    margin-bottom: 1.6rem;
+    font-size: 1.5rem;
+  }
+
+  img {
+    width: 60%;
+  }
+
+  .buttonBox {
+    width: 100%;
+
+    border-top: 1px solid var(--gray-200);
+
+    button {
+      margin-top: 1.6rem;
+    }
+
+  }
+
+
+}
