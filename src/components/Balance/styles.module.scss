@@ -1,0 +1,43 @@
+.container {
+  height: 10rem;
+  width: 100%;
+
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  background: var(--blue);
+  border-radius: 5px;
+  box-shadow: 3px 5px 10px rgba($color: #8AD7D7, $alpha: 0.5);
+  
+  div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    button {
+      display: flex;
+      align-items: center;
+
+      border: 0;
+      background: transparent;
+    }  
+  }
+
+  small, time {
+    font-size: 0.8rem;
+  }
+
+  p {
+    font-size: 2.25rem;
+
+    color: var(--white);
+
+    small {
+      font-size: 1.5rem;
+    }
+      
+  }
+
+}

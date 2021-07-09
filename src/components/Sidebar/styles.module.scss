@@ -4,16 +4,52 @@
   flex-direction: row;
 
   .menu {
-    background-color: var(--white);
     width: 80vw;
     height: 100vh;
-  
+    
+    padding: 1rem;
+
+    background-color: var(--white);
     box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.25);
+
+    header {
+      flex: 1;
+      
+      display: flex;
+      justify-content: flex-end;
+
+      button {
+        border: 0;
+        background-color: transparent;
+      }
+    }
+
+    .userInfo {
+
+      flex: 1;
+
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 2.67rem;
+      
+      img {
+        max-width: 125px;
+
+        margin-bottom: 1rem;
+
+        object-fit: cover;
+        cursor: pointer;
+      }
+
+    }
+
   }
 
   .outsideMenu {
-    background-color: transparent;
     width: 20vw;
+    background-color: rgba(0,0,0, 0.1);
   }
 
 }
@@ -21,11 +57,11 @@
 @media (min-width: 780px) {
   .container {
     .menu {
-      width: 50vw;
+      width: 40vw;
     }
 
     .outsideMenu {
-      width: 50vw;
+      width: 60vw;
     }
   }
 }
