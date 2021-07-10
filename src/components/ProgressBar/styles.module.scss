@@ -1,0 +1,48 @@
+.container {
+
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+
+  small {
+    align-self: center;
+
+    color: var(--gray-900);
+    font-size: 0.65rem;
+  }
+
+  .lineBox {
+    height: 4px;
+
+    display: flex;
+    
+    .line {
+      border-radius: 2px;
+      background: var(--red);
+    }
+
+    div:not(:first-child) {
+      flex: 1;
+
+      border-radius: 2px;
+      background-color: var(--gray-200);
+    }
+
+  }
+
+  .goalsRange {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+
+    .center {
+      position: absolute;
+      left: calc(50% - 1.30rem);
+      text-align: center;
+    }
+
+    color: var(--gray-900);
+  }
+
+}

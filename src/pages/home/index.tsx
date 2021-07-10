@@ -1,5 +1,9 @@
 import { Balance } from '../../components/Balance'
+import { DayExpence } from '../../components/DayExpence'
 import { Header } from '../../components/Header'
+import { LargeButton } from '../../components/LargeButton'
+
+import { FiPlusCircle, FiMinusCircle } from 'react-icons/fi'
 import styles from './styles.module.scss'
 
 export default function Home() {
@@ -9,8 +13,16 @@ export default function Home() {
       <Header />
       <main className={styles.container}>
         <Balance />
-        <label htmlFor="goal">Hoje, você gastou:</label>
-        <strong>R$ 256,01</strong>
+        <DayExpence />
+        <LargeButton>
+          Cadastrar despesa
+          <FiMinusCircle size={20} color="#F03E35" />
+        </LargeButton>
+        <LargeButton>
+          Cadastrar ganho
+          <FiPlusCircle size={20} color="#59D266" />
+        </LargeButton>
+        
       </main>
     </>
   )

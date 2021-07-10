@@ -10,7 +10,7 @@ export function Balance() {
           <FiMoreVertical color="#4F4F4F" size={18} />
         </button>
       </div>
-      <p id="balance">R$2.200,<small>35</small></p>
+      <strong>R$2.200,<small>35</small></strong>
       <time>21 de Junho</time>
     </div>
   )
