@@ -3,7 +3,7 @@ import styles from './styles.module.scss'
 export function ProgressBar() {
   return (
     <div className={styles.container} >
-      <small>Meta mensal</small>
+      <small>Gasto do mês</small>
       <div className={styles.lineBox}>
         <div className={styles.line} style={{width: "85%"}} />
         <div />

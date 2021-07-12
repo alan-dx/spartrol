@@ -2,6 +2,7 @@ import { Balance } from '../../components/Balance'
 import { DayExpence } from '../../components/DayExpence'
 import { Header } from '../../components/Header'
 import { LargeButton } from '../../components/LargeButton'
+import { Historic } from '../../components/Historic'
 
 import { FiPlusCircle, FiMinusCircle } from 'react-icons/fi'
 import styles from './styles.module.scss'
@@ -22,7 +23,7 @@ export default function Home() {
           Cadastrar ganho
           <FiPlusCircle size={20} color="#59D266" />
         </LargeButton>
-        
+        <Historic />
       </main>
     </>
   )

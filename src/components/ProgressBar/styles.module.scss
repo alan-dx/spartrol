@@ -38,6 +38,7 @@
 
     .center {
       position: absolute;
+      z-index: 0;
       left: calc(50% - 1.30rem);
       text-align: center;
     }
