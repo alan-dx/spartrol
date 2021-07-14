@@ -38,7 +38,7 @@ export function Historic() {
     <div className={styles.container}>
       <div className={styles.header} >
         <strong>Histórico</strong>
-        <Link href="historic">Ver tudo</Link>
+        <Link href="/historic">Ver tudo</Link>
       </div>
       <ul>
         {list.map(item => (

@@ -1,0 +1,84 @@
+.modalContentContainer {
+
+  display: flex;
+  flex-direction: column;
+  padding: 1rem 1rem 0 1rem;
+
+  background-color: var(--white);
+  border-radius: 0.3rem;
+
+
+  header {
+    width: 100%;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+
+    h1 {
+      font-size: 1.2rem;
+    }
+  }
+
+  main {
+    label {
+      margin-top: 0.5rem;
+    }
+
+    .valueBox {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+
+      margin-top: 0.5rem;
+
+      div {
+        flex: 1;
+
+        label {
+          margin-top: 0;
+        }
+
+      }
+      
+      strong {
+        font-size: 1.35rem;
+
+        margin-right: 0.55rem;
+        margin-top: 0.95rem;
+      }
+
+    }
+
+  }
+
+  footer {
+
+    height: 2.8rem;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 1rem;
+
+    button {
+      flex: 1;
+      
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      border: 0;
+      background-color: transparent;
+      color: var(--black);
+  
+      &:first-child {
+        border-right: 1px solid var(--gray-200);   
+      }
+
+    }
+  }  
+    
+
+}

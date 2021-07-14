@@ -1,0 +1,18 @@
+.inputBox {
+  display: flex;
+  flex-direction: column;
+
+  label {
+    font-size: 0.95rem;
+  }
+
+  input {
+    height: 3.2rem;
+    width: 100%;
+    
+    border-radius: 0.3rem;
+    border: 1px solid var(--gray-200);
+
+  }
+
+}
