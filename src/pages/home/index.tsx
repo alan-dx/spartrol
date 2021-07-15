@@ -20,7 +20,7 @@ export default function Home() {
       <AddExpenseModal isOpen={isOpenExpenseModal} closeModal={() => setIsOpenExpenseModal(false)} />
       <AddGainModal isOpen={isOpenGainModal} closeModal={() => setIsGainModal(false)} />
       <Header />
-      <main className={styles.container}>
+      <main className={styles.container} >
         <Balance />
         <DayExpence />
         <LargeButton onClick={() => setIsOpenExpenseModal(true)}>

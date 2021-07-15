@@ -31,6 +31,27 @@ const list = [
     type: 'expense',
     value: '111,79'
   },
+  {
+    id: 5,
+    title: 'Conta de luz',
+    category: 'Contas',
+    type: 'expense',
+    value: '111,79'
+  },
+  {
+    id: 6,
+    title: 'Conta de luz',
+    category: 'Contas',
+    type: 'expense',
+    value: '111,79'
+  },
+  {
+    id: 7,
+    title: 'Conta de luz',
+    category: 'Contas',
+    type: 'expense',
+    value: '111,79'
+  },
 ]
 
 export function Historic() {
