@@ -9,6 +9,8 @@ import styles from './styles.module.scss'
 import { AddExpenseModal } from '../../components/Modal/AddExpenseModal'
 import { useState } from 'react'
 import { AddGainModal } from '../../components/Modal/AddGainModal'
+import { getSession } from 'next-auth/client'
+import { GetServerSideProps } from 'next'
 
 export default function Home() {
 
@@ -35,4 +37,27 @@ export default function Home() {
       </main>
     </>
   )
+}
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+
+  //TO DO
+  //CRIAR O WITHSSRAUTH E GUEST
+
+  const session = await getSession(ctx)
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false
+      }
+    }
+  }
+
+  return {
+    props: {
+      session
+    }
+  }
 }

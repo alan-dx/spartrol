@@ -6,11 +6,12 @@ import { Navigation } from './Navigation'
 
 import { FiArrowLeft } from 'react-icons/fi'
 import styles from './styles.module.scss'
+import { useSession } from 'next-auth/client'
 
 export function Sidebar() {
 
   const {isOpen, toogleSideBar} = useContext(SidebarContext)
-  const router = useRouter()
+  const [session] = useSession()
 
   return (
     <AnimatePresence>
@@ -39,10 +40,10 @@ export function Sidebar() {
                 <motion.img 
                   whileHover={{ scale: 1.10 }}
                   whileTap={{ scale: 0.95 }}
-                  src="/images/profile-pic.png" 
+                  src={`${session?.user.image}`} 
                   alt="User Photo" 
                 />
-                <strong>Caiden Barrera</strong>
+                <strong>{session?.user.name}</strong>
               </div>
               <Navigation />
             </motion.nav>

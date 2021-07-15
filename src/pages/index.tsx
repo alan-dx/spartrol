@@ -3,7 +3,9 @@ import { LargeButton } from '../components/LargeButton'
 import { FaGoogle } from 'react-icons/fa'
 import { useRouter } from 'next/dist/client/router'
 
-export default function signIn() {
+import { signIn } from 'next-auth/client'
+
+export default function signInPage() {
 
   const router = useRouter()
     
@@ -19,7 +21,7 @@ export default function signIn() {
         <h2>Está pronto para gerenciar melhor seu dinheiro?</h2>
         <img src={"/images/logo.svg"} alt="Logo" />
         <div className={styles.buttonBox} >
-          <LargeButton onClick={() => router.push('/home')} >
+          <LargeButton onClick={() => signIn('google')} >
             <FaGoogle size={22} color="#FFF" />
             Fazer login com Google
           </LargeButton>
