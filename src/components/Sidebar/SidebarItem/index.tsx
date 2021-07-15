@@ -1,17 +1,14 @@
 import { motion } from 'framer-motion'
-import { useRouter } from 'next/router'
 import { ReactNode } from 'react'
 import styles from './styles.module.scss'
 
 interface SidebarItemProps {
   icon?: ReactNode,
   text: string,
-  href: string
+  onClick: () => void
 }
 
-export function SidebarItem({ icon, text , href}: SidebarItemProps) {
-
-  const router = useRouter()
+export function SidebarItem({ icon, text, onClick}: SidebarItemProps) {
 
   return (
     <motion.li
@@ -19,7 +16,7 @@ export function SidebarItem({ icon, text , href}: SidebarItemProps) {
       whileHover={{ x: 10 }}
       whileTap={{ scale: 0.95, x: 0 }}
       transition={{duration: 0.2}}
-      onClick={() => router.push(href)}
+      onClick={onClick}
     >
       {icon}
       <label>{text}</label>

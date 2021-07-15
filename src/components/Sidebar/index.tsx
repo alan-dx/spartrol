@@ -1,12 +1,16 @@
 import { motion, AnimatePresence } from 'framer-motion'
-import { useRouter } from 'next/router'
 import { useContext } from 'react'
 import { SidebarContext } from '../../contexts/SidebarContext'
 import { Navigation } from './Navigation'
 
 import { FiArrowLeft } from 'react-icons/fi'
 import styles from './styles.module.scss'
+import { Session } from 'next-auth'
 import { useSession } from 'next-auth/client'
+
+// interface SidebarProps {
+//   session: Session
+// }
 
 export function Sidebar() {
 

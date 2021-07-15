@@ -1,5 +1,4 @@
 import NextAuth from 'next-auth'
-import { session } from 'next-auth/client'
 import Providers from 'next-auth/providers'
 
 export default NextAuth({
@@ -14,6 +13,9 @@ export default NextAuth({
       return "/home"
     },
     async session(session) {
+
+      console.log('session')
+
       return session
     }
   }

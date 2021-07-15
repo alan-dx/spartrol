@@ -9,8 +9,9 @@ import styles from './styles.module.scss'
 import { AddExpenseModal } from '../../components/Modal/AddExpenseModal'
 import { useState } from 'react'
 import { AddGainModal } from '../../components/Modal/AddGainModal'
-import { getSession } from 'next-auth/client'
-import { GetServerSideProps } from 'next'
+import { Session } from 'next-auth'
+import { GetServerSideProps, GetServerSidePropsContext } from 'next'
+import { withSSRAuth } from '../../utils/withSSRAuth'
 
 export default function Home() {
 
@@ -39,25 +40,40 @@ export default function Home() {
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
+// export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
-  //TO DO
-  //CRIAR O WITHSSRAUTH E GUEST
+//   //TO DO
+//   //CRIAR O WITHSSRAUTH E GUEST
 
-  const session = await getSession(ctx)
+//   const session = await getSession(ctx)
 
-  if (!session) {
-    return {
-      redirect: {
-        destination: '/',
-        permanent: false
-      }
-    }
-  }
+//   if (!session) {
+//     return {
+//       redirect: {
+//         destination: '/',
+//         permanent: false
+//       }
+//     }
+//   }
+
+//   return {
+//     props: {
+//       session
+//     }
+//   }
+// }
+
+interface withSSRAuthContext extends GetServerSidePropsContext {
+  session?: Session
+}
+
+export const getServerSideProps = withSSRAuth(async (ctx: withSSRAuthContext) => {
+
+  const { session } = ctx
 
   return {
     props: {
       session
     }
   }
-}
+})

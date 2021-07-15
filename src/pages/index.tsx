@@ -1,14 +1,12 @@
 import styles from './sign_in.module.scss'
 import { LargeButton } from '../components/LargeButton'
 import { FaGoogle } from 'react-icons/fa'
-import { useRouter } from 'next/dist/client/router'
 
 import { signIn } from 'next-auth/client'
+import { withSSRGuest } from '../utils/withSSRGuest'
 
 export default function signInPage() {
 
-  const router = useRouter()
-    
   return (
     <div className={styles.container}>
 
@@ -30,3 +28,9 @@ export default function signInPage() {
     </div>
   )
 }
+
+export const getServerSideProps = withSSRGuest(async (ctx) => {
+  return {
+    props: {}
+  }
+})
