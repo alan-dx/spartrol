@@ -40,29 +40,6 @@ export default function Home() {
   )
 }
 
-// export const getServerSideProps: GetServerSideProps = async (ctx) => {
-
-//   //TO DO
-//   //CRIAR O WITHSSRAUTH E GUEST
-
-//   const session = await getSession(ctx)
-
-//   if (!session) {
-//     return {
-//       redirect: {
-//         destination: '/',
-//         permanent: false
-//       }
-//     }
-//   }
-
-//   return {
-//     props: {
-//       session
-//     }
-//   }
-// }
-
 interface withSSRAuthContext extends GetServerSidePropsContext {
   session?: Session
 }
