@@ -7,6 +7,7 @@ import { FiArrowLeft } from 'react-icons/fi'
 import styles from './styles.module.scss'
 import { Session } from 'next-auth'
 import { useSession } from 'next-auth/client'
+import { useEffect } from 'react'
 
 // interface SidebarProps {
 //   session: Session
@@ -16,6 +17,10 @@ export function Sidebar() {
 
   const {isOpen, toogleSideBar} = useContext(SidebarContext)
   const [session] = useSession()
+
+  // useEffect(() => {
+  //   console.log(session.user)
+  // }, [session])
 
   return (
     <AnimatePresence>

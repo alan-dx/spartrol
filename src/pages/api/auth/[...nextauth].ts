@@ -18,12 +18,15 @@ export default NextAuth({
     },
     async signIn(user, account, profile) {
 
-      const { email } = user
+      const { email, id } = user
+      console.log(user)
 
       try {
         await api.post('/users', {
-          email
+          email,
+          id
         })
+        
         return true
       } catch (error) {
         console.error(error)
@@ -32,8 +35,6 @@ export default NextAuth({
 
     },
     async jwt(token, user, account, profile, isNewUser) {
-      //TALVEZ, UTILIZAR ESTE CALLBACK PARA SETAR O DEAFULT HEADER
-      // token.picture = undefined
       return token
     }
   }

@@ -3,12 +3,21 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { query as q } from 'faunadb'
 import { fauna } from '../../services/faunadb'
 
+export type User = {
+  ref: {
+    id: string
+  },
+  data: {
+    email: string
+  }
+}
+
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method == 'POST') {
     try {
-      const { email } = req.body
+      const { email, id } = req.body
 
-      const response = await fauna.query(
+      const user = await fauna.query<User>(//Create user
         q.If(
           q.Not(
             q.Exists(
@@ -20,7 +29,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
           ),
           q.Create(
             q.Collection('users'),
-            { data: { email }}
+            { data: { email, id }}
           ),
           q.Get(
             q.Match(
@@ -30,7 +39,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         )
       )
 
-      res.status(201).json({user: response})
+      res.status(201).json({user: user})
     } catch (error) {
       res.status(500).json({message: 'There was an error in the login process'})
     }
