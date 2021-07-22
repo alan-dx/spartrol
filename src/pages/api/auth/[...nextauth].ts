@@ -16,10 +16,9 @@ export default NextAuth({
     async redirect() {
       return "/home"
     },
-    async signIn(user, account, profile) {
+    async signIn(user) {
 
       const { email, id } = user
-      console.log(user)
 
       try {
         await api.post('/users', {
@@ -34,8 +33,8 @@ export default NextAuth({
       }
 
     },
-    async jwt(token, user, account, profile, isNewUser) {
-      return token
+    async session(session, token) {
+      return {...session, id: token.sub}
     }
   }
 })

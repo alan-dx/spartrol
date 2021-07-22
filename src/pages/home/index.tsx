@@ -12,11 +12,26 @@ import { AddGainModal } from '../../components/Modal/AddGainModal'
 import { Session } from 'next-auth'
 import { GetServerSideProps, GetServerSidePropsContext } from 'next'
 import { withSSRAuth } from '../../utils/withSSRAuth'
+import { useEffect } from 'react'
+import { api } from '../../services/api'
 
-export default function Home() {
+interface HomeProps {
+  session?: Session
+}
+
+export default function Home({session}: HomeProps) {
 
   const [isOpenExpenseModal, setIsOpenExpenseModal] = useState(false)
   const [isOpenGainModal, setIsGainModal] = useState(false)
+
+  useEffect(() => {
+    // api.put(`/statement/${session.id}`, {
+    //   updated_data: {
+    //     day_spent: 12.32,
+    //     month_spent: 14.98
+    //   }
+    // }).then(res => console.log(res.data))
+  }, [])
 
   return (
     <>
