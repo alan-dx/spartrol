@@ -6,23 +6,30 @@ import { UpdateStatementService } from "../../../../api_files/services/UpdateSta
 
 export default ensureAuth(async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method == 'GET') {
+    try {
+      const { id } = req.query
+      const listStatementService = new ListStatementService()
+      
+      const statement = await listStatementService.execute({id})
+      
+      return res.status(200).json({statement})
+    } catch (error) {
+      return res.status(500).json({message: `There was an error on list statement, error: ${error}`})      
+    }
 
-    const { id } = req.query
-    const listStatementService = new ListStatementService()
-    
-    const statement = await listStatementService.execute({id})
-    
-    return res.status(200).json({statement})
   } else if (req.method == 'PUT') {
-    const { updated_data } = req.body
-
-    const { id } = req.query
-
-    const uptadeStatementServuce = new UpdateStatementService()
-
-    const statement = await uptadeStatementServuce.execute({id, updated_data})
-
-    return res.status(201).json(statement)
+    try {
+      const { updated_data } = req.body
+      const { id } = req.query
+  
+      const updateStatementService = new UpdateStatementService()
+  
+      const statement = await updateStatementService.execute({id, updated_data})
+  
+      return res.status(201).json(statement)
+    } catch (error) {
+      return res.status(500).json({message: `There was an error on update statement, error: ${error}`})     
+    }
   } else {
     res.setHeader('Allow', 'POST')
     res.status(405).json('Method not allowed')

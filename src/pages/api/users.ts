@@ -1,67 +1,15 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
-import { query as q } from 'faunadb'
-import { fauna } from '../../services/faunadb'
-
-export type User = {
-  ref: {
-    id: string
-  },
-  data: {
-    email: string
-  }
-}
+import { CreateUserService } from "../../../api_files/services/CreateUserService";
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method == 'POST') {
     try {
       const { email, id } = req.body
 
-      const user = await fauna.query<User>(//Create user
-        q.If(
-          q.Not(
-            q.Exists(
-              q.Match(
-                q.Index('user_by_email'),
-                q.Casefold(email)
-              )
-            )
-          ),
-          q.Create(
-            q.Collection('users'),
-            { data: { email, id }}
-          ),
-          q.Get(
-            q.Match(
-              q.Index('user_by_email'),
-              q.Casefold(email))
-          )
-        )
-      )
+      const createUserService = new CreateUserService()
 
-      await fauna.query(//Create financial statement
-        q.If(
-          q.Not(
-            q.Exists(
-              q.Match(
-                q.Index('financial_statement_by_user_id'),
-                q.Casefold(id)
-              )
-            )
-          ),
-          q.Create(
-            q.Collection('financial_statement'),
-            {
-              data: { 
-              userId: id,
-              balance: 0,
-              day_spent: 0,
-              month_spent: 0,
-            }}
-          ),
-          null
-        )
-      )
+      const user = createUserService.execute({email, id})
 
       res.status(201).json({user: user})
     } catch (error) {
