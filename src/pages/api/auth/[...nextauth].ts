@@ -13,9 +13,6 @@ export default NextAuth({
     maxAge: 60 * 60 * 24 * 3, //3 days
   },
   callbacks: {
-    async redirect() {
-      return "/home"
-    },
     async signIn(user) {
 
       const { email, id } = user
