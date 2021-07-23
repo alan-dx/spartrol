@@ -46,7 +46,7 @@ export default function Home({session}: HomeProps) {
           <FiMinusCircle size={20} color="#F03E35" />
         </LargeButton>
         <LargeButton onClick={() => setIsGainModal(true)}>
-          Adicionar ganho
+          Adicionar ganhooo
           <FiPlusCircle size={20} color="#59D266" />
         </LargeButton>
         <Historic />
