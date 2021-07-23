@@ -9,11 +9,11 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
       const createUserService = new CreateUserService()
 
-      const user = createUserService.execute({email, id})
+      const user = await createUserService.execute({email, id})
 
       res.status(201).json({user: user})
     } catch (error) {
-      res.status(500).json({message: 'There was an error on sign in process'})
+      res.status(500).json({message: `There was an error on sign in process, ${error}`})
     }
   } else {
     res.setHeader('Allow', 'POST')
