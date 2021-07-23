@@ -1,8 +1,8 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
-import { ensureAuth } from "../../../../api/middleware/ensureAuth";
-import { ListStatementService } from "../../../../api/services/ListStatementService";
-import { UpdateStatementService } from "../../../../api/services/UpdateStatementService";
+import { ensureAuth } from "../../../../api_files/middleware/ensureAuth";
+import { ListStatementService } from "../../../../api_files/services/ListStatementService";
+import { UpdateStatementService } from "../../../../api_files/services/UpdateStatementService";
 
 export default ensureAuth(async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method == 'GET') {
