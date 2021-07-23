@@ -1,6 +1,6 @@
 import styles from './sign_in.module.scss'
 import { LargeButton } from '../components/LargeButton'
-import { FaGoogle } from 'react-icons/fa'
+import { FaGoogle, FaGithub } from 'react-icons/fa'
 
 import { signIn } from 'next-auth/client'
 import { withSSRGuest } from '../utils/withSSRGuest'
@@ -22,6 +22,10 @@ export default function signInPage() {
           <LargeButton onClick={() => signIn('google')} >
             <FaGoogle size={22} color="#FFF" />
             Fazer login com Google
+          </LargeButton>
+          <LargeButton onClick={() => signIn('github')} >
+            <FaGithub size={22} color="#FFF" />
+            Fazer login com Github
           </LargeButton>
         </div>
       </div>
