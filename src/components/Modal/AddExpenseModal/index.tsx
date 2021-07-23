@@ -1,6 +1,7 @@
 import { FiMinusCircle } from 'react-icons/fi'
 import { Modal } from "..";
 import { Input } from '../../Input';
+import { Select } from '../../Select';
 import styles from './styles.module.scss'
 
 interface AddExpenseModalProps {
@@ -18,11 +19,12 @@ export function AddExpenseModal({isOpen, closeModal}: AddExpenseModalProps) {
           <FiMinusCircle size={20} color="#F03E35" />
         </header>
         <main>
-          <Input label="Título" />
-          <Input label="Categoria" />
+          <Input label="Título" type="text" />
+          {/* <Input label="Categoria" /> */}
+          <Select label="Categorias" id="cat" />
           <div className={styles.valueBox} >
             <strong>R$</strong>
-            <Input label="Valor" />
+            <Input label="Valor" type="number" />
           </div>
         </main>
         <footer>

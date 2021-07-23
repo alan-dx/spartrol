@@ -26,3 +26,11 @@
 
   }
 }
+
+@media (min-width:780px) {
+  .container {
+    .modalBody {
+      width: 70%;
+    }
+  }
+}
