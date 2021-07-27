@@ -28,7 +28,7 @@ export default function Home({session}: HomeProps) {
   const { data, isFetching, isLoading, error } = useStatement(session?.id)
 
   useEffect(() => {
-    alert(data?.balance)
+    console.log('asdas', data)
   }, [data])
 
   return (
