@@ -14,6 +14,7 @@ import { GetServerSidePropsContext } from 'next'
 import { withSSRAuth } from '../../utils/withSSRAuth'
 import { useEffect } from 'react'
 import { api } from '../../services/api'
+import { useStatement } from '../../services/hooks/useStatement'
 
 interface HomeProps {
   session?: Session
@@ -24,14 +25,11 @@ export default function Home({session}: HomeProps) {
   const [isOpenExpenseModal, setIsOpenExpenseModal] = useState(false)
   const [isOpenGainModal, setIsGainModal] = useState(false)
 
+  const { data, isFetching, isLoading, error } = useStatement(session?.id)
+
   useEffect(() => {
-    // api.put(`/statement/${session.id}`, {
-    //   updated_data: {
-    //     day_spent: 12.32,
-    //     month_spent: 14.98
-    //   }
-    // }).then(res => console.log(res.data))
-  }, [])
+    console.log('asdas', data)
+  }, [data])
 
   return (
     <>
@@ -39,8 +37,8 @@ export default function Home({session}: HomeProps) {
       <AddGainModal isOpen={isOpenGainModal} closeModal={() => setIsGainModal(false)} />
       <Header />
       <main className={styles.container} >
-        <Balance />
-        <DayExpence />
+        <Balance balance={data?.balance} />
+        <DayExpence daySpent={data?.day_spent} monthSpent={data?.month_spent} />
         <LargeButton onClick={() => setIsOpenExpenseModal(true)}>
           Adicionar despesa
           <FiMinusCircle size={20} color="#F03E35" />

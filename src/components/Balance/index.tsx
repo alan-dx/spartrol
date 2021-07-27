@@ -1,7 +1,11 @@
 import styles from './styles.module.scss'
 import { FiMoreVertical } from 'react-icons/fi'
 
-export function Balance() {
+interface BalanceProps {
+  balance: number
+}
+
+export function Balance({balance}: BalanceProps) {
   return (
     <div className={styles.container} >
       <div>
@@ -10,7 +14,7 @@ export function Balance() {
           <FiMoreVertical color="#4F4F4F" size={18} />
         </button>
       </div>
-      <strong>R$2.200,<small>35</small></strong>
+      <strong>R${balance}<small>35</small></strong>
       <time>21 de Junho</time>
     </div>
   )
