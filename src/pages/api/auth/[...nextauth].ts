@@ -23,7 +23,7 @@ export default NextAuth({
           id
         }).then(res => console.log(res.data)).catch(err => alert(err))
         
-        return true
+        return true//MOVER PRA DENTRO DO CALL
       } catch (error) {
         console.error(error)
         return false

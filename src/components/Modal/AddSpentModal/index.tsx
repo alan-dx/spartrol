@@ -1,17 +1,12 @@
-import { FiPlusCircle } from 'react-icons/fi'
+import { FiMinusCircle } from 'react-icons/fi'
 import { Modal } from "..";
 import { Input } from '../../Input';
 import { Select } from '../../Select';
-
-import { Form } from 'react-final-form'
 import styles from './styles.module.scss'
 
-interface AddGainModalProps {
-  isOpen: boolean;
-  closeModal: () => void
-}
+import { Form } from 'react-final-form'
 
-interface AddGainModalProps {
+interface AddSpentModalProps {
   isOpen: boolean;
   closeModal: () => void
 }
@@ -22,9 +17,9 @@ type FormData = {
   value?: string;
 }
 
-export function AddGainModal({isOpen, closeModal}: AddGainModalProps) {
+export function AddSpentModal({isOpen, closeModal}: AddSpentModalProps) {
 
-  const handleCreateGain = async (values: any) => {
+  const handleCreateSpent = async (values: any) => {
     console.log(values)
   }
 
@@ -50,11 +45,11 @@ export function AddGainModal({isOpen, closeModal}: AddGainModalProps) {
     <Modal isOpen={isOpen} closeModal={closeModal} >
       <div className={styles.modalContentContainer}>
         <header>
-          <h1>Adicionar ganho</h1>
-          <FiPlusCircle size={20} color="#59D266" />
+          <h1>Adicionar despesa</h1>
+          <FiMinusCircle size={20} color="#F03E35" />
         </header>
         <Form 
-          onSubmit={handleCreateGain}
+          onSubmit={handleCreateSpent}
           validate={formValidation}
           render={({ handleSubmit, form, submitting, pristine, values }) => (
             <form onSubmit={handleSubmit}>
