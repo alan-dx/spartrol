@@ -6,7 +6,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'GET') {
     try {
       const { id } = req.query
-      console.log('xxxxx', req.query)
       const listUserCategories = new ListUserCategories()
 
       const categories = await listUserCategories.execute(id as string)

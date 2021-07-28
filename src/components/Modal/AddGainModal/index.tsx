@@ -5,6 +5,7 @@ import { Select } from '../../Select';
 
 import { Form } from 'react-final-form'
 import styles from './styles.module.scss'
+import { Category } from '../../../@types/category';
 
 interface AddGainModalProps {
   isOpen: boolean;
@@ -13,6 +14,7 @@ interface AddGainModalProps {
 
 interface AddGainModalProps {
   isOpen: boolean;
+  categories: Category[],
   closeModal: () => void
 }
 
@@ -22,10 +24,11 @@ type FormData = {
   value?: string;
 }
 
-export function AddGainModal({isOpen, closeModal}: AddGainModalProps) {
+export function AddGainModal({isOpen, categories ,closeModal}: AddGainModalProps) {
 
   const handleCreateGain = async (values: any) => {
     console.log(values)
+    //Salvar o valor monetário em type number
   }
 
   const formValidation = (values: FormData) => {
@@ -60,7 +63,7 @@ export function AddGainModal({isOpen, closeModal}: AddGainModalProps) {
             <form onSubmit={handleSubmit}>
               <main>
                 <Input label="Título" type="text" name="title" />
-                <Select label="Categorias" id="cat" name="categories" initialValue="Contas" />
+                <Select options={categories} label="Categorias" id="cat" name="categories" initialValue={categories[0].data.title} />
                 <div className={styles.valueBox} >
                   <strong>R$</strong>
                   <Input label="Valor" type="tel" name="value" placeholder="0,00" />

@@ -5,9 +5,11 @@ import { Select } from '../../Select';
 import styles from './styles.module.scss'
 
 import { Form } from 'react-final-form'
+import { Category } from '../../../@types/category';
 
 interface AddSpentModalProps {
   isOpen: boolean;
+  categories: Category[]
   closeModal: () => void
 }
 
@@ -17,10 +19,11 @@ type FormData = {
   value?: string;
 }
 
-export function AddSpentModal({isOpen, closeModal}: AddSpentModalProps) {
+export function AddSpentModal({isOpen, categories, closeModal}: AddSpentModalProps) {
 
   const handleCreateSpent = async (values: any) => {
     console.log(values)
+    //Salvar o valor monetário em type number
   }
 
   const formValidation = (values: FormData) => {
@@ -55,7 +58,7 @@ export function AddSpentModal({isOpen, closeModal}: AddSpentModalProps) {
             <form onSubmit={handleSubmit}>
               <main>
                 <Input label="Título" type="text" name="title" />
-                <Select label="Categorias" id="cat" name="categories" initialValue="Contas" />
+                <Select options={categories} label="Categorias" id="cat" name="categories" initialValue={categories[0].data.title} />
                 <div className={styles.valueBox} >
                   <strong>R$</strong>
                   <Input label="Valor" type="number" name="value" placeholder="0,00" />

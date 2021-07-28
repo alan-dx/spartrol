@@ -10,16 +10,14 @@ import { AddSpentModal } from '../../components/Modal/AddSpentModal'
 import { useState } from 'react'
 import { AddGainModal } from '../../components/Modal/AddGainModal'
 import { Session } from 'next-auth'
-import { GetServerSidePropsContext } from 'next'
 import { withSSRAuth } from '../../utils/withSSRAuth'
 import { useEffect } from 'react'
-import { api } from '../../services/api'
-import { getStatement, GetStatementResponse, useStatement } from '../../services/hooks/useStatement'
+import { useStatement } from '../../services/hooks/useStatement'
 import { useCategories } from '../../services/hooks/useCategories'
+import { withSSRAuthContext } from '../../@types/withSSRAuthContext'
 
 interface HomeProps {
   session?: Session;
-  statementInitialData: GetStatementResponse
 }
 
 export default function Home({session}: HomeProps) {
@@ -28,27 +26,12 @@ export default function Home({session}: HomeProps) {
   const [isOpenGainModal, setIsOpenGainModal] = useState(false)
 
   const { data: statementeData, isFetching, isLoading, error } = useStatement({id: session?.id as string})
-  const { data: categoriesData } = useCategories(session?.id as string)//MOVER PARA UM CONTEXTO
-
-  // async function apiTest() {23
-  //   const response = await api.get('categories', {
-  //     params: {
-  //       id: session?.id
-  //     }
-  //   })
-
-  //   console.log(response.data.categories.data)
-  // }
-  useEffect(() => {
-    
-    console.log('asdasdasdsddd', categoriesData)
-
-  }, [categoriesData])
+  const { data: categoriesData } = useCategories(session?.id as string)
 
   return (
     <>
-      <AddSpentModal isOpen={isOpenExpenseModal} closeModal={() => setIsOpenExpenseModal(false)} />
-      <AddGainModal isOpen={isOpenGainModal} closeModal={() => setIsOpenGainModal(false)} />
+      <AddSpentModal categories={categoriesData?.spent} isOpen={isOpenExpenseModal} closeModal={() => setIsOpenExpenseModal(false)} />
+      <AddGainModal categories={categoriesData?.gain} isOpen={isOpenGainModal} closeModal={() => setIsOpenGainModal(false)} />
       <Header />
       <main className={styles.container} >
         <Balance balance={statementeData?.balanceData} />
@@ -65,10 +48,6 @@ export default function Home({session}: HomeProps) {
       </main>
     </>
   )
-}
-
-interface withSSRAuthContext extends GetServerSidePropsContext {
-  session?: Session
 }
 
 export const getServerSideProps = withSSRAuth(async (ctx: withSSRAuthContext) => {
