@@ -15,6 +15,7 @@ import { withSSRAuth } from '../../utils/withSSRAuth'
 import { useEffect } from 'react'
 import { api } from '../../services/api'
 import { getStatement, GetStatementResponse, useStatement } from '../../services/hooks/useStatement'
+import { useCategories } from '../../services/hooks/useCategories'
 
 interface HomeProps {
   session?: Session;
@@ -24,27 +25,39 @@ interface HomeProps {
 export default function Home({session}: HomeProps) {
 
   const [isOpenExpenseModal, setIsOpenExpenseModal] = useState(false)
-  const [isOpenGainModal, setIsGainModal] = useState(false)
+  const [isOpenGainModal, setIsOpenGainModal] = useState(false)
 
-  const { data, isFetching, isLoading, error } = useStatement({id: session.id as string})
+  const { data: statementeData, isFetching, isLoading, error } = useStatement({id: session?.id as string})
+  const { data: categoriesData } = useCategories(session?.id as string)//MOVER PARA UM CONTEXTO
 
+  // async function apiTest() {23
+  //   const response = await api.get('categories', {
+  //     params: {
+  //       id: session?.id
+  //     }
+  //   })
+
+  //   console.log(response.data.categories.data)
+  // }
   useEffect(() => {
-    console.log('asdas', data)
-  }, [data])
+    
+    console.log('asdasdasdsddd', categoriesData)
+
+  }, [categoriesData])
 
   return (
     <>
       <AddSpentModal isOpen={isOpenExpenseModal} closeModal={() => setIsOpenExpenseModal(false)} />
-      <AddGainModal isOpen={isOpenGainModal} closeModal={() => setIsGainModal(false)} />
+      <AddGainModal isOpen={isOpenGainModal} closeModal={() => setIsOpenGainModal(false)} />
       <Header />
       <main className={styles.container} >
-        <Balance balance={data?.balanceData} />
-        <DayExpence daySpent={data?.daySpent} monthSpent={data?.monthSpent} />
+        <Balance balance={statementeData?.balanceData} />
+        <DayExpence daySpent={statementeData?.daySpent} monthSpent={statementeData?.monthSpent} />
         <LargeButton onClick={() => setIsOpenExpenseModal(true)}>
           Adicionar despesa
           <FiMinusCircle size={20} color="#F03E35" />
         </LargeButton>
-        <LargeButton onClick={() => setIsGainModal(true)}>
+        <LargeButton onClick={() => setIsOpenGainModal(true)}>
           Adicionar ganho
           <FiPlusCircle size={20} color="#59D266" />
         </LargeButton>

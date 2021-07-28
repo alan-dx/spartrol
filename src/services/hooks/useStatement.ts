@@ -17,7 +17,7 @@ type UseStatementParams = {
 }
 
 export async function getStatement(id: string): Promise<GetStatementResponse> {
-  const response = await api.get(`statement/${id}`)
+  const response = await api.get(`statement/${id}`)//next dynamic routing
 
   const { balance, day_spent, month_spent, userId } = response.data.statement.data
 

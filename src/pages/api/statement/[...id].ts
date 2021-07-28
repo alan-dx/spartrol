@@ -10,7 +10,7 @@ export default ensureAuth(async (req: NextApiRequest, res: NextApiResponse) => {
       const { id } = req.query
       const listStatementService = new ListStatementService()
       
-      const statement = await listStatementService.execute({id})
+      const statement = await listStatementService.execute(id[0])
       
       return res.status(200).json({statement})
     } catch (error) {

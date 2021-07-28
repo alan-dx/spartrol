@@ -63,7 +63,7 @@ export function AddGainModal({isOpen, closeModal}: AddGainModalProps) {
                 <Select label="Categorias" id="cat" name="categories" initialValue="Contas" />
                 <div className={styles.valueBox} >
                   <strong>R$</strong>
-                  <Input label="Valor" type="number" name="value" placeholder="0,00" />
+                  <Input label="Valor" type="tel" name="value" placeholder="0,00" />
                 </div>
               </main>
               <footer>
