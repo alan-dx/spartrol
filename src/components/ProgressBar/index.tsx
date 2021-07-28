@@ -1,7 +1,7 @@
 import styles from './styles.module.scss'
 
 interface ProgressBarProps {
-  monthSpent: number;
+  monthSpent: string;
 }
 
 export function ProgressBar({monthSpent}: ProgressBarProps) {
@@ -15,10 +15,7 @@ export function ProgressBar({monthSpent}: ProgressBarProps) {
       <div className={styles.goalsRange}>
         <small>R$ 0</small>
         <small className={styles.center}>
-        {new Intl.NumberFormat('pt-BR', {
-          style: 'currency',
-          currency: 'BRL'
-        }).format(monthSpent)}
+          {monthSpent ? monthSpent  : <div />}
         </small>
         <small>R$ 300,00</small>
       </div>

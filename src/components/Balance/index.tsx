@@ -2,10 +2,16 @@ import styles from './styles.module.scss'
 import { FiMoreVertical } from 'react-icons/fi'
 
 interface BalanceProps {
-  balance: number
+  balance: {
+    currency: string;
+    cents: string;
+  }
 }
 
 export function Balance({balance}: BalanceProps) {
+
+  const date = new Date()
+
   return (
     <div className={styles.container} >
       <div>
@@ -14,8 +20,18 @@ export function Balance({balance}: BalanceProps) {
           <FiMoreVertical color="#4F4F4F" size={18} />
         </button>
       </div>
-      <strong>R${balance}<small>35</small></strong>
-      <time>21 de Junho</time>
+      {
+        balance 
+          ?
+          <strong>{balance.currency},<small>{balance.cents}</small></strong> 
+          :
+          <strong><div /></strong>
+      }
+      <time>{new Intl.DateTimeFormat('pt-BR', 
+      { 
+        month: 'long', 
+        day: '2-digit' 
+      }).format(date)}</time>
     </div>
   )
 }

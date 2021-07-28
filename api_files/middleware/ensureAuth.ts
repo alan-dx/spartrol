@@ -3,6 +3,7 @@ import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
 
 export const ensureAuth = (fn: NextApiHandler) => {
   return async (req: NextApiRequest, res: NextApiResponse) => {
+    // This middleware doesn't work when the api request is made on the server side
 
     const session = await getSession({ req })
 

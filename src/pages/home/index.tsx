@@ -14,10 +14,11 @@ import { GetServerSidePropsContext } from 'next'
 import { withSSRAuth } from '../../utils/withSSRAuth'
 import { useEffect } from 'react'
 import { api } from '../../services/api'
-import { useStatement } from '../../services/hooks/useStatement'
+import { getStatement, GetStatementResponse, useStatement } from '../../services/hooks/useStatement'
 
 interface HomeProps {
-  session?: Session
+  session?: Session;
+  statementInitialData: GetStatementResponse
 }
 
 export default function Home({session}: HomeProps) {
@@ -25,7 +26,7 @@ export default function Home({session}: HomeProps) {
   const [isOpenExpenseModal, setIsOpenExpenseModal] = useState(false)
   const [isOpenGainModal, setIsGainModal] = useState(false)
 
-  const { data, isFetching, isLoading, error } = useStatement(session?.id)
+  const { data, isFetching, isLoading, error } = useStatement({id: session.id as string})
 
   useEffect(() => {
     console.log('asdas', data)
@@ -37,8 +38,8 @@ export default function Home({session}: HomeProps) {
       <AddGainModal isOpen={isOpenGainModal} closeModal={() => setIsGainModal(false)} />
       <Header />
       <main className={styles.container} >
-        <Balance balance={data?.balance} />
-        <DayExpence daySpent={data?.day_spent} monthSpent={data?.month_spent} />
+        <Balance balance={data?.balanceData} />
+        <DayExpence daySpent={data?.daySpent} monthSpent={data?.monthSpent} />
         <LargeButton onClick={() => setIsOpenExpenseModal(true)}>
           Adicionar despesa
           <FiMinusCircle size={20} color="#F03E35" />
@@ -60,6 +61,9 @@ interface withSSRAuthContext extends GetServerSidePropsContext {
 export const getServerSideProps = withSSRAuth(async (ctx: withSSRAuthContext) => {
 
   const { session } = ctx
+
+  // ensureAuth middleware not working when this request is made
+  // await api.get(`statement/${session?.id}`).then(res => console.log(res.data)).catch(err => console.log(err.data))
 
   return {
     props: {

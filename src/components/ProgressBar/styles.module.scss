@@ -43,6 +43,14 @@
       z-index: -1;
       left: calc(50% - 1.30rem);
       text-align: center;
+
+      div {
+        height: 0.65rem;
+        width:30px;
+        
+        border-radius: 0.3rem;
+        background-color: var(--gray-200);
+      }
     }
 
     color: var(--gray-900);
