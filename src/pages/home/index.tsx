@@ -33,18 +33,20 @@ export default function Home({session}: HomeProps) {
       <AddSpentModal categories={categoriesData?.spent} isOpen={isOpenExpenseModal} closeModal={() => setIsOpenExpenseModal(false)} />
       <AddGainModal categories={categoriesData?.gain} isOpen={isOpenGainModal} closeModal={() => setIsOpenGainModal(false)} />
       <Header />
-      <main className={styles.container} >
-        <Balance balance={statementeData?.balanceData} />
-        <DayExpence daySpent={statementeData?.daySpent} monthSpent={statementeData?.monthSpent} />
-        <LargeButton onClick={() => setIsOpenExpenseModal(true)}>
-          Adicionar despesa
-          <FiMinusCircle size={20} color="#F03E35" />
-        </LargeButton>
-        <LargeButton onClick={() => setIsOpenGainModal(true)}>
-          Adicionar ganho
-          <FiPlusCircle size={20} color="#59D266" />
-        </LargeButton>
-        <Historic />
+      <main className={styles.main__container} >
+        <div className={styles.main__container__wrapper}>
+          <Balance balance={statementeData?.balanceData} />
+          <DayExpence daySpent={statementeData?.daySpent} monthSpent={statementeData?.monthSpent} />
+          <LargeButton onClick={() => setIsOpenExpenseModal(true)}>
+            Adicionar despesa
+            <FiMinusCircle size={20} color="#F03E35" />
+          </LargeButton>
+          <LargeButton onClick={() => setIsOpenGainModal(true)}>
+            Adicionar ganho
+            <FiPlusCircle size={20} color="#59D266" />
+          </LargeButton>
+          <Historic />
+        </div>
       </main>
     </>
   )
