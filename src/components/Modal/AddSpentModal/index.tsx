@@ -58,7 +58,7 @@ export function AddSpentModal({isOpen, categories, closeModal}: AddSpentModalPro
             <form onSubmit={handleSubmit}>
               <main>
                 <Input label="Título" type="text" name="title" />
-                <Select options={categories} label="Categorias" id="cat" name="categories" initialValue={categories[0].data.title} />
+                <Select options={categories} label="Categorias" id="cat" name="categories" initialValue={categories[0]?.data.title} />
                 <div className={styles.valueBox} >
                   <strong>R$</strong>
                   <Input label="Valor" type="number" name="value" placeholder="0,00" />

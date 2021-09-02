@@ -11,7 +11,6 @@ import { useState } from 'react'
 import { AddGainModal } from '../../components/Modal/AddGainModal'
 import { Session } from 'next-auth'
 import { withSSRAuth } from '../../utils/withSSRAuth'
-import { useEffect } from 'react'
 import { useStatement } from '../../services/hooks/useStatement'
 import { useCategories } from '../../services/hooks/useCategories'
 import { withSSRAuthContext } from '../../@types/withSSRAuthContext'
@@ -30,13 +29,15 @@ export default function Home({session}: HomeProps) {
 
   return (
     <>
-      <AddSpentModal categories={categoriesData?.spent} isOpen={isOpenExpenseModal} closeModal={() => setIsOpenExpenseModal(false)} />
-      <AddGainModal categories={categoriesData?.gain} isOpen={isOpenGainModal} closeModal={() => setIsOpenGainModal(false)} />
+      <AddSpentModal categories={categoriesData?.spent || []} isOpen={isOpenExpenseModal} closeModal={() => setIsOpenExpenseModal(false)} />
+      <AddGainModal categories={categoriesData?.gain || []} isOpen={isOpenGainModal} closeModal={() => setIsOpenGainModal(false)} />
       <Header />
       <main className={styles.main__container} >
         <div className={styles.main__container__wrapper}>
-          <Balance balance={statementeData?.balanceData} />
-          <DayExpence daySpent={statementeData?.daySpent} monthSpent={statementeData?.monthSpent} />
+          <div className={styles.main__container__wrapper__info_box} >
+            <Balance balance={statementeData?.balanceData} />
+            <DayExpence daySpent={statementeData?.daySpent} monthSpent={Number(statementeData?.monthSpent)} />
+          </div>
           <LargeButton onClick={() => setIsOpenExpenseModal(true)}>
             Adicionar despesa
             <FiMinusCircle size={20} color="#F03E35" />

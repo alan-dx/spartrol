@@ -30,7 +30,8 @@ export async function getStatement(id: string): Promise<GetStatementResponse> {
       cents
     },
     daySpent: new Intl.NumberFormat('pt-BR', {style: 'currency', currency: 'BRL'}).format(day_spent).replace(/\s/g, ''),
-    monthSpent: new Intl.NumberFormat('pt-BR', {style: 'currency', currency: 'BRL'}).format(month_spent).replace(/\s/g, ''),
+    monthSpent: month_spent,
+    // monthSpent: new Intl.NumberFormat('pt-BR', {style: 'currency', currency: 'BRL'}).format(month_spent).replace(/\s/g, ''),
     userId
   }
 

@@ -1,3 +1,5 @@
+@import '../../styles/_mixins';
+
 .container {
   height: 4.1rem;
   width: 100%;
@@ -8,7 +10,11 @@
   padding: 1rem;
 
   background-color: var(--white);
+  color: var(--black-700);
   border: 0;
   border-radius: 0.3rem;
-  box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.25);
+  // box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.25);
+
+  @include box-shadow;
+
 }

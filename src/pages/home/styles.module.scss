@@ -1,4 +1,4 @@
-@import '../../styles/mixins';
+@import '../../styles/_mixins';
 
 .main__container {
 
@@ -7,7 +7,18 @@
 
   &__wrapper {
 
-    @include wrapper
+    @include wrapper;
+
+    &__info_box {
+
+      display: flex;
+      flex-direction: column;
+
+      @include md {
+        flex-direction: row;
+        height: 20rem;
+      }
+    }
   }
 
   button {

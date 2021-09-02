@@ -63,7 +63,7 @@ export function AddGainModal({isOpen, categories ,closeModal}: AddGainModalProps
             <form onSubmit={handleSubmit}>
               <main>
                 <Input label="Título" type="text" name="title" />
-                <Select options={categories} label="Categorias" id="cat" name="categories" initialValue={categories[0].data.title} />
+                <Select options={categories} label="Categorias" id="cat" name="categories" initialValue={categories[0]?.data.title} />
                 <div className={styles.valueBox} >
                   <strong>R$</strong>
                   <Input label="Valor" type="tel" name="value" placeholder="0,00" />
