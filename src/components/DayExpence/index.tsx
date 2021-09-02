@@ -95,10 +95,11 @@ export function DayExpence({daySpent, monthSpent}: DayExpenceProps) {
         :
         <>
           <Chart options={options} series={[chartSeries]} type="radialBar" height={250} />
-          <div className={styles.container__target_info}>
+          {/* utilizar div aq causa um bug */}
+          <section className={styles.container__target_info}>
             <div className={styles.container__target_info__month_spent}><span>{monthSpentFormatted} <br /> <span>gastos este mês</span></span></div>
             <div className={styles.container__target_info__month_spent}><span>{monthTargetFormatted} <br /> <span>meta mensal</span></span></div>
-          </div>
+          </section>
         </> 
       }
     </div>
