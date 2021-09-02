@@ -67,11 +67,7 @@ var options = {
 export function DayExpence({daySpent, monthSpent}: DayExpenceProps) {
 
   // const windowSize = process.browser ? useWindowDimensions() : {width: 0, height: 0}
-  let windowSize = {width: 0, height: 0}
-  
-  if (process.browser) {
-    windowSize = useWindowDimensions()
-  }
+  const windowSize = useWindowDimensions()
 
   const monthTarget = 100.00
 

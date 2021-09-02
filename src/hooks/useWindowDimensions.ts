@@ -1,7 +1,13 @@
 import { useState, useEffect } from 'react';
 
 function getWindowDimensions() {
-  const { innerWidth: width, innerHeight: height } = window;
+  let width = 0
+  let height = 0
+  if (process.browser) {
+    const { innerWidth, innerHeight } = window;
+    width = innerWidth;
+    height = innerHeight;
+  }
   return {
     width,
     height
@@ -20,5 +26,5 @@ export default function useWindowDimensions() {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  return windowDimensions;
+  return windowDimensions
 }
