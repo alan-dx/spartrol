@@ -7,7 +7,7 @@ import { Historic } from '../../components/Historic'
 import { FiPlusCircle, FiMinusCircle } from 'react-icons/fi'
 import styles from './styles.module.scss'
 import { AddSpentModal } from '../../components/Modal/AddSpentModal'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { AddGainModal } from '../../components/Modal/AddGainModal'
 import { Session } from 'next-auth'
 import { withSSRAuth } from '../../utils/withSSRAuth'
@@ -36,7 +36,7 @@ export default function Home({session}: HomeProps) {
         <div className={styles.main__container__wrapper}>
           <div className={styles.main__container__wrapper__info_box} >
             <Balance balance={statementeData?.balanceData} />
-            <DayExpence daySpent={statementeData?.daySpent} monthSpent={Number(statementeData?.monthSpent)} />
+            <DayExpence daySpent={statementeData?.daySpent} monthSpent={useMemo( () => Number(statementeData?.monthSpent), [statementeData?.monthSpent])} />
           </div>
           <LargeButton onClick={() => setIsOpenExpenseModal(true)}>
             Adicionar despesa
