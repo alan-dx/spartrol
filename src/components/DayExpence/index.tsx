@@ -17,7 +17,7 @@ const Chart = dynamic(() => import('react-apexcharts'), {
 var options = {
   plotOptions: {
     radialBar: {
-      offsetY: -20,
+      // offsetY: -20,
       hollow: {
         margin: 0,
         size: "60%"
@@ -66,7 +66,6 @@ var options = {
 
 export function DayExpence({daySpent, monthSpent}: DayExpenceProps) {
 
-  // const windowSize = process.browser ? useWindowDimensions() : {width: 0, height: 0}
   const windowSize = useWindowDimensions()
 
   const monthTarget = 100.00
