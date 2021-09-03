@@ -1,7 +1,7 @@
 @import '../../styles/mixins';
 
 .container {
-  width: 100%;
+  flex: 1;
 
   display: flex;
   flex-direction: column;
@@ -33,46 +33,11 @@
 
   @include md {
     margin: 0 0 0 1rem;
-    padding: 0.5rem;
+    padding: 1rem;
     background-color: var(--white);
     justify-content: space-between;
 
     border-radius: 0.3rem;
-
-    .container__target_info {
-      text-align: center;
-      margin-top: -1.3rem;
-      width: 100%;
-      flex: 0.5;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-
-      &__month_spent {
-        color: var(--black-700);
-        display: flex;
-        font-size: 0.8rem;
-        flex: 1;
-        height: 100%;
-        justify-content: center;
-        align-items: center;
-
-        &:nth-child(1) {
-          border-right: 1px solid var(--gray-200);
-        }
-
-        span {
-          font-weight: bold;
-        }
-
-        span > span {
-          font-size: 0.65rem;
-          color: var(--gray-900);
-          font-weight: 400;
-        }
-      }
-
-    }
 
     @include box-shadow
   }

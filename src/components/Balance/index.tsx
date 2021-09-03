@@ -25,7 +25,7 @@ export function Balance({balance}: BalanceProps) {
           ?
           <strong>{balance.currency},<small>{balance.cents}</small></strong> 
           :
-          <strong><div /></strong>
+          <strong>{new Intl.NumberFormat('pt-BR', {style: 'currency', currency: 'BRL'}).format(0.00).replace(/\s/g, '')}</strong>
       }
       <time>{new Intl.DateTimeFormat('pt-BR', 
       { 
