@@ -1,3 +1,5 @@
+@import '../../styles/mixins/typography';
+
 .container {
   position: fixed;
   display: flex;
@@ -44,6 +46,10 @@
 
         object-fit: cover;
         cursor: pointer;
+      }
+
+      span {
+        @include text1;
       }
 
     }

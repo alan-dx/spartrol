@@ -54,7 +54,7 @@ export function Sidebar() {
                   /> :
                   <img src="images/mock.svg" alt="User Mock" />
                 }
-                <strong>{session?.user.name}</strong>
+                <span>{session?.user.name}</span>
               </div>
               <Navigation />
             </motion.nav>

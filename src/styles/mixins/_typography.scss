@@ -1,0 +1,41 @@
+@mixin heading1 {
+  font-size: 1.87rem;
+  font-weight: 600;
+  line-height: 2.55rem;
+}
+
+@mixin heading2 {
+  font-size: 1.6rem;
+  font-weight: 600;
+  line-height: 2.26rem;
+}
+
+@mixin heading3 {
+  font-size: 1.3rem;
+  font-weight: 600;
+  line-height: 2rem;
+}
+
+@mixin text1 {
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.73rem;
+}
+
+@mixin text2 {
+  font-size: 0.93rem;
+  font-weight: 500;
+  line-height: 1.6rem;
+}
+
+@mixin text3 {
+  font-size: 0.8rem;
+  font-weight: 500;
+  line-height: 1.33rem;
+}
+
+@mixin text4 {
+  font-size: 0.67rem;
+  font-weight: 400;
+  line-height: 1.2rem;
+}

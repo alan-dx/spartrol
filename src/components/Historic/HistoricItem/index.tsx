@@ -15,9 +15,9 @@ export function HistoricItem({ item }: HistoricItem) {
     <li className={styles.container} >
       <div>
         <strong>{item.title}</strong>
-        <strong style={{color: item.type == 'expense' ? '#F03E35' : '#59D266'}} >
+        <span style={{color: item.type == 'expense' ? '#F03E35' : '#59D266'}} >
           R$ {item.type == 'expense' ? `-${item.value}` : `${item.value}` }
-        </strong>
+        </span>
       </div>
       <small>{item.category}</small>
     </li>

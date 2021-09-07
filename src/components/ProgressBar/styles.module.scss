@@ -1,3 +1,5 @@
+@import '../../styles/mixins/typography';
+
 .container {
 
   width: 100%;
@@ -9,7 +11,8 @@
     align-self: center;
 
     color: var(--gray-900);
-    font-size: 0.65rem;
+    // font-size: 0.65rem;
+    @include text4;
 
     z-index: -1;
   }

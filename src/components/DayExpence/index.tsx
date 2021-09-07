@@ -13,9 +13,11 @@ export function DayExpence({daySpent, monthSpent}: DayExpenceProps) {
 
   const windowSize = useWindowDimensions()
 
-  const monthSpentFormatted = useMemo(() => {//optei por formatar aq pois essa info tb é utilizada para calcular a %
-    return monthSpent ? new Intl.NumberFormat('pt-BR', {style: 'currency', currency: 'BRL'}).format(monthSpent).replace(/\s/g, '') : new Intl.NumberFormat('pt-BR', {style: 'currency', currency: 'BRL'}).format(0.0).replace(/\s/g, '')
-  }, [monthSpent])
+  const monthTarget = 100.00
+
+  // const monthSpentFormatted = useMemo(() => {//optei por formatar aq pois essa info tb é utilizada para calcular a %
+  //   return monthSpent ? new Intl.NumberFormat('pt-BR', {style: 'currency', currency: 'BRL'}).format(monthSpent).replace(/\s/g, '') : new Intl.NumberFormat('pt-BR', {style: 'currency', currency: 'BRL'}).format(0.0).replace(/\s/g, '')
+  // }, [monthSpent])
 
   return (
     <div className={styles.container}>
@@ -28,9 +30,9 @@ export function DayExpence({daySpent, monthSpent}: DayExpenceProps) {
       {
         windowSize.width < 768 
         ?
-          <ProgressBar monthSpent={monthSpentFormatted} /> 
+          <ProgressBar monthSpent={monthSpent} monthTarget={monthTarget} /> 
         :
-          <HomePieChart monthSpent={monthSpent} />
+          <HomePieChart monthSpent={monthSpent} monthTarget={monthTarget} />
       }
     </div>
   )

@@ -1,3 +1,5 @@
+@import '../../styles/mixins/typography';
+
 .input {
   //tailwind sr-only => hides input[type="radio"]
   position: absolute;
@@ -9,6 +11,8 @@
   white-space: nowrap;
   border-width: 0;
   //tailwind sr-only
+
+  @include text2;
 }
 
 .label {
@@ -18,7 +22,9 @@
 
   align-items: center;
   justify-content: center;
-  
+
+  @include text2;
+
   svg {
     margin-right: 1rem;
   }

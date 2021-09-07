@@ -58,7 +58,7 @@ export function Historic() {
   return (
     <div className={styles.container}>
       <div className={styles.header} >
-        <strong>Histórico</strong>
+        <h3>Histórico</h3>
         <Link href="/historic">Ver tudo</Link>
       </div>
       <ul>

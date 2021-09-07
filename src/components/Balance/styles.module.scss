@@ -1,3 +1,5 @@
+@import '../../styles/mixins/typography';
+
 .container {
   min-height: 11rem;
   flex: 1;
@@ -35,16 +37,16 @@
   }
 
   small, time {
-    font-size: 0.8rem;
+    @include text3;
   }
 
   strong {
-    font-size: 2.25rem;
+    @include heading1;
 
     color: var(--white);
 
     small {
-      font-size: 1.5rem;
+      @include text1;
     }
 
     div {
