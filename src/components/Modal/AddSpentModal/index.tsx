@@ -46,7 +46,7 @@ export function AddSpentModal({isOpen, categories, closeModal}: AddSpentModalPro
 
   return (
     <Modal isOpen={isOpen} closeModal={closeModal} >
-      <div className={styles.modalContentContainer}>
+      <section className={styles.modalContentContainer}>
         <header>
           <h1>Adicionar despesa</h1>
           <FiMinusCircle size={20} color="#F03E35" />
@@ -56,15 +56,15 @@ export function AddSpentModal({isOpen, categories, closeModal}: AddSpentModalPro
           validate={formValidation}
           render={({ handleSubmit, form, submitting, pristine, values }) => (
             <form onSubmit={handleSubmit}>
-              <main>
+              <div>
                 <Input label="Título" type="text" name="title" />
                 <Select options={categories} label="Categorias" id="cat" name="categories" initialValue={categories[0]?.data.title} />
                 <div className={styles.valueBox} >
                   <strong>R$</strong>
                   <Input label="Valor" type="number" name="value" placeholder="0,00" />
                 </div>
-              </main>
-              <footer>
+              </div>
+              <div className={styles.modalContentContainer__footer}>
                 <button 
                   onClick={() => {
                     form.reset()
@@ -75,11 +75,11 @@ export function AddSpentModal({isOpen, categories, closeModal}: AddSpentModalPro
                   Cancelar
                 </button>
                 <button type="submit" disabled={submitting}>Confirmar</button>
-              </footer>
+              </div>
             </form>
           )}
         />
-      </div>
+      </section>
     </Modal>
   )
 }

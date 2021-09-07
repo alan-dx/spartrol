@@ -51,7 +51,7 @@ export function AddGainModal({isOpen, categories ,closeModal}: AddGainModalProps
 
   return (
     <Modal isOpen={isOpen} closeModal={closeModal} >
-      <div className={styles.modalContentContainer}>
+      <section className={styles.modalContentContainer}>
         <header>
           <h1>Adicionar ganho</h1>
           <FiPlusCircle size={20} color="#59D266" />
@@ -61,15 +61,15 @@ export function AddGainModal({isOpen, categories ,closeModal}: AddGainModalProps
           validate={formValidation}
           render={({ handleSubmit, form, submitting, pristine, values }) => (
             <form onSubmit={handleSubmit}>
-              <main>
+              <div>
                 <Input label="Título" type="text" name="title" />
                 <Select options={categories} label="Categorias" id="cat" name="categories" initialValue={categories[0]?.data.title} />
                 <div className={styles.valueBox} >
                   <strong>R$</strong>
                   <Input label="Valor" type="tel" name="value" placeholder="0,00" />
                 </div>
-              </main>
-              <footer>
+              </div>
+              <div className={styles.modalContentContainer__footer}>
                 <button 
                   onClick={() => {
                     form.reset()
@@ -80,11 +80,11 @@ export function AddGainModal({isOpen, categories ,closeModal}: AddGainModalProps
                   Cancelar
                 </button>
                 <button type="submit" disabled={submitting}>Confirmar</button>
-              </footer>
+              </div>
             </form>
           )}
         />
-      </div>
+      </section>
     </Modal>
   )
 }

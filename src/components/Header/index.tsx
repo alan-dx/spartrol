@@ -3,6 +3,7 @@ import { motion } from 'framer-motion'
 import { FiMenu } from 'react-icons/fi'
 import { useContext } from 'react'
 import { SidebarContext } from '../../contexts/SidebarContext'
+import { Head } from 'next/document'
 
 export function Header() {
   

@@ -1,0 +1,38 @@
+.input {
+  //tailwind sr-only => hides input[type="radio"]
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+  //tailwind sr-only
+}
+
+.label {
+  height: 100%;
+  flex: 1;
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+  
+  svg {
+    margin-right: 1rem;
+  }
+ 
+  border-radius: 0.3rem;
+
+  &_checked_green {
+    border: 1px solid var(--green);
+  }
+
+  &_checked_red {
+    border: 1px solid var(--red);
+  }
+  // background-color: red;
+}
+
+
