@@ -1,0 +1,29 @@
+@import '../../styles/mixins/typography';
+
+.container {
+
+  margin: 2rem 0;
+
+  &__button_title {
+    display: flex;
+    align-items: center;
+    border: 0;
+    background-color: transparent;
+    
+    svg {
+      margin-right: 0.5rem;
+      &:not(:first-child) {
+        margin-left: 0.5rem;
+      }
+    }
+    
+    &__title {
+      @include heading3;
+      color: var(--black);
+    }
+  }
+  
+  &__list {
+    list-style: none;
+  }
+}

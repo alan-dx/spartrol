@@ -23,6 +23,8 @@
   align-items: center;
   justify-content: center;
 
+  cursor: pointer;
+
   @include text2;
 
   svg {
