@@ -1,0 +1,23 @@
+<svg id="Camada_1" data-name="Camada 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #fff;
+      }
+
+      .cls-2 {
+        fill: none;
+        stroke: #303030;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-width: 12px;
+      }
+    </style>
+  </defs>
+  <title>mock</title>
+  <rect class="cls-1" width="500" height="500"/>
+  <g>
+    <path class="cls-2" d="M420,423.59V381.1a85,85,0,0,0-85-85H165a85,85,0,0,0-85,85v42.49"/>
+    <ellipse class="cls-2" cx="246.96" cy="164.39" rx="85" ry="84.98"/>
+  </g>
+</svg>

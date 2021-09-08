@@ -1,6 +1,7 @@
 import { AppProps } from 'next/app'
 import { Provider } from 'next-auth/client'
 import '../styles/global.scss'
+import Head from 'next/head';
 
 import { SidebarContextProvider } from '../contexts/SidebarContext'
 import { Sidebar } from '../components/Sidebar'
@@ -15,6 +16,9 @@ function MyApp({ Component, pageProps }: AppProps) {
       <Provider session={pageProps.session} >
         <SidebarContextProvider>
           <Sidebar />
+          <Head>
+            <title>Spartrol</title>
+          </Head>
           <Component {...pageProps} />
         </SidebarContextProvider>
       </Provider>

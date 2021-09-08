@@ -1,9 +1,11 @@
+@import '../../styles/mixins/typography';
+
 .inputBox {
   display: flex;
   flex-direction: column;
 
   label {
-    font-size: 0.95rem;
+    @include text2;
   }
 
   input {

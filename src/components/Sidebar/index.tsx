@@ -5,9 +5,7 @@ import { Navigation } from './Navigation'
 
 import { FiArrowLeft } from 'react-icons/fi'
 import styles from './styles.module.scss'
-import { Session } from 'next-auth'
 import { useSession } from 'next-auth/client'
-import { useEffect } from 'react'
 
 // interface SidebarProps {
 //   session: Session
@@ -46,13 +44,17 @@ export function Sidebar() {
                 </button>
               </motion.header>
               <div className={styles.userInfo}>
-                <motion.img 
-                  whileHover={{ scale: 1.10 }}
-                  whileTap={{ scale: 0.95 }}
-                  src={`${session?.user.image}`} 
-                  alt="User Photo" 
-                />
-                <strong>{session?.user.name}</strong>
+                {
+                  session?.user.image ?
+                  <motion.img 
+                    whileHover={{ scale: 1.10 }}
+                    whileTap={{ scale: 0.95 }}
+                    src={`${session?.user.image}`} 
+                    alt="User Photo" 
+                  /> :
+                  <img src="images/mock.svg" alt="User Mock" />
+                }
+                <span>{session?.user.name}</span>
               </div>
               <Navigation />
             </motion.nav>

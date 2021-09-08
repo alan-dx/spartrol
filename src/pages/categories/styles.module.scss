@@ -1,0 +1,14 @@
+@import '../../styles/mixins/responsive';
+
+
+.main__container {
+
+  display: flex;
+  justify-content: center;
+
+  &__wrapper {
+    @include wrapper;
+
+  }
+
+}
