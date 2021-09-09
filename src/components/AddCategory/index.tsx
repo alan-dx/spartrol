@@ -10,10 +10,14 @@ type FormData = {
   type?: "spent" | "gain";
 }
 
-export const AddCategory = () => {
+interface AddCategoryProps {
+  handleCreateCategory: (category: FormData) => void
+}
 
-  const handleCreateCategory = async (values: any) => {
-    console.log(values)
+export const AddCategory = ({handleCreateCategory}: AddCategoryProps) => {
+
+  const handleCreate = async (values: any) => {
+    handleCreateCategory(values)
     //Salvar o valor monetário em type number
   }
 
@@ -30,7 +34,7 @@ export const AddCategory = () => {
   return (
     <div className={styles.container}>
       <Form
-        onSubmit={handleCreateCategory}
+        onSubmit={handleCreate}
         validate={formValidation}
         initialValues={{
           title: "",
