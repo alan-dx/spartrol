@@ -22,7 +22,7 @@ export function ProgressBar({monthSpent, monthTarget}: ProgressBarProps) {
       <div className={styles.goalsRange}>
         <small>R$0</small>
         <small className={styles.center}>
-          {monthSpent ? monthSpentFormatted  : <div />}
+          {monthSpentFormatted}
         </small>
         <small>{monthTargetFormatted}</small>
       </div>

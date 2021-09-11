@@ -31,7 +31,6 @@ export default function Categories({session}: CategoriesProps) {
       title: category.title,
       type: category.type
     })
-    console.log(response.data)
     return response.data.category
   }, {
     onSuccess: () => {

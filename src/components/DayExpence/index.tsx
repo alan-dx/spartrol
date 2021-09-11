@@ -5,15 +5,16 @@ import { useMemo } from 'react'
 import { HomePieChart } from '../Charts/HomePieChart'
 
 interface DayExpenceProps {
-  daySpent?: string;
+  daySpent?: number;
   monthSpent?: number;
+  monthTarget?: number;
 }
 
-export function DayExpence({daySpent, monthSpent}: DayExpenceProps) {
+export function DayExpence({daySpent, monthSpent, monthTarget}: DayExpenceProps) {
 
   const windowSize = useWindowDimensions()
 
-  const monthTarget = 100.00
+  const daySpentFormated = daySpent ? new Intl.NumberFormat('pt-BR', {style: 'currency', currency: 'BRL'}).format(daySpent).replace(/\s/g, '') : new Intl.NumberFormat('pt-BR', {style: 'currency', currency: 'BRL'}).format(0.00).replace(/\s/g, '')
 
   // const monthSpentFormatted = useMemo(() => {//optei por formatar aq pois essa info tb é utilizada para calcular a %
   //   return monthSpent ? new Intl.NumberFormat('pt-BR', {style: 'currency', currency: 'BRL'}).format(monthSpent).replace(/\s/g, '') : new Intl.NumberFormat('pt-BR', {style: 'currency', currency: 'BRL'}).format(0.0).replace(/\s/g, '')
@@ -24,7 +25,7 @@ export function DayExpence({daySpent, monthSpent}: DayExpenceProps) {
       <div className={styles.container__day_spent_info}>
         <span>Hoje, você gastou:</span>
         <strong>
-          {daySpent ? daySpent : new Intl.NumberFormat('pt-BR', {style: 'currency', currency: 'BRL'}).format(0.00).replace(/\s/g, '')}
+          {daySpentFormated}
         </strong>
       </div>
       {

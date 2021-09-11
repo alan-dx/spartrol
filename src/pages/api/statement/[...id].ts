@@ -21,6 +21,8 @@ export default ensureAuth(async (req: NextApiRequest, res: NextApiResponse) => {
     try {
       const { updated_data } = req.body
       const { id } = req.query
+
+      console.log(updated_data)
   
       const updateStatementService = new UpdateStatementService()
   

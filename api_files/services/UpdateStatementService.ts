@@ -1,11 +1,6 @@
 import { query as q } from 'faunadb'
+import { FinancialStatementData } from '../../src/@types/FinancialStatementData'
 import { fauna } from '../../src/services/faunadb'
-
-type FinancialStatementData = {
-  balance?: number,
-  day_spent?: number,
-  month_spent?: number,
-}
 
 interface IStatementRequest {
   id: string | string[];
@@ -17,7 +12,9 @@ class UpdateStatementService {
 
     const { balance, day_spent, month_spent } = updated_data
     
-    const data: FinancialStatementData = {}
+    const data: FinancialStatementData = {
+      updated_at: Date.now()
+    }
 
     if (balance) data.balance = balance
     if (day_spent) data.day_spent = day_spent

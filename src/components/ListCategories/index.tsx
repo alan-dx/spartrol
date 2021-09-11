@@ -26,7 +26,7 @@ export const ListCategories = ({title, data, icon}:ListCategoriesProps) => {
       {
         showList &&
         <ul className={styles.container__list}>
-          {data?.map(item => (<ListItem key={item.ref.id} item={item} />) )}
+          {data?.map(item => (<ListItem key={item.ref['@ref'].id} item={item} />))}
         </ul>
       }
     </div>
