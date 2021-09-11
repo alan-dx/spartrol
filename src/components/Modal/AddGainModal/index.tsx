@@ -6,6 +6,7 @@ import { Select } from '../../Select';
 import { Form } from 'react-final-form'
 import styles from './styles.module.scss'
 import { Category } from '../../../@types/category';
+import { SpentGainStatementData } from '../../../@types/SpentGainStatementData';
 
 interface AddGainModalProps {
   isOpen: boolean;
@@ -15,7 +16,8 @@ interface AddGainModalProps {
 interface AddGainModalProps {
   isOpen: boolean;
   categories: Category[],
-  closeModal: () => void
+  closeModal: () => void,
+  createGain: (statement: SpentGainStatementData) => void,
 }
 
 type FormData = {
@@ -24,11 +26,19 @@ type FormData = {
   value?: string;
 }
 
-export function AddGainModal({isOpen, categories ,closeModal}: AddGainModalProps) {
+export function AddGainModal({isOpen, categories, closeModal, createGain}: AddGainModalProps) {
 
   const handleCreateGain = async (values: any) => {
-    console.log(values)
-    //Salvar o valor monetário em type number
+    let data = {...values, type: "gain"};//imutabilty
+    
+    // if (values.value.indexOf(",") == -1 && values.value.indexOf(".") == -1) {//format: 12
+    //   data.value = `${data.value}.00`
+    // }
+
+    data.value = Number(data.value.replace(",", "."))
+
+    createGain(data)
+    closeModal()
   }
 
   const formValidation = (values: FormData) => {
@@ -44,9 +54,17 @@ export function AddGainModal({isOpen, categories ,closeModal}: AddGainModalProps
 
     if (!values.value) {
       errors.value = 'Campo obrigatório'
+    } else if (!Number(values?.value.replace(",","."))) {//avoid NaN
+      errors.value = "Formato inadequado!"
     }
 
     return errors
+  }
+
+  const normalizeValue = (value: string) => {
+    if (!value) return value
+    const onlyNums = value.replace(/[^0-9.,]/g, "")
+    return onlyNums
   }
 
   return (
@@ -66,7 +84,7 @@ export function AddGainModal({isOpen, categories ,closeModal}: AddGainModalProps
                 <Select options={categories} label="Categorias" id="cat" name="categories" initialValue={categories[0]?.data.title} />
                 <div className={styles.valueBox} >
                   <strong>R$</strong>
-                  <Input label="Valor" type="tel" name="value" placeholder="0,00" />
+                  <Input parse={normalizeValue} label="Valor" type="tel" name="value" placeholder="0,00" />
                 </div>
               </div>
               <div className={styles.modalContentContainer__footer}>

@@ -30,7 +30,7 @@ class CreateUserService {
         ),
         q.Create(
           q.Collection('users'),
-          { data: { email, id }}
+          { data: { email, id } }
         ),
         q.Get(
           q.Match(
@@ -54,15 +54,20 @@ class CreateUserService {
           q.Collection('financial_statement'),
           {
             data: { 
-            userId: id,
-            balance: 0,
-            day_spent: 0,
-            month_spent: 0,
-          }}
+              userId: id,
+              balance: 0,
+              day_spent: 0,
+              month_spent: 0,
+              month_target: 120.00,
+              updated_at: Date.now()
+            },
+        }
         ),
         null
       )
     )
+
+    //create all fields on Fauna DB here
 
     return user
   }

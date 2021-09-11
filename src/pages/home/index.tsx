@@ -14,6 +14,12 @@ import { withSSRAuth } from '../../utils/withSSRAuth'
 import { useStatement } from '../../services/hooks/useStatement'
 import { useCategories } from '../../services/hooks/useCategories'
 import { withSSRAuthContext } from '../../@types/withSSRAuthContext'
+import { useMutation } from 'react-query'
+import { api } from '../../services/api'
+
+import { SpentGainStatementData } from '../../@types/SpentGainStatementData'
+import { FinancialStatementData } from '../../@types/FinancialStatementData'
+import { queryClient } from '../../services/queryClient'
 
 interface HomeProps {
   session?: Session;
@@ -24,19 +30,66 @@ export default function Home({session}: HomeProps) {
   const [isOpenExpenseModal, setIsOpenExpenseModal] = useState(false)
   const [isOpenGainModal, setIsOpenGainModal] = useState(false)
 
-  const { data: statementeData, isFetching, isLoading, error } = useStatement({id: session?.id as string})
+  const { data: statementData, isFetching, isLoading, error } = useStatement({id: session?.id as string})
   const { data: categoriesData } = useCategories(session?.id as string)
+
+  const createSpentOrGain = useMutation(async (statement: FinancialStatementData) => {
+    const response = await api.put(`statement/${session.id}`, {
+      updated_data: statement
+    })
+
+    return response.data.data
+  }, {
+    onSuccess: () => {
+      queryClient.invalidateQueries("statement")
+    },
+    onError: () => {
+      alert("Houve um erro!")
+    }
+  })
+
+  const handleCreateSpentOrGain = (statement: SpentGainStatementData) => {
+    if (statement.type === "spent") {
+
+      createSpentOrGain.mutateAsync({
+        balance: statementData.balance - statement.value,
+        day_spent: statementData.daySpent + statement.value,
+        month_spent: statementData.monthSpent + statement.value
+      })
+
+    } else if (statement.type === "gain") {
+
+      createSpentOrGain.mutateAsync({
+        balance: statementData.balance + statement.value,
+      })
+
+    }
+  }
 
   return (
     <>
-      <AddSpentModal categories={categoriesData?.spent || []} isOpen={isOpenExpenseModal} closeModal={() => setIsOpenExpenseModal(false)} />
-      <AddGainModal categories={categoriesData?.gain || []} isOpen={isOpenGainModal} closeModal={() => setIsOpenGainModal(false)} />
+      <AddSpentModal 
+        categories={categoriesData?.spent || []} 
+        isOpen={isOpenExpenseModal} 
+        closeModal={() => setIsOpenExpenseModal(false)} 
+        createSpent={handleCreateSpentOrGain}
+      />
+      <AddGainModal 
+        categories={categoriesData?.gain || []} 
+        isOpen={isOpenGainModal} 
+        closeModal={() => setIsOpenGainModal(false)} 
+        createGain={handleCreateSpentOrGain}
+      />
       <Header />
       <main className={styles.main__container} >
         <div className={styles.main__container__wrapper}>
           <div className={styles.main__container__wrapper__info_box} >
-            <Balance balance={statementeData?.balanceData} />
-            <DayExpence daySpent={statementeData?.daySpent} monthSpent={useMemo( () => Number(statementeData?.monthSpent), [statementeData?.monthSpent])} />
+            <Balance balance={statementData?.balance} />
+            <DayExpence 
+              daySpent={statementData?.daySpent} 
+              monthSpent={useMemo(() => Number(statementData?.monthSpent), [statementData?.monthSpent])} 
+              monthTarget={statementData?.monthTarget}
+            />
           </div>
           <LargeButton onClick={() => setIsOpenExpenseModal(true)}>
             Adicionar despesa

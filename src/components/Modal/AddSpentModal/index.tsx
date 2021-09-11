@@ -6,11 +6,13 @@ import styles from './styles.module.scss'
 
 import { Form } from 'react-final-form'
 import { Category } from '../../../@types/category';
+import { SpentGainStatementData } from '../../../@types/SpentGainStatementData';
 
 interface AddSpentModalProps {
   isOpen: boolean;
   categories: Category[]
-  closeModal: () => void
+  closeModal: () => void;
+  createSpent: (statement: SpentGainStatementData) => void;
 }
 
 type FormData = {
@@ -19,11 +21,20 @@ type FormData = {
   value?: string;
 }
 
-export function AddSpentModal({isOpen, categories, closeModal}: AddSpentModalProps) {
+export function AddSpentModal({isOpen, categories, closeModal, createSpent}: AddSpentModalProps) {
 
   const handleCreateSpent = async (values: any) => {
-    console.log(values)
-    //Salvar o valor monetário em type number
+
+    let data = {...values, type: "spent"};//imutabilty
+    
+    // if (values.value.indexOf(",") == -1 && values.value.indexOf(".") == -1) {//format: 12
+    //   data.value = `${data.value}.00`
+    // }
+
+    data.value = Number(data.value.replace(",", "."))
+    
+    createSpent(data)
+    closeModal()
   }
 
   const formValidation = (values: FormData) => {
@@ -39,9 +50,17 @@ export function AddSpentModal({isOpen, categories, closeModal}: AddSpentModalPro
 
     if (!values.value) {
       errors.value = 'Campo obrigatório'
+    } else if (!Number(values?.value.replace(",","."))) {//avoid NaN
+      errors.value = "Formato inadequado!"
     }
 
     return errors
+  }
+
+  const normalizeValue = (value: string) => {
+    if (!value) return value
+    const onlyNums = value.replace(/[^0-9.,]/g, "")
+    return onlyNums
   }
 
   return (
@@ -61,7 +80,7 @@ export function AddSpentModal({isOpen, categories, closeModal}: AddSpentModalPro
                 <Select options={categories} label="Categorias" id="cat" name="categories" initialValue={categories[0]?.data.title} />
                 <div className={styles.valueBox} >
                   <strong>R$</strong>
-                  <Input label="Valor" type="number" name="value" placeholder="0,00" />
+                  <Input parse={normalizeValue} label="Valor" type="text" name="value" placeholder="0,00" />
                 </div>
               </div>
               <div className={styles.modalContentContainer__footer}>

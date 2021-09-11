@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { CreateCategoriesService } from "../../../api_files/services/CreateCategorieService";
 import { ListUserCategories } from "../../../api_files/services/ListUserCategories";
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+export default async (req: NextApiRequest, res: NextApiResponse) => {//controller
   if (req.method === 'GET') {
     try {
       const { id } = req.query
@@ -20,7 +20,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
       const createCategorieService = new CreateCategoriesService()
 
-      const category = await createCategorieService.execute({ id, title, type})
+      const category = await createCategorieService.execute({ id, title, type })
 
       return res.status(201).json({category})
     } catch (error) {

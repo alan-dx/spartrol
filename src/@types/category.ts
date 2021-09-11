@@ -1,6 +1,8 @@
 export type Category = {
   ref: {
-    id: string
+    "@ref": {
+      id: string
+    }
   };
   data: {
     userId: string;
