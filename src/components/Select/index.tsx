@@ -3,7 +3,6 @@ import styles from './styles.module.scss'
 
 import { Field, FieldProps, FieldRenderProps } from 'react-final-form'
 import { Category } from "../../@types/category";
-import { useEffect } from "react";
 
 interface SelectProps extends FieldProps<string, FieldRenderProps<string, HTMLSelectElement>> {
   label?: string,
@@ -20,7 +19,7 @@ export function Select({label, options, id,...rest}: SelectProps) {
           <label htmlFor={id}>{label}</label>
           <select id={id} {...input} >
             {options.map(option => (
-              <option key={option.ref['@ref'].id} value={option.data.title}>{option.data.title}</option>
+              <option key={option.ref['@ref'].id} value={option.ref['@ref'].id}>{option.data.title}</option>
             ))}
           </select>
         </div>

@@ -14,30 +14,65 @@ export function Navigation() {
 
   return (
     <ul className={styles.container}>
-      <SidebarItem onClick={() => {
-        router.push('home')
-        toogleSideBar()
-      }} text="Home" icon={<FiHome size={30} color="#4F4F4F" />} />
-      <SidebarItem onClick={() => {
-        router.push('metrics')
-        toogleSideBar()
-      }} text="Relatórios" icon={<FiPieChart size={30} color="#4F4F4F" />} />
-      <SidebarItem onClick={() => {
-        router.push('categories')
-        toogleSideBar()
-      }} text="Categorias" icon={<FiList size={30} color="#4F4F4F" />} />
-      <SidebarItem onClick={() => {
-        router.push('goals')
-        toogleSideBar()
-      }} text="Metas" icon={<FiAward size={30} color="#4F4F4F" />} />
+      <SidebarItem 
+        onClick={() => {
+          router.push('home')
+          toogleSideBar()
+        }} 
+        text="Home"
+        page="/home"
+        icon={<FiHome size={25} />} 
+      />
+    
+      <SidebarItem 
+        onClick={() => {
+          router.push('metrics')
+          toogleSideBar()
+        }} 
+        text="Relatórios"
+        page="/metrics" 
+        icon={<FiPieChart size={25} />} 
+      />
+      <SidebarItem 
+        onClick={() => {
+          router.push('categories')
+          toogleSideBar()
+        }} 
+        text="Categorias"
+        page="/categories"
+        icon={<FiList size={25} />} 
+      />
+      <SidebarItem 
+        onClick={() => {
+          router.push('goals')
+          toogleSideBar()
+        }} 
+        text="Metas"
+        page="/goals"
+        icon={<FiAward size={25} />} 
+      />
+  
       <div className={styles.divider} />
-      <SidebarItem onClick={() => {
-        router.push('user')
-        toogleSideBar()
-      }} text="Meu perfil" icon={<FiUser size={30} color="#4F4F4F" />} />
-      <SidebarItem onClick={() => {
-        signOut()
-      }}  text="Sair da conta" icon={<FiLogOut size={30} color="#4F4F4F" />} />
-    </ul>
-  )
-}
+      <SidebarItem 
+        onClick={() => {
+          router.push('user')
+          toogleSideBar()
+        }}
+        page="/user"
+        text="Meu perfil" 
+        icon={<FiUser size={25} />} 
+      />
+      <SidebarItem 
+        onClick={() => {
+          signOut()
+        }}  
+        text="Sair da conta" 
+        icon={<FiLogOut 
+        size={25} 
+       />} 
+      />
+      </ul>
+
+    )
+  }
+

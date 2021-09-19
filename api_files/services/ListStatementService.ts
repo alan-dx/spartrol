@@ -12,7 +12,7 @@ class ListStatementService {
         )
       )
     )
-
+    
     return statement
   }
 }

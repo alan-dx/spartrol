@@ -58,8 +58,30 @@ class CreateUserService {
               balance: 0,
               day_spent: 0,
               month_spent: 0,
-              month_target: 120.00,
-              updated_at: Date.now()
+              month_target: 120.00
+            },
+        }
+        ),
+        null
+      )
+    )
+
+    await fauna.query(//Create day_history
+      q.If(
+        q.Not(
+          q.Exists(
+            q.Match(
+              q.Index('day_historic_by_user_id'),
+              q.Casefold(id)
+            )
+          )
+        ),
+        q.Create(
+          q.Collection('day_historic'),
+          {
+            data: { 
+              userId: id,
+              historic: []
             },
         }
         ),

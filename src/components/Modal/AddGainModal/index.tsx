@@ -6,7 +6,7 @@ import { Select } from '../../Select';
 import { Form } from 'react-final-form'
 import styles from './styles.module.scss'
 import { Category } from '../../../@types/category';
-import { SpentGainStatementData } from '../../../@types/SpentGainStatementData';
+import { TransactionData } from '../../../@types/TransactionData';
 
 interface AddGainModalProps {
   isOpen: boolean;
@@ -17,28 +17,29 @@ interface AddGainModalProps {
   isOpen: boolean;
   categories: Category[],
   closeModal: () => void,
-  createGain: (statement: SpentGainStatementData) => void,
+  createGain: (statement: TransactionData) => void,
 }
 
 type FormData = {
   title?: string;
-  categories?: string;
+  category_ref?: string;
   value?: string;
 }
 
 export function AddGainModal({isOpen, categories, closeModal, createGain}: AddGainModalProps) {
 
   const handleCreateGain = async (values: any) => {
-    let data = {...values, type: "gain"};//imutabilty
+    let data = {...values, type: "gain", id: Date.now()};//imutabilty
     
     // if (values.value.indexOf(",") == -1 && values.value.indexOf(".") == -1) {//format: 12
     //   data.value = `${data.value}.00`
     // }
 
     data.value = Number(data.value.replace(",", "."))
-
+    // data.categories = {title: values.categories, category_ref_ref: categories.find(item => item.data.title === values.categories).ref['@ref'].id}
+    // console.log(data)
     createGain(data)
-    closeModal()
+    // closeModal()
   }
 
   const formValidation = (values: FormData) => {
@@ -48,8 +49,8 @@ export function AddGainModal({isOpen, categories, closeModal, createGain}: AddGa
       errors.title = 'Campo obrigatório'
     }
 
-    if (!values.categories) {
-      errors.categories = 'Campo obrigatório'
+    if (!values.category_ref) {
+      errors.category_ref = 'Campo obrigatório'
     }
 
     if (!values.value) {
@@ -81,7 +82,7 @@ export function AddGainModal({isOpen, categories, closeModal, createGain}: AddGa
             <form onSubmit={handleSubmit}>
               <div>
                 <Input label="Título" type="text" name="title" />
-                <Select options={categories} label="Categorias" id="cat" name="categories" initialValue={categories[0]?.data.title} />
+                <Select options={categories} label="Categorias" id="cat" name="category_ref" initialValue={categories[0]?.ref['@ref'].id} />
                 <div className={styles.valueBox} >
                   <strong>R$</strong>
                   <Input parse={normalizeValue} label="Valor" type="tel" name="value" placeholder="0,00" />
@@ -97,7 +98,7 @@ export function AddGainModal({isOpen, categories, closeModal, createGain}: AddGa
                 >
                   Cancelar
                 </button>
-                <button type="submit" disabled={submitting}>Confirmar</button>
+                <button type="submit" disabled={submitting} >{!submitting ? 'Confirmar' : 'Aguarde...'}</button>
               </div>
             </form>
           )}

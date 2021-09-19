@@ -1,13 +1,8 @@
+import { TransactionData } from '../../../@types/TransactionData'
 import styles from './styles.module.scss'
 
 interface HistoricItem {
-  item: {
-    id: number,
-    title: string,
-    category: string,
-    type: string,
-    value: string
-  }
+  item: TransactionData
 }
 
 export function HistoricItem({ item }: HistoricItem) {
@@ -15,11 +10,12 @@ export function HistoricItem({ item }: HistoricItem) {
     <li className={styles.container} >
       <div>
         <strong>{item.title}</strong>
-        <span style={{color: item.type == 'expense' ? '#F03E35' : '#59D266'}} >
-          R$ {item.type == 'expense' ? `-${item.value}` : `${item.value}` }
+        <span style={{color: item.type == 'spent' ? '#F03E35' : '#59D266'}} >
+         {item.type === 'spent' ? '-' : '+'} { new Intl.NumberFormat('pt-BR', {style: 'currency', currency: 'BRL'}).format(item.value).replace(/\s/g, '')}
+          {/* R$ {item.type == 'spent' ? `-${item.value}` : `${item.value}` } */}
         </span>
       </div>
-      <small>{item.category}</small>
+      <small>{item.category_ref}</small>
     </li>
   )
 }

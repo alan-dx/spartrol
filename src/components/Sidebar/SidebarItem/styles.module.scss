@@ -8,9 +8,34 @@
 
   margin-bottom: 1.6rem;
 
-  label {
-    @include text2;
-    margin-left: 0.67rem;
+  div {
+
+    display: flex;
+    align-items: center;
+    padding: 0.5rem;
+
+    svg {
+      color: var(--black);
+    }
+    
+    label {
+      @include text2;
+      margin-left: 0.67rem;
+    }
+
+  }
+
+}
+
+.active {
+  
+  background-color: var(--blue);
+  border-radius: 0.3rem;
+
+  div {
+    svg, label {
+      color: var(--white-smoke);
+    }
   }
 
 }

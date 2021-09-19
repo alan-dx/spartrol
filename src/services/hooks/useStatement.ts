@@ -20,6 +20,8 @@ export async function getStatement(id: string): Promise<GetStatementResponse> {
 
   const { balance, day_spent, month_spent, month_target, userId, updated_at } = response.data.statement.data//financial_statement
 
+  const ts = response.data.statement.ts.toString().slice(0,-3)
+
   // const [currency, cents] = new Intl.NumberFormat('pt-BR', {style: 'currency', currency: 'BRL'}).format(balance).split(',')
   
   const formattedData: GetStatementResponse = {
@@ -31,7 +33,9 @@ export async function getStatement(id: string): Promise<GetStatementResponse> {
     updatedAt: updated_at
   }
 
-  if (new Date().getDate() > new Date(updated_at).getDate()) {//new day, clear daySpent
+  //FAZER A LIMPEZA DO HISTORICO DENTRO DO HOOK DELE, USEDAYHISTORIC E NÃO AQ
+
+  if (new Date().getDate() > new Date(Number(ts)).getDate()) {//new day, clear daySpent
     formattedData.daySpent = 0
   }
 

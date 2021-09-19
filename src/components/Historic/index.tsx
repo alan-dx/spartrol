@@ -1,6 +1,7 @@
 import styles from './styles.module.scss'
 import Link from 'next/link'
 import { HistoricItem } from './HistoricItem'
+import { TransactionData } from '../../@types/TransactionData'
 
 const list = [
   {
@@ -54,7 +55,11 @@ const list = [
   },
 ]
 
-export function Historic() {
+interface HistoricProps {
+  data: TransactionData[]
+}
+
+export function Historic({data}: HistoricProps) {
   return (
     <div className={styles.container}>
       <div className={styles.header} >
@@ -62,7 +67,7 @@ export function Historic() {
         <Link href="/historic">Ver tudo</Link>
       </div>
       <ul>
-        {list.map(item => (
+        {data?.map(item => (
           <HistoricItem key={item.id} item={item} />
         ))}
       </ul>

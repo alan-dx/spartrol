@@ -6,18 +6,18 @@ import styles from './styles.module.scss'
 
 import { Form } from 'react-final-form'
 import { Category } from '../../../@types/category';
-import { SpentGainStatementData } from '../../../@types/SpentGainStatementData';
+import { TransactionData } from '../../../@types/TransactionData';
 
 interface AddSpentModalProps {
   isOpen: boolean;
   categories: Category[]
   closeModal: () => void;
-  createSpent: (statement: SpentGainStatementData) => void;
+  createSpent: (statement: TransactionData) => void;
 }
 
 type FormData = {
   title?: string;
-  categories?: string;
+  category_ref?: string;
   value?: string;
 }
 
@@ -25,16 +25,17 @@ export function AddSpentModal({isOpen, categories, closeModal, createSpent}: Add
 
   const handleCreateSpent = async (values: any) => {
 
-    let data = {...values, type: "spent"};//imutabilty
+    let data = {...values, type: "spent", id: Date.now()};//imutabilty
     
     // if (values.value.indexOf(",") == -1 && values.value.indexOf(".") == -1) {//format: 12
     //   data.value = `${data.value}.00`
     // }
 
     data.value = Number(data.value.replace(",", "."))
+    // data.categories = {title: values.categories, category_ref_ref: categories.find(item => item.data.title === values.categories).ref['@ref'].id}
     
     createSpent(data)
-    closeModal()
+    // closeModal()
   }
 
   const formValidation = (values: FormData) => {
@@ -44,8 +45,8 @@ export function AddSpentModal({isOpen, categories, closeModal, createSpent}: Add
       errors.title = 'Campo obrigatório'
     }
 
-    if (!values.categories) {
-      errors.categories = 'Campo obrigatório'
+    if (!values.category_ref) {
+      errors.category_ref = 'Campo obrigatório'
     }
 
     if (!values.value) {
@@ -77,10 +78,10 @@ export function AddSpentModal({isOpen, categories, closeModal, createSpent}: Add
             <form onSubmit={handleSubmit}>
               <div>
                 <Input label="Título" type="text" name="title" />
-                <Select options={categories} label="Categorias" id="cat" name="categories" initialValue={categories[0]?.data.title} />
+                <Select options={categories} label="Categorias" id="cat" name="category_ref" initialValue={categories[0]?.ref['@ref'].id} />
                 <div className={styles.valueBox} >
                   <strong>R$</strong>
-                  <Input parse={normalizeValue} label="Valor" type="text" name="value" placeholder="0,00" />
+                  <Input parse={normalizeValue} label="Valor" type="tel" name="value" placeholder="0,00" />
                 </div>
               </div>
               <div className={styles.modalContentContainer__footer}>
@@ -93,7 +94,7 @@ export function AddSpentModal({isOpen, categories, closeModal, createSpent}: Add
                 >
                   Cancelar
                 </button>
-                <button type="submit" disabled={submitting}>Confirmar</button>
+                <button type="submit" disabled={submitting}>{!submitting ? 'Confirmar' : 'Aguarde...'}</button>
               </div>
             </form>
           )}
