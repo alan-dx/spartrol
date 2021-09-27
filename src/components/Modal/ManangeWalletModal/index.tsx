@@ -81,7 +81,7 @@ export function ManageWalletModal({isOpen, closeModal, updateWallet, wallets}: M
                 <div className={styles.modalContentContainer__list_wallets_box__scroll}>
                   {
                     wallets?.map(wallet => (
-                      <WalletListItem wallet={wallet} onClick={() => handleEditWallet(wallet.id)} />
+                      <WalletListItem key={wallet.id} wallet={wallet} onClick={() => handleEditWallet(wallet.id)} />
                     ))
                   }
                 </div>
