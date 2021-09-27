@@ -55,10 +55,10 @@ class CreateUserService {
           {
             data: { 
               userId: id,
-              balance: 0,
+              wallets: [],
               day_spent: 0,
               month_spent: 0,
-              month_target: 120.00
+              month_target: 250.00
             },
         }
         ),

@@ -19,12 +19,19 @@
     }
   }
 
-  div {
+  &__inputs_box {
     label {
       margin-top: 0.5rem;
     }
 
-    .valueBox {
+    &__selects_box {
+      display: flex;
+      flex-direction: row ;
+
+      gap: 0.5rem;
+    }
+
+    &__value {
       display: flex;
       flex-direction: row;
       align-items: center;

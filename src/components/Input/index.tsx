@@ -6,9 +6,10 @@ import { Field, FieldProps, FieldRenderProps } from 'react-final-form'
 interface InputProps extends FieldProps<string, FieldRenderProps<string, HTMLInputElement>> {
   label?: string;
   placeholder?: string;
+  maxLength?: number
 }
 
-export function Input({ label, placeholder, ...rest }: InputProps) {
+export function Input({ label, placeholder, maxLength, ...rest }: InputProps) {
   return (
     <Field {...rest} >
       {({ input, meta }) => (
@@ -24,6 +25,7 @@ export function Input({ label, placeholder, ...rest }: InputProps) {
             }
             transition={{ type: "spring", duration: 0.3 }}
             placeholder={placeholder}
+            maxLength={maxLength}
           />
         </div>
       )}

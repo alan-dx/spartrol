@@ -1,10 +1,11 @@
+import { HomePieChart } from "../components/Charts/HomePieChart";
 import { Header } from "../components/Header";
 
 export default function Metrics() {
   return (
     <>
       <Header />
-      <h1>METRICS</h1>
+      <HomePieChart monthSpent={400} monthTarget={600} />
     </>
   )
 }

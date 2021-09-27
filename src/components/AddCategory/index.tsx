@@ -4,6 +4,7 @@ import { Input } from '../Input'
 import { OptionButton } from '../OptionButton'
 import styles from './styles.module.scss'
 import {FiPlus, FiMinusCircle, FiPlusCircle} from 'react-icons/fi'
+import { MoreButton } from '../MoreButton'
 
 type FormData = {
   title?: string;
@@ -48,9 +49,7 @@ export const AddCategory = ({handleCreateCategory}: AddCategoryProps) => {
               <OptionButton name="type" type="radio" value="spent" label="Despesa" icon={<FiMinusCircle size={20} color="#F03E35" />}/>
               {/* <OptionButton name="type" value="Despesa" type="button" /> */}
               {/* <button>Ganho</button> */}
-              <motion.button whileTap={{ scale: 0.95 }} whileHover={{ scale: 1.05 }} type="submit" className={styles.container__form__buttons_box__create}>
-                <FiPlus size={20} color="#FFF" />
-              </motion.button>
+              <MoreButton type="submit" />
             </div>
           </form>
         )}

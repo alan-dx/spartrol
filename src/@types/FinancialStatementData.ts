@@ -1,7 +1,9 @@
+import { Wallet } from "./Wallet";
+
 export type FinancialStatementData = {
-  balance?: number,
+  equity?: number,
+  wallets?: Wallet[],
   day_spent?: number,
-  month_target?:number,
+  month_target?: number,
   month_spent?: number,
-  updated_at?: number
 }

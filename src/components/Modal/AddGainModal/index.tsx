@@ -2,44 +2,37 @@ import { FiPlusCircle } from 'react-icons/fi'
 import { Modal } from "..";
 import { Input } from '../../Input';
 import { Select } from '../../Select';
+import {v4 as uuid} from 'uuid'
 
 import { Form } from 'react-final-form'
 import styles from './styles.module.scss'
 import { Category } from '../../../@types/category';
 import { TransactionData } from '../../../@types/TransactionData';
+import { Wallet } from '../../../@types/Wallet';
 
 interface AddGainModalProps {
   isOpen: boolean;
-  closeModal: () => void
-}
-
-interface AddGainModalProps {
-  isOpen: boolean;
-  categories: Category[],
-  closeModal: () => void,
-  createGain: (statement: TransactionData) => void,
+  categories: Category[];
+  wallets: Wallet[];
+  closeModal: () => void;
+  createGain: (statement: TransactionData) => void;
 }
 
 type FormData = {
   title?: string;
   category_ref?: string;
+  wallet_id?: string;
   value?: string;
 }
 
-export function AddGainModal({isOpen, categories, closeModal, createGain}: AddGainModalProps) {
+export function AddGainModal({isOpen, categories, wallets, closeModal, createGain}: AddGainModalProps) {
 
   const handleCreateGain = async (values: any) => {
-    let data = {...values, type: "gain", id: Date.now()};//imutabilty
-    
-    // if (values.value.indexOf(",") == -1 && values.value.indexOf(".") == -1) {//format: 12
-    //   data.value = `${data.value}.00`
-    // }
+
+    let data = {...values, type: "gain", id: uuid()};//imutabilty
 
     data.value = Number(data.value.replace(",", "."))
-    // data.categories = {title: values.categories, category_ref_ref: categories.find(item => item.data.title === values.categories).ref['@ref'].id}
-    // console.log(data)
     createGain(data)
-    // closeModal()
   }
 
   const formValidation = (values: FormData) => {
@@ -50,7 +43,11 @@ export function AddGainModal({isOpen, categories, closeModal, createGain}: AddGa
     }
 
     if (!values.category_ref) {
-      errors.category_ref = 'Campo obrigatório'
+      errors.category_ref = 'Selecione uma categoria'
+    }
+
+    if (!values.wallet_id) {
+      errors.wallet_id = 'Selecione uma carteira'
     }
 
     if (!values.value) {
@@ -80,10 +77,13 @@ export function AddGainModal({isOpen, categories, closeModal, createGain}: AddGa
           validate={formValidation}
           render={({ handleSubmit, form, submitting, pristine, values }) => (
             <form onSubmit={handleSubmit}>
-              <div>
+              <div className={styles.modalContentContainer__inputs_box} >
                 <Input label="Título" type="text" name="title" />
-                <Select options={categories} label="Categorias" id="cat" name="category_ref" initialValue={categories[0]?.ref['@ref'].id} />
-                <div className={styles.valueBox} >
+                <div className={styles.modalContentContainer__inputs_box__selects_box} >
+                 <Select options={categories} label="Categoria" id="cat" name="category_ref" initialValue={categories[0]?.ref['@ref'].id} />
+                 <Select options={wallets} label="Carteira" id="wal" name="wallet_id" initialValue={wallets[0]?.id} />
+                </div>
+                <div className={styles.modalContentContainer__inputs_box__value} >
                   <strong>R$</strong>
                   <Input parse={normalizeValue} label="Valor" type="tel" name="value" placeholder="0,00" />
                 </div>

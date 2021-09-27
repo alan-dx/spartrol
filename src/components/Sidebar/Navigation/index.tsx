@@ -47,7 +47,7 @@ export function Navigation() {
           router.push('goals')
           toogleSideBar()
         }} 
-        text="Metas"
+        text="Objetivos"
         page="/goals"
         icon={<FiAward size={25} />} 
       />

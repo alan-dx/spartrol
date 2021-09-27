@@ -1,8 +1,10 @@
 import { useQuery } from "react-query";
-import { api } from "../api";
+import { Wallet } from "../@types/Wallet";
+import { api } from "../services/api";
 
 export type GetStatementResponse = {
-  balance: number;
+  equity: number;
+  wallets: Wallet[];
   daySpent: number;
   monthSpent: number;
   monthTarget: number;
@@ -18,22 +20,23 @@ type UseStatementParams = {
 export async function getStatement(id: string): Promise<GetStatementResponse> {
   const response = await api.get(`statement/${id}`)//next dynamic routing
 
-  const { balance, day_spent, month_spent, month_target, userId, updated_at } = response.data.statement.data//financial_statement
+  const { wallets, day_spent, month_spent, month_target, userId } = response.data.statement.data//financial_statement
 
   const ts = response.data.statement.ts.toString().slice(0,-3)
 
-  // const [currency, cents] = new Intl.NumberFormat('pt-BR', {style: 'currency', currency: 'BRL'}).format(balance).split(',')
+  // console.log('patrimono', balance)
+
+  const sum_wallets = wallets.reduce((accumulator, value) => accumulator + value.value, 0)
   
   const formattedData: GetStatementResponse = {
-    balance: Number(balance),
+    equity: sum_wallets,//change key: balance for equity
+    wallets,
     daySpent: Number(day_spent),
     monthSpent: Number(month_spent),
     monthTarget: Number(month_target),
     userId,
-    updatedAt: updated_at
-  }
 
-  //FAZER A LIMPEZA DO HISTORICO DENTRO DO HOOK DELE, USEDAYHISTORIC E NÃO AQ
+  }
 
   if (new Date().getDate() > new Date(Number(ts)).getDate()) {//new day, clear daySpent
     formattedData.daySpent = 0

@@ -1,0 +1,36 @@
+@import '../../../../styles/mixins/typography';
+
+.wallet_list_item_container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  &__info_box {
+    display: flex;
+    flex-direction: column;
+
+    &__value {
+      @include text1;
+    }
+
+    &__wallet {
+      @include text3;
+      line-height: 0.2rem;
+      color: var(--gray-900);
+    }
+  }
+
+  &__button {
+    width: 2rem;
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  
+    border: 0;
+    border-radius: 0.3rem;
+  
+    background-color: var(--white);
+    filter: drop-shadow(0px 4px 2px rgba(0, 0, 0, 0.25));
+  }
+}

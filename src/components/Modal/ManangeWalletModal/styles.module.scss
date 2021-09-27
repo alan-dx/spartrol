@@ -1,3 +1,5 @@
+@import '../../../styles/mixins/typography';
+
 .modalContentContainer {
 
   display: flex;
@@ -8,7 +10,7 @@
   border-radius: 0.3rem;
 
 
-  header {
+  &__header {
     width: 100%;
 
     display: flex;
@@ -16,8 +18,8 @@
     align-items: center;
     justify-content: space-between;
 
-    h1 {
-      font-size: 1.2rem;
+    &__title {
+      @include heading3;
     }
   }
 
@@ -26,19 +28,22 @@
       margin-top: 0.5rem;
     }
 
-    &__selects_box {
-      display: flex;
-      flex-direction: row ;
-
-      gap: 0.5rem;
-    }
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    flex-direction: row;
+    border-bottom: 1px solid var(--gray-200);
     
-    &__value {
+    gap: 0.5rem;
+    padding-bottom: 1rem;
+
+    .valueBox {
       display: flex;
       flex-direction: row;
       align-items: center;
+      flex: 1;
 
-      margin-top: 0.5rem;
+      margin-top: 0.5rem; 
 
       div {
         flex: 1;
@@ -53,9 +58,32 @@
         font-size: 1.35rem;
 
         margin-right: 0.55rem;
-        margin-top: 0.95rem;
+        margin-top: 1.5rem;
       }
 
+    }
+
+  }
+
+  &__list_wallets_box {
+    margin-top: 1rem;
+
+    &__title {
+      @include heading3;
+    }
+
+    &__scroll {
+      display: flex;
+      flex-direction: column;
+      max-height: 12.7rem;
+      background-color: var(--white-smoke);
+      border-radius: 0.5rem;
+
+      gap: 0.8rem;
+      padding: 0.7rem;
+
+      overflow: auto;
+      
     }
 
   }
@@ -79,10 +107,6 @@
       border: 0;
       background-color: transparent;
       color: var(--black);
-  
-      &:first-child {
-        border-right: 1px solid var(--gray-200);   
-      }
 
     }
   }  

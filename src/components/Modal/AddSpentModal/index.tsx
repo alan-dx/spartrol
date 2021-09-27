@@ -2,15 +2,19 @@ import { FiMinusCircle } from 'react-icons/fi'
 import { Modal } from "..";
 import { Input } from '../../Input';
 import { Select } from '../../Select';
+import { v4 as uuid } from 'uuid'
+
 import styles from './styles.module.scss'
 
 import { Form } from 'react-final-form'
 import { Category } from '../../../@types/category';
 import { TransactionData } from '../../../@types/TransactionData';
+import { Wallet } from '../../../@types/Wallet';
 
 interface AddSpentModalProps {
   isOpen: boolean;
-  categories: Category[]
+  categories: Category[];
+  wallets: Wallet[];
   closeModal: () => void;
   createSpent: (statement: TransactionData) => void;
 }
@@ -18,24 +22,19 @@ interface AddSpentModalProps {
 type FormData = {
   title?: string;
   category_ref?: string;
+  wallet_id?: string;
   value?: string;
 }
 
-export function AddSpentModal({isOpen, categories, closeModal, createSpent}: AddSpentModalProps) {
+export function AddSpentModal({isOpen, categories, wallets, closeModal, createSpent}: AddSpentModalProps) {
 
   const handleCreateSpent = async (values: any) => {
 
-    let data = {...values, type: "spent", id: Date.now()};//imutabilty
+    let data = {...values, type: "spent", id: uuid()};//imutabilty
     
-    // if (values.value.indexOf(",") == -1 && values.value.indexOf(".") == -1) {//format: 12
-    //   data.value = `${data.value}.00`
-    // }
-
     data.value = Number(data.value.replace(",", "."))
-    // data.categories = {title: values.categories, category_ref_ref: categories.find(item => item.data.title === values.categories).ref['@ref'].id}
     
     createSpent(data)
-    // closeModal()
   }
 
   const formValidation = (values: FormData) => {
@@ -46,7 +45,11 @@ export function AddSpentModal({isOpen, categories, closeModal, createSpent}: Add
     }
 
     if (!values.category_ref) {
-      errors.category_ref = 'Campo obrigatório'
+      errors.category_ref = 'Selecione uma categoria'
+    }
+
+    if (!values.wallet_id) {
+      errors.wallet_id = 'Selecione uma carteira'
     }
 
     if (!values.value) {
@@ -76,10 +79,13 @@ export function AddSpentModal({isOpen, categories, closeModal, createSpent}: Add
           validate={formValidation}
           render={({ handleSubmit, form, submitting, pristine, values }) => (
             <form onSubmit={handleSubmit}>
-              <div>
+              <div className={styles.modalContentContainer__inputs_box} >
                 <Input label="Título" type="text" name="title" />
-                <Select options={categories} label="Categorias" id="cat" name="category_ref" initialValue={categories[0]?.ref['@ref'].id} />
-                <div className={styles.valueBox} >
+                <div className={styles.modalContentContainer__inputs_box__selects_box} >
+                  <Select options={categories} label="Categoria" id="cat" name="category_ref" initialValue={categories[0]?.ref['@ref'].id} />
+                  <Select options={wallets} label="Carteira" id="wal" name="wallet_id" initialValue={wallets[0]?.id} />
+                </div>
+                <div className={styles.modalContentContainer__inputs_box__value} >
                   <strong>R$</strong>
                   <Input parse={normalizeValue} label="Valor" type="tel" name="value" placeholder="0,00" />
                 </div>

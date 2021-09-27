@@ -2,8 +2,8 @@
 @import '../../styles/mixins/typography';
 
 .container {
-  height: 4.1rem;
-  width: 100%;
+  flex: 1;
+  height: 100%;
 
   display: flex;
   justify-content: center;
@@ -19,5 +19,17 @@
   // box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.25);
 
   @include box-shadow;
+
+  &:not(:first-child) {
+    margin-left: 1rem;
+  }
+
+  @include md {
+    justify-content: space-between;
+  }
+
+  &:disabled {
+    z-index: -1;
+  }
 
 }

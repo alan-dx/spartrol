@@ -18,12 +18,23 @@
         flex-direction: row;
       }
     }
-  }
 
-  button {
-    margin-top: 1rem;
+    &__buttons_box {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      height: 4.67rem;
 
-    justify-content: space-between;
+      margin-top: 1.5rem;
+      
+      &__button_icon {
+        height: 1.7rem;
+        
+        @include md {
+          height: 1.2rem;
+        }
+      }
+    }
   }
 
 }

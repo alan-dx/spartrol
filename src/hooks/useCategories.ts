@@ -1,11 +1,7 @@
 import { useQuery } from 'react-query';
-import { Category } from '../../@types/category';
-import { api } from './../api';
-
-type Categories = {
-  gain: Category[],
-  spent: Category[]
-}
+import { Categories } from '../@types/Categories';
+import { Category } from '../@types/category';
+import { api } from '../services/api';
 
 export async function getCategories(id: string): Promise<Categories> {
 

@@ -1,6 +1,6 @@
-import { api } from './../api';
+import { api } from '../services/api';
 import { useQuery } from 'react-query';
-import { DayHistoric } from '../../@types/DayHistoric';
+import { DayHistoric } from '../@types/DayHistoric';
 //CONTINUAR AQ
 export async function getDayHistoric(id: string): Promise<DayHistoric> {
   const response = await api.get(`day_historic`, {
