@@ -1,0 +1,17 @@
+@import '../../../styles/mixins/responsive';
+@import '../../../styles/mixins/details';
+
+.chart__container {
+
+  height: 13.5rem;
+  background-color: var(--white);
+
+  border-radius: 0.5rem;
+  padding-right: 0.6rem;
+
+  @include box-shadow;
+
+  @include md {
+    height: 20rem;
+  }
+}

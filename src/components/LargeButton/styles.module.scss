@@ -1,4 +1,5 @@
 @import '../../styles/mixins/responsive';
+@import '../../styles/mixins/details';
 @import '../../styles/mixins/typography';
 
 .container {
@@ -6,19 +7,18 @@
   height: 100%;
 
   display: flex;
+  flex-direction: column-reverse;
   justify-content: center;
   align-items: center;
   padding: 1rem;
-
+  
   background-color: var(--white);
-  color: var(--black-700);
-  @include text2;
-
   border: 0;
-  border-radius: 0.3rem;
-  // box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.25);
-
+  // border-radius: 0.3rem;
+  // box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.15);
+  
   @include box-shadow;
+  @include border-radius;
 
   &:not(:first-child) {
     margin-left: 1rem;
@@ -26,6 +26,7 @@
 
   @include md {
     justify-content: space-between;
+    flex-direction: row;
   }
 
   &:disabled {

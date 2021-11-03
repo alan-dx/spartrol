@@ -19,18 +19,14 @@ export async function getCategories(id: string): Promise<Categories> {
   response.data.categories.data.forEach((item: Category) => {
 
     if (item.data.type == 'gain') {
-      categories.gain.push({
-        data: item.data,
-        ref: item.ref
-      })
+      categories.gain.push(item)
     } else if (item.data.type == 'spent') {
-      categories.spent.push({
-        data: item.data,
-        ref: item.ref
-      })
+      categories.spent.push(item)
     }
 
   })
+
+  console.log(categories)
 
   return categories
 }

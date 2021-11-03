@@ -13,9 +13,6 @@ interface IUpdateDayHistoric {
 class UpdateDayHistoric {
   async execute({id, transaction, old_historic}: IUpdateDayHistoric) {
 
-    //Continua AQ
-    //TO DO: add a transciton no day_history; Criar o controller (rota) para executar esse serviço
-
     if (!transaction.title) {
       throw new Error("Transaction title not provided")
     }

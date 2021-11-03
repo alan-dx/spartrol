@@ -3,6 +3,7 @@ import { Modal } from "..";
 import { Input } from '../../Input';
 import { Select } from '../../Select';
 import { v4 as uuid } from 'uuid'
+import { AnimatePresence, motion } from 'framer-motion';
 
 import styles from './styles.module.scss'
 
@@ -17,6 +18,7 @@ interface AddSpentModalProps {
   wallets: Wallet[];
   closeModal: () => void;
   createSpent: (statement: TransactionData) => void;
+  layoutId?: string;
 }
 
 type FormData = {
@@ -26,7 +28,14 @@ type FormData = {
   value?: string;
 }
 
-export function AddSpentModal({isOpen, categories, wallets, closeModal, createSpent}: AddSpentModalProps) {
+export function AddSpentModal({
+  isOpen, 
+  categories, 
+  wallets, 
+  closeModal, 
+  createSpent,
+  layoutId
+}: AddSpentModalProps) {
 
   const handleCreateSpent = async (values: any) => {
 
@@ -68,44 +77,72 @@ export function AddSpentModal({isOpen, categories, wallets, closeModal, createSp
   }
 
   return (
-    <Modal isOpen={isOpen} closeModal={closeModal} >
-      <section className={styles.modalContentContainer}>
-        <header>
-          <h1>Adicionar despesa</h1>
-          <FiMinusCircle size={20} color="#F03E35" />
-        </header>
-        <Form 
-          onSubmit={handleCreateSpent}
-          validate={formValidation}
-          render={({ handleSubmit, form, submitting, pristine, values }) => (
-            <form onSubmit={handleSubmit}>
-              <div className={styles.modalContentContainer__inputs_box} >
-                <Input label="Título" type="text" name="title" />
-                <div className={styles.modalContentContainer__inputs_box__selects_box} >
-                  <Select options={categories} label="Categoria" id="cat" name="category_ref" initialValue={categories[0]?.ref['@ref'].id} />
-                  <Select options={wallets} label="Carteira" id="wal" name="wallet_id" initialValue={wallets[0]?.id} />
-                </div>
-                <div className={styles.modalContentContainer__inputs_box__value} >
-                  <strong>R$</strong>
-                  <Input parse={normalizeValue} label="Valor" type="tel" name="value" placeholder="0,00" />
-                </div>
+    // <Modal isOpen={isOpen} closeModal={closeModal} layoutId={layoutId} >
+    <AnimatePresence>
+      {
+        isOpen && (
+          <>
+            <motion.div 
+              className={styles.overlay}
+              onClick={closeModal}
+              initial={{
+                opacity: 0
+              }}
+              animate={{
+                opacity: 1,
+                transition: {
+                  duration: 0.3
+                }
+              }}
+              exit={{
+                opacity: 0
+              }}
+            />
+            <div className={styles.modal_content_container}>
+              <div className={styles.modal_content_container__wrapper}>
+                <motion.section layout layoutId={layoutId} className={styles.modal_content_container__wrapper__content}>
+                  <header>
+                    <h1>Adicionar despesa</h1>
+                    <FiMinusCircle size={20} color="#F03E35" />
+                  </header>
+                  <Form 
+                    onSubmit={handleCreateSpent}
+                    validate={formValidation}
+                    render={({ handleSubmit, form, submitting, pristine, values }) => (
+                      <form onSubmit={handleSubmit}>
+                        <div className={styles.modal_content_container__wrapper__content__inputs_box} >
+                          <Input label="Título" type="text" name="title" />
+                          <div className={styles.modal_content_container__wrapper__content__inputs_box__selects_box} >
+                            <Select options={categories} label="Categoria" id="cat" name="category_ref" initialValue={categories[0]?.ref['@ref'].id} />
+                            <Select options={wallets} label="Carteira" id="wal" name="wallet_id" initialValue={wallets[0]?.id} />
+                          </div>
+                          <div className={styles.modal_content_container__wrapper__content__inputs_box__value} >
+                            <strong>R$</strong>
+                            <Input parse={normalizeValue} label="Valor" type="tel" name="value" placeholder="0,00" />
+                          </div>
+                        </div>
+                        <div className={styles.modal_content_container__wrapper__content__footer}>
+                          <button 
+                            onClick={() => {
+                              form.reset()
+                              closeModal()
+                            }}
+                            disabled={submitting}
+                          >
+                            Cancelar
+                          </button>
+                          <button type="submit" disabled={submitting}>{!submitting ? 'Confirmar' : 'Aguarde...'}</button>
+                        </div>
+                      </form>
+                    )}
+                  />
+                </motion.section>
               </div>
-              <div className={styles.modalContentContainer__footer}>
-                <button 
-                  onClick={() => {
-                    form.reset()
-                    closeModal()
-                  }}
-                  disabled={submitting}
-                >
-                  Cancelar
-                </button>
-                <button type="submit" disabled={submitting}>{!submitting ? 'Confirmar' : 'Aguarde...'}</button>
-              </div>
-            </form>
-          )}
-        />
-      </section>
-    </Modal>
+            </div>
+          </>
+        )
+      }
+      
+    </AnimatePresence>
   )
 }

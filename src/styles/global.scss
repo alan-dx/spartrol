@@ -7,9 +7,10 @@
 :root {
   --blue: #8AD7D7;
   --blue-light: #ADE4E4;
+  --blue-dark: #79c9c9;
   --black: #4F4F4F;
   --black-700: #303030;
-  --white-smoke: #F8F8F8;
+  --white-smoke: #f9f9f9;
   --white: #FFFFFF; 
   --red: #F03E35;
   --green: #59D266;
@@ -34,10 +35,22 @@
 body {
   background-color: var(--white-smoke);
   color: var(--black);
+
+  &::-webkit-scrollbar {
+    width: 3px;
+
+    &-thumb {
+      background-color: var(--gray-900);
+    }
+  }
 }
 
 body, input, textarea, button, select {
   font: 400 1rem "Poppins", sans-serif
+}
+
+input {
+  caret-color: var(--red);
 }
 
 button {

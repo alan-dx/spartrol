@@ -2,11 +2,11 @@ import { Balance } from '../../components/Balance'
 import { DayExpence } from '../../components/DayExpence'
 import { Header } from '../../components/Header'
 import { LargeButton } from '../../components/LargeButton'
-import { Historic } from '../../components/Historic'
+import { HistoricMemoized } from '../../components/Historic'
 
 import styles from './styles.module.scss'
 import { AddSpentModal } from '../../components/Modal/AddSpentModal'
-import { useEffect, useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 import { AddGainModal } from '../../components/Modal/AddGainModal'
 import { Session } from 'next-auth'
 import { withSSRAuth } from '../../utils/withSSRAuth'
@@ -23,6 +23,8 @@ import { useDayHistoric } from '../../hooks/useDayHistoric'
 import useWindowDimensions from '../../hooks/useWindowDimensions'
 import { ManageWalletModal } from '../../components/Modal/ManangeWalletModal'
 import { Wallet } from '../../@types/Wallet'
+import { Category } from '../../@types/category'
+import { AnimateSharedLayout } from 'framer-motion'
 
 interface HomeProps {
   session?: Session;
@@ -42,11 +44,11 @@ export default function Home({session}: HomeProps) {
 
   const updateFinancialStatement = useMutation(async (statement: FinancialStatementData) => {
 
-    const response = await api.put(`statement/${session.id}`, {
+    await api.put(`statement/${session.id}`, {
       updated_data: statement
     })
 
-    return response.data.data
+    // return response.data.data
   }, {
     onSuccess: () => {
       queryClient.invalidateQueries("statement")
@@ -55,33 +57,49 @@ export default function Home({session}: HomeProps) {
       if (isManangeWalletModal) setIsManageWalletModal(false)
     },
     onError: () => {
-      alert("Houve um erro!")
+      alert("Houve um erro ao atualizar os dados!")
     }
   })
 
   const addTransactionOnHistoric = useMutation(async (transaction: TransactionData) => {
-    const response = await api.post('day_historic', {
+    await api.post('day_historic', {
       id: session?.id,
       transaction,
       old_historic: dayHistoricData
     })
-    console.log('Atualizado', response.data)
-    response.data.newHistoric
+    // response.data.newHistoric
   }, {
     onSuccess: () => {
       queryClient.invalidateQueries('day_historic')
+    },
+    onError: () => {
+      alert("Houve um erro ao atualizar o histórico!")
     }
   })
 
-  // const addTransactionOnHistoric = useMutation( async () => {return})
+  const updateCategories = useMutation(async (updated_data: Category) => {
+    // console.log(updated_data)
+    await api.put(`categories`, {
+      updated_data,
+      id: session?.id
+    })
+
+  }, {
+    onSuccess: () => {
+      queryClient.invalidateQueries('categories')
+    },
+    onError: () => {
+      alert("Houve um erro ao atualizar os dados das categorias!")
+    }
+  })
 
   const handleCreateTransaction = (transaction: TransactionData) => {
 
-    let updated_wallets = [...statementData.wallets]
+    let updatedWallets = [...statementData.wallets]
 
     if (transaction.type === "spent") {//create spent transaction
 
-      updated_wallets.forEach( wallet => {
+      updatedWallets.forEach( wallet => {
 
         if (wallet.id === transaction.wallet_id) {
           wallet.value = wallet.value - transaction.value
@@ -92,12 +110,16 @@ export default function Home({session}: HomeProps) {
       updateFinancialStatement.mutateAsync({
         day_spent: statementData.daySpent + transaction.value,
         month_spent: statementData.monthSpent + transaction.value,
-        wallets: updated_wallets,
+        wallets: updatedWallets,
       })
+
+      let updatedCategory = [...categoriesData.spent].find(category => category.ref['@ref'].id === transaction.category_ref)
+      updatedCategory.data.month_financial = updatedCategory.data.month_financial ? updatedCategory.data.month_financial + transaction.value : transaction.value
+      updateCategories.mutateAsync(updatedCategory)
 
     } else if (transaction.type === "gain") {//create gain transaction
 
-      updated_wallets.forEach( wallet => {
+      updatedWallets.forEach( wallet => {
 
         if (wallet.id === transaction.wallet_id) {
           wallet.value = wallet.value + transaction.value
@@ -106,15 +128,17 @@ export default function Home({session}: HomeProps) {
       })
 
       updateFinancialStatement.mutateAsync({
-        wallets: updated_wallets
+        wallets: updatedWallets
       })
+
+      let updatedCategory = [...categoriesData.gain].find(category => category.ref['@ref'].id === transaction.category_ref)
+      updatedCategory.data.month_financial = updatedCategory.data.month_financial ? updatedCategory.data.month_financial + transaction.value : transaction.value
+      updateCategories.mutateAsync(updatedCategory)
 
     }
 
     //Add transaction in the history of the day
     addTransactionOnHistoric.mutateAsync(transaction)
-
-    //INCREMENTAR no month_target da categoria
 
   }
 
@@ -136,13 +160,14 @@ export default function Home({session}: HomeProps) {
   }
 
   return (
-    <>
+    <AnimateSharedLayout type="crossfade" >
       <AddSpentModal 
         categories={categoriesData?.spent} 
         isOpen={isOpenExpenseModal} 
         closeModal={() => setIsOpenExpenseModal(false)} 
         createSpent={handleCreateTransaction}
         wallets={statementData?.wallets}
+        layoutId="add_spent_modal"
       />
       <AddGainModal 
         categories={categoriesData?.gain} 
@@ -150,18 +175,20 @@ export default function Home({session}: HomeProps) {
         isOpen={isOpenGainModal} 
         closeModal={() => setIsOpenGainModal(false)} 
         createGain={handleCreateTransaction}
+        layoutId="add_gain_modal"
       />
       <ManageWalletModal 
         isOpen={isManangeWalletModal}
         closeModal={() => setIsManageWalletModal(false)}
         updateWallet={handleUpdateWallets}
         wallets={statementData?.wallets}
+        layoutId="manange_wallet_modal"
       />
       <Header />
       <main className={styles.main__container} >
         <div className={styles.main__container__wrapper}>
           <div className={styles.main__container__wrapper__info_box} >
-            <Balance balance={statementData?.equity} wallets={statementData?.wallets} />
+            <Balance isLoading={isLoading} balance={statementData?.equity} wallets={statementData?.wallets} />
             <DayExpence 
               daySpent={statementData?.daySpent} 
               monthSpent={useMemo(() => Number(statementData?.monthSpent), [statementData?.monthSpent])} 
@@ -170,32 +197,30 @@ export default function Home({session}: HomeProps) {
             />
           </div>
           <div className={styles.main__container__wrapper__buttons_box} >
-            <LargeButton onClick={() => setIsManageWalletModal(true)}>
+            <LargeButton layout layoutId="manange_wallet_modal" disabled={isLoading} onClick={() => setIsManageWalletModal(true)}>
               {/* <FiCreditCard size={20} color="#59D266" /> */}
-              {windowSize.width > 768 && 'Gerenciar carteiras'}
+              <span className={styles.main__container__wrapper__buttons_box__button_text}>{windowSize.width > 768 && 'Gerenciar'} carteira</span>
               <img className={styles.main__container__wrapper__buttons_box__button_icon} src="/icons/wallet_icon_manage.svg" alt="manage portfolio" />
             </LargeButton>
-            <LargeButton disabled={statementData?.wallets.length === 0} onClick={() => setIsOpenGainModal(true)}>
+            <LargeButton layout layoutId="add_gain_modal" disabled={statementData?.wallets.length === 0 || isLoading} onClick={() => setIsOpenGainModal(true)}>
               {/* <FiPlusCircle size={20} color="#59D266" /> */}
-              { windowSize.width > 768 && 'Adicionar ganho'}
+              <span className={styles.main__container__wrapper__buttons_box__button_text}>{windowSize.width > 768 && 'Adicionar'} ganho</span>
               <img className={styles.main__container__wrapper__buttons_box__button_icon} src="/icons/money_icon_add.svg" alt="manage portfolio" />
             </LargeButton>
-            <LargeButton disabled={statementData?.wallets.length === 0} onClick={() => setIsOpenExpenseModal(true)}>
+            <LargeButton layout layoutId="add_spent_modal" disabled={statementData?.wallets.length === 0 || isLoading} onClick={() => setIsOpenExpenseModal(true)}>
               {/* <FiMinusCircle size={20} color="#F03E35" /> */}
-              { windowSize.width > 768 && 'Adicionar despesa'}
+              <span className={styles.main__container__wrapper__buttons_box__button_text}>{windowSize.width > 768 && 'Adicionar'} despesa </span>
               <img className={styles.main__container__wrapper__buttons_box__button_icon} src="/icons/money_icon_minus.svg" alt="manage portfolio" />
             </LargeButton>
-            <LargeButton disabled={statementData?.wallets.length === 0} onClick={() => setIsOpenGainModal(true)}>
-              {
-                windowSize.width > 768 && 'Meta mensal'
-              }
+            <LargeButton layout disabled={statementData?.wallets.length === 0 || isLoading} onClick={() => setIsOpenGainModal(true)}>
+              <span className={styles.main__container__wrapper__buttons_box__button_text}>Metas {windowSize.width > 768 && 'mensais'}</span>
               <img className={styles.main__container__wrapper__buttons_box__button_icon} src="/icons/money_icon_target.svg" alt="manage portfolio" />
             </LargeButton>
           </div>
-          <Historic data={dayHistoricData?.data.historic} categories={categoriesData} />
+          <HistoricMemoized data={dayHistoricData?.data.historic} categories={categoriesData} />
         </div>
       </main>
-    </>
+    </AnimateSharedLayout>
   )
 }
 

@@ -37,6 +37,7 @@ class UpdateStatementService {
     if (wallets) data.wallets = wallets
 
     const oldStatement = await fauna.query<{ref: { id: string }}>(//Analisar possivel remoção dessa query
+      //considerando o que foi feito no UptadeDayHistoric, passando a ref como query props
       q.Get(
         q.Match(
           q.Index('financial_statement_by_user_id'),

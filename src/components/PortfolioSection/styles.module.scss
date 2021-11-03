@@ -1,0 +1,43 @@
+@import '../../styles/mixins/typography';
+
+.gain_spent_container {
+
+  &__title_box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    margin-bottom: 0.2rem;
+
+    &__title {
+      @include heading3;
+      font-weight: 600;
+
+    }
+  }
+
+  &__value_box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    
+    margin-top: 0.6rem;
+    margin-bottom: 0.6rem;
+
+    &__value {
+      font-size: 2rem;
+      font-weight: 600;
+      line-height: 1.5rem;
+
+      color: var(--blue)
+
+    }
+
+    &__label {
+      @include text3;
+      color: var(--gray-900);
+    }
+  }
+
+}

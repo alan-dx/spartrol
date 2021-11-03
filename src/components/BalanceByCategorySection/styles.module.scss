@@ -1,0 +1,22 @@
+@import '../../styles/mixins/typography';
+
+.balance_by_category_container {
+
+  &__title_box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    margin-bottom: 0.2rem;
+
+    &__title {
+      @include heading3;
+      font-weight: 600;
+    }
+  }
+
+  &__chart_box {
+    margin-top: 0.6rem;
+  }
+
+}

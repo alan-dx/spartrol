@@ -6,6 +6,7 @@ import { UpdateStatementService } from "../../../../api_files/services/UpdateSta
 
 export default ensureAuth(async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method == 'GET') {
+    
     try {
       const { id } = req.query
       const listStatementService = new ListStatementService()
@@ -18,12 +19,11 @@ export default ensureAuth(async (req: NextApiRequest, res: NextApiResponse) => {
     }
 
   } else if (req.method == 'PUT') {
+
     try {
       const { updated_data } = req.body
       const { id } = req.query
 
-      console.log(updated_data)
-  
       const updateStatementService = new UpdateStatementService()
   
       const statement = await updateStatementService.execute({id, updated_data})

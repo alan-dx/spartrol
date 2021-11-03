@@ -9,7 +9,12 @@
 }
 
 @mixin heading3 {
-  font-size: 1.3rem;
+  font-size: 1.35rem;
+  font-weight: 600;
+}
+
+@mixin heading4 {
+  font-size: 1.2rem;
   font-weight: 600;
 }
 

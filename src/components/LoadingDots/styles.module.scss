@@ -1,0 +1,16 @@
+.loading_dots_container {
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &__dots {
+    width: 0.5rem;
+    height: 0.5rem;
+
+    margin: 0 0.1rem;
+
+    border-radius: 0.25rem;
+    background-color: var(--black);
+  }
+}

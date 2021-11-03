@@ -33,19 +33,19 @@ $container-max-width-xll: 1320px;
 
 @mixin lg {
   @media only screen and (min-width: $screen-lg-min) {
-      @content;
+    @content;
   }
 }
 
 @mixin xl {
   @media only screen and (min-width: $screen-xl-min) {
-      @content;
+    @content;
   }
 }
 
 @mixin xxl {
   @media only screen and (min-width: $screen-xxl-min) {
-      @content;
+    @content;
   }
 }
 
@@ -55,35 +55,33 @@ $container-max-width-xll: 1320px;
   @include xs {
     flex-basis: $container-max-width-xs;
     padding: 0 15px;
+    margin: 0 auto;
   }
 
   @include sm {
     flex-basis: $container-max-width-sm;
-    padding: 0 15px;
+    // padding: 0 15px;
+    margin: 0 auto;
   }
 
   @include md {
+    margin: 0 auto;
     flex-basis: $container-max-width-md;
   }
-
+  
   @include lg {
+    margin: 0 auto;
     flex-basis: $container-max-width-lg;
   }
-
+  
   @include xl {
+    margin: 0 auto;
     flex-basis: $container-max-width-xl;
   }
-
+  
   @include xxl {
+    margin: 0 auto;
     flex-basis: $container-max-width-xll;
   }
  
 }
-
-//styles
-
-@mixin box-shadow {
-  box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.15);
-}
-
-//typografy

@@ -29,7 +29,9 @@ class CreateCategoriesService {
           data: {
             userId: id,
             title,
-            type
+            type,
+            month_financial: 0,
+            month_target: 0
           }
         }
       )

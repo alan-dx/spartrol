@@ -1,5 +1,6 @@
 @import '../../styles/mixins/typography';
 @import '../../styles/mixins/responsive';
+@import '../../styles/mixins/details';
 
 .container {
   min-height: 11rem;
@@ -8,18 +9,23 @@
   padding: 1rem;
   display: flex;
   flex-direction: column;
-  min-height: 11rem;
-  flex: 1;
   
   justify-content: center;
 
   background: var(--blue);
-  border-radius: 0.3rem;
-  box-shadow: 3px 5px 10px rgba($color: #8AD7D7, $alpha: 0.5);
+  @include border-radius;
+  box-shadow: 4px 3px 10px rgba($color: #8AD7D7, $alpha: 0.5);
   
   &__title {
     @include text3;
-    padding-bottom: 0.3rem;
+    width: fit-content;
+    color: var(--white);
+
+    background-color: var(--blue-dark);
+    border-radius: 1rem;
+
+    padding: 0.3rem 0.5rem;
+    margin-bottom: 0.3rem;
   }
 
   &__equity_box {
@@ -107,6 +113,11 @@
       @include text4;
       color: var(--red);
       margin-top: 0.3rem;
+    }
+
+    &__dots_box {
+      flex: 1;
+      display: flex;
     }
 
   }

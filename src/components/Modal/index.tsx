@@ -5,10 +5,11 @@ import styles from './styles.module.scss'
 interface ModalProps {
   isOpen?: boolean;
   children?: ReactNode;
-  closeModal?: () => void
+  closeModal?: () => void;
+  layoutId?: string;
 }
 
-export function Modal({ isOpen, children, closeModal }: ModalProps) {
+export function Modal({ isOpen, children, closeModal, layoutId }: ModalProps) {
   return (
     <AnimatePresence>
       {isOpen && (
@@ -27,6 +28,8 @@ export function Modal({ isOpen, children, closeModal }: ModalProps) {
               opacity: 1
             }}
             className={styles.modalBody}
+            layoutId={layoutId}
+            layout
           >
             {children}
           </motion.div>

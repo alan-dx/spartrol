@@ -1,5 +1,7 @@
 import { SidebarItem } from '../SidebarItem';
 import { FiHome, FiPieChart, FiList, FiAward, FiUser, FiLogOut } from 'react-icons/fi'
+import { motion } from 'framer-motion'
+
 import styles from './styles.module.scss';
 import { useRouter } from 'next/dist/client/router';
 import { signOut } from 'next-auth/client';
@@ -7,13 +9,22 @@ import { useContext } from 'react';
 import { SidebarContext } from '../../../contexts/SidebarContext';
 
 
+const variants = {
+  open: {
+    transition: { staggerChildren: 0.15 }
+  },
+  closed: {
+    transition: { staggerChildren: 0.01, staggerDirection: -1 }
+  }
+};
+
 export function Navigation() {
 
   const {isOpen, toogleSideBar} = useContext(SidebarContext)
   const router = useRouter()
 
   return (
-    <ul className={styles.container}>
+    <motion.ul className={styles.container} animate={isOpen ? 'open' : 'closed'} variants={variants}>
       <SidebarItem 
         onClick={() => {
           router.push('home')
@@ -52,16 +63,7 @@ export function Navigation() {
         icon={<FiAward size={25} />} 
       />
   
-      <div className={styles.divider} />
-      <SidebarItem 
-        onClick={() => {
-          router.push('user')
-          toogleSideBar()
-        }}
-        page="/user"
-        text="Meu perfil" 
-        icon={<FiUser size={25} />} 
-      />
+      <motion.div  className={styles.divider} />
       <SidebarItem 
         onClick={() => {
           signOut()
@@ -71,7 +73,7 @@ export function Navigation() {
         size={25} 
        />} 
       />
-      </ul>
+      </motion.ul>
 
     )
   }
