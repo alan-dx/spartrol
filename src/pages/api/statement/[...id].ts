@@ -1,10 +1,12 @@
 import { NextApiRequest, NextApiResponse } from "next";
+import { getSession } from 'next-auth/client';
 
 import { ensureAuth } from "../../../../api_files/middleware/ensureAuth";
 import { ListStatementService } from "../../../../api_files/services/ListStatementService";
 import { UpdateStatementService } from "../../../../api_files/services/UpdateStatementService";
 
 export default ensureAuth(async (req: NextApiRequest, res: NextApiResponse) => {
+
   if (req.method == 'GET') {
     
     try {

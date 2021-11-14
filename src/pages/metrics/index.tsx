@@ -11,17 +11,18 @@ import { PortfolioSection } from '../../components/PortfolioSection';
 
 import historicTestData from './test.json';
 
-import { useStatement } from '../../hooks/useStatement';
+import { getStatement, GetStatementResponse, useStatement } from '../../hooks/useStatement';
 import { withSSRAuth } from '../../utils/withSSRAuth';
 import { withSSRAuthContext } from '../../@types/withSSRAuthContext';
 
 interface MetricsProps {
   session?: Session;
+  initialStatementData: GetStatementResponse
 }
 
-export default function Metrics({ session }: MetricsProps) {
+export default function Metrics({ session, initialStatementData }: MetricsProps) {
 
-  const { data: statementData, isFetching, isLoading, error } = useStatement({id: session?.id as string})
+  const { data: statementData, isFetching, isLoading, error } = useStatement({id: session?.id as string, initialData: initialStatementData})
 
   const historicData = historicTestData
 
@@ -52,11 +53,12 @@ export const getServerSideProps = withSSRAuth(async (ctx: withSSRAuthContext) =>
   const { session } = ctx
 
   // ensureAuth middleware not working when this request is made
-  // await api.get(`statement/${session?.id}`).then(res => console.log(res.data)).catch(err => console.log(err.data))
+  const initialStatementData = await getStatement(session?.id)
 
   return {
     props: {
-      session
+      session,
+      initialStatementData
     }
   }
 })

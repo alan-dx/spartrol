@@ -56,8 +56,13 @@ export function DonutChart({ data = [] }: DonutChartProps) {
         legend: {
           position: 'right',
           offsetX: 15
+        },
+        chart: {
+          animations: {
+            enabled: false
+          }
         }
-      }
+      },
     }]
   }
   

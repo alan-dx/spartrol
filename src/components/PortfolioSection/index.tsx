@@ -21,7 +21,9 @@ export function PortfolioSection({ data }: PortfolioSectionProps) {
         <h3 className={styles.gain_spent_container__title_box__title}>Composição da carteira</h3>
       </div>
       <div className={styles.gain_spent_container__value_box}>
-        <CounterCurrency from={0} to={data?.equity} element={<span className={styles.gain_spent_container__value_box__value} />} /> 
+        <span className={styles.gain_spent_container__value_box__value}>
+          {new Intl.NumberFormat('pt-BR', {style: 'currency', currency: 'BRL'}).format(data?.equity)}
+        </span>
         <small className={styles.gain_spent_container__value_box__label}>patrimônio total</small>
       </div>
       <DonutChart data={data?.wallets} />

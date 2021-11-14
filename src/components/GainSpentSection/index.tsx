@@ -34,15 +34,13 @@ export function GainSpentSection({ data }: GainSpentSectionProps) {
       </div>
       <GainSpentSelectButton mode={mode} changeMode={handleChangeMode} />
       <div className={styles.gain_spent_container__value_box}>
-        {
-          mode === 'gain' 
-          ? 
-            <CounterCurrency from={0} to={valueData} element={<span className={styles.gain_spent_container__value_box__value} />} /> 
-          :
-            <CounterCurrency from={0} to={valueData} element={<span data-mode="spent" className={styles.gain_spent_container__value_box__value} />} /> 
-
-        }
-        
+        <CounterCurrency 
+          from={0} 
+          to={valueData} 
+          element={<span data-mode={mode === "spent" ? "spent" : ""} 
+          className={styles.gain_spent_container__value_box__value} />} 
+          disableInitialAnimation 
+        /> 
         <small className={styles.gain_spent_container__value_box__label}>{mode == 'gain' ? 'ganhos' : 'gastos'} no período</small>
       </div>
       <AreaChart data={chartData} />

@@ -1,5 +1,5 @@
 import styles from './styles.module.scss'
-import { FiArrowLeft, FiBarChart2 } from 'react-icons/fi'
+import { FiBarChart2 } from 'react-icons/fi'
 import { Wallet } from '../../@types/Wallet'
 import { CounterCurrency } from '../CounterCurrency'
 import { LoadingDots } from '../LoadingDots'

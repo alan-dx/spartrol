@@ -17,7 +17,7 @@ interface AddSpentModalProps {
   categories: Category[];
   wallets: Wallet[];
   closeModal: () => void;
-  createSpent: (statement: TransactionData) => void;
+  createSpent: (statement: TransactionData) => Promise<void>;
   layoutId?: string;
 }
 
@@ -43,7 +43,7 @@ export function AddSpentModal({
     
     data.value = Number(data.value.replace(",", "."))
     
-    createSpent(data)
+    await createSpent(data)
   }
 
   const formValidation = (values: FormData) => {
@@ -131,7 +131,10 @@ export function AddSpentModal({
                           >
                             Cancelar
                           </button>
-                          <button type="submit" disabled={submitting}>{!submitting ? 'Confirmar' : 'Aguarde...'}</button>
+                          <button
+                            type="submit"
+                            disabled={submitting}>{!submitting ? 'Confirmar' : 'Criando...'}
+                          </button>
                         </div>
                       </form>
                     )}

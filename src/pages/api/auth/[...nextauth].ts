@@ -21,7 +21,7 @@ export default NextAuth({
         await api.post('/users', {
           email,
           id
-        }).then(res => console.log(res.data)).catch(err => console.log(err))
+        })
         
         return true//MOVER PRA DENTRO DO CALL
       } catch (error) {

@@ -1,5 +1,6 @@
+import React from 'react';
+
 import { FiSliders } from 'react-icons/fi'
-import { Modal } from "..";
 import { Input } from '../../Input';
 import { v4 as uuid } from 'uuid';
 
@@ -13,7 +14,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 interface ManageWalletModalProps {
   isOpen: boolean;
   closeModal: () => void,
-  updateWallet: (data: any) => void,
+  updateWallet: (data: any) => Promise<void>,
   wallets: Wallet[];
   layoutId?: string
 }
@@ -31,11 +32,22 @@ export function ManageWalletModal({
   layoutId
 }: ManageWalletModalProps) {
 
+  const [walletInEditMode, setWalletInEditMode] = React.useState<Wallet>({} as Wallet)
+  const [isFetching, setIsFetching] = React.useState(false)
+
   const handleUpdateWallet = async (values: any) => {
 
-    
-    const data: Wallet = {...values, value: Number(values.value.replace(",", ".")), id: uuid()}
-    updateWallet(data)
+    // console.log(walletInEditMode)
+    setIsFetching(true)
+
+    const data: Wallet = {
+      ...values,
+      value: Number(values.value.replace(",", ".")), 
+      id: walletInEditMode.id || uuid()
+    }
+
+    await updateWallet(data)
+    setWalletInEditMode({} as Wallet)
   }
 
   const formValidation = (values: FormData) => {
@@ -61,7 +73,16 @@ export function ManageWalletModal({
   }
 
   const handleEditWallet = (id: string) => {
-    console.log(id)
+    setWalletInEditMode(wallets.find(wallet => wallet.id === id))
+  }
+
+  const handleCancelEditWalletMode = () => {
+    setWalletInEditMode({} as Wallet)
+  }
+
+  const handleCloseModal = () => {
+    setWalletInEditMode({} as Wallet)
+    closeModal()
   }
 
   return (
@@ -71,7 +92,7 @@ export function ManageWalletModal({
           <>
             <motion.div 
               className={styles.overlay}
-              onClick={closeModal}
+              onClick={handleCloseModal}
               initial={{
                 opacity: 0
               }}
@@ -95,32 +116,52 @@ export function ManageWalletModal({
                   <Form 
                     onSubmit={handleUpdateWallet}
                     validate={formValidation}
+                    initialValues={walletInEditMode.id && {
+                      title: walletInEditMode.title,
+                      value: String(walletInEditMode.value)
+                    }}
                     render={({ handleSubmit, form, submitting, pristine, values }) => (
                       <>
-                        <form onSubmit={handleSubmit} className={styles.modal_content_container__wrapper__content__inputs_box}>
-                          <Input label="Título" type="text" name="title"/>
+                        <form
+                          onSubmit={handleSubmit}
+                          className={styles.modal_content_container__wrapper__content__inputs_box}
+                        >
+                          <Input
+                            label="Título"
+                            type="text"
+                            name="title"
+                          />
                           <div className={styles.valueBox} >
                             <strong>R$</strong>
-                            <Input parse={normalizeValue} label="Valor" type="tel" name="value" placeholder="0,00" />
+                            <Input
+                              parse={normalizeValue}
+                              label="Valor"
+                              type="tel"
+                              name="value"
+                              placeholder="0,00" 
+                            />
                           </div>
-                          <MoreButton type="submit" />
+                          <MoreButton type="submit" disabled={submitting} editMode={!!walletInEditMode.id} />
                         </form>
                         <div className={styles.modal_content_container__wrapper__content__list_wallets_box} >
                           <h3 className={styles.modal_content_container__wrapper__content__list_wallets_box__title}>Suas carteiras</h3>
                           <div className={styles.modal_content_container__wrapper__content__list_wallets_box__scroll}>
                             {
                               wallets?.map(wallet => (
-                                <WalletListItem key={wallet.id} wallet={wallet} onClick={() => handleEditWallet(wallet.id)} />
+                                <WalletListItem
+                                  key={wallet.id}
+                                  wallet={wallet}
+                                  onClick={() => handleEditWallet(wallet.id)}
+                                  editMode={!!(walletInEditMode.id === wallet.id)}
+                                  cancelEditMode={handleCancelEditWalletMode}
+                                />
                               ))
                             }
                           </div>
                         </div>
                         <div className={styles.modal_content_container__wrapper__content__footer}>
                           <button
-                            onClick={() => {
-                              form.reset()
-                              closeModal()
-                            }}
+                            onClick={handleCloseModal}
                             disabled={submitting}
                           >
                             Cancelar
