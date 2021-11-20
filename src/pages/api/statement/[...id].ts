@@ -1,5 +1,4 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { getSession } from 'next-auth/client';
 
 import { ensureAuth } from "../../../../api_files/middleware/ensureAuth";
 import { ListStatementService } from "../../../../api_files/services/ListStatementService";
@@ -10,10 +9,10 @@ export default ensureAuth(async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method == 'GET') {
     
     try {
-      const { id } = req.query
+      const { id, current_ts } = req.query
       const listStatementService = new ListStatementService()
       
-      const statement = await listStatementService.execute(id[0])
+      const statement = await listStatementService.execute(id[0], Number(current_ts))
       
       return res.status(200).json({statement})
     } catch (error) {

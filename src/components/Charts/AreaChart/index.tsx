@@ -2,6 +2,8 @@ import dynamic from 'next/dynamic';
 import React from 'react';
 import { ApexOptions } from 'apexcharts'
 
+import { eachDayOfInterval, subDays } from 'date-fns';
+
 import styles from './styles.module.scss'
 
 const Chart = dynamic(() => import('react-apexcharts'), {
@@ -9,11 +11,20 @@ const Chart = dynamic(() => import('react-apexcharts'), {
 })
 
 interface AreaChartProps {
-  data: []
+  data: number[]
 } 
 
 export function AreaChart({data = []}: AreaChartProps) {
 
+  let datesInterval = React.useMemo(() => {
+
+    return eachDayOfInterval({
+      start: subDays(new Date(), data.length - 1),
+      end: new Date()
+    })
+    
+  }, [data.length])//make it clear date.length
+  
   const options: ApexOptions = {
     chart: {
       id: "area-chart",
@@ -46,12 +57,12 @@ export function AreaChart({data = []}: AreaChartProps) {
       enabled: false
     },
     xaxis: {
-      categories: [19, 20, 21, 22, 23, 24, 25, 26],
+      categories: datesInterval.map(date => date.getUTCDate()),
     }
   }
   
   const series = [
-    { name: 'Valor',  data: data.map((item: any) => item.value)}
+    { name: 'Valor',  data: data}
   ]
 
   return (

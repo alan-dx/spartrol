@@ -1,3 +1,5 @@
+import React from 'react';
+
 import { Balance } from '../../components/Balance'
 import { DayExpence } from '../../components/DayExpence'
 import { Header } from '../../components/Header'
@@ -11,12 +13,12 @@ import { AddGainModal } from '../../components/Modal/AddGainModal'
 import { Session } from 'next-auth'
 import { withSSRAuth } from '../../utils/withSSRAuth'
 import { getStatement, GetStatementResponse, useStatement } from '../../hooks/useStatement'
-import { useCategories } from '../../hooks/useCategories'
+import { useCategories, getCategories } from '../../hooks/useCategories'
+import { getDayHistoric, useDayHistoric } from '../../hooks/useDayHistoric';
 import { useMutation } from 'react-query'
 import { api } from '../../services/api'
 
 import { queryClient } from '../../services/queryClient';
-import { useDayHistoric } from '../../hooks/useDayHistoric';
 import useWindowDimensions from '../../hooks/useWindowDimensions';
 import { ManageWalletModal } from '../../components/Modal/ManangeWalletModal';
 import { AnimateSharedLayout } from 'framer-motion';
@@ -25,15 +27,24 @@ import { FinancialStatementData } from '../../@types/FinancialStatementData';
 import { TransactionData } from '../../@types/TransactionData';
 import { Wallet } from '../../@types/Wallet';
 import { Category } from '../../@types/category';
+import { Categories } from '../../@types/Categories';
 import { withSSRAuthContext } from '../../@types/withSSRAuthContext'
+import { DayHistoric } from '../../@types/DayHistoric';
 
 
 interface HomeProps {
   session?: Session;
-  initialStatementData: GetStatementResponse
+  initialStatementData: GetStatementResponse;
+  initialDayHistoricData: DayHistoric;
+  initialCategoriesData: Categories
 }
 
-export default function Home({session, initialStatementData}: HomeProps) {
+export default function Home({
+  session,
+  initialStatementData,
+  initialDayHistoricData,
+  initialCategoriesData
+}: HomeProps) {
 
   const [isOpenExpenseModal, setIsOpenExpenseModal] = useState(false)
   const [isOpenGainModal, setIsOpenGainModal] = useState(false)
@@ -42,8 +53,8 @@ export default function Home({session, initialStatementData}: HomeProps) {
   const windowSize = useWindowDimensions()
 
   const { data: statementData, isFetching, isLoading, error } = useStatement({id: session?.id as string, initialData: initialStatementData})
-  const { data: categoriesData } = useCategories(session?.id as string)
-  const { data: dayHistoricData } = useDayHistoric(session?.id as string)
+  const { data: categoriesData } = useCategories({id: session?.id as string, initialData: initialCategoriesData})
+  const { data: dayHistoricData } = useDayHistoric({id: session?.id as string, initialData: initialDayHistoricData})
 
   const updateFinancialStatement = useMutation(async (statement: FinancialStatementData) => {
 
@@ -69,10 +80,10 @@ export default function Home({session, initialStatementData}: HomeProps) {
       transaction,
       old_historic: dayHistoricData
     })
-    // response.data.newHistoric
   }, {
     onSuccess: () => {
       queryClient.invalidateQueries('day_historic')
+      queryClient.invalidateQueries('metrics')
     },
     onError: () => {
       alert("Houve um erro ao atualizar o histórico!")
@@ -128,9 +139,12 @@ export default function Home({session, initialStatementData}: HomeProps) {
         }
         
       })
-
+      
+      // It is necessary to send day_spent and month_spent to avoid the day_spent bug (keep the data from the previous day)
       await updateFinancialStatement.mutateAsync({
-        wallets: updatedWallets
+        day_spent: statementData.daySpent,
+        month_spent: statementData.monthSpent,
+        wallets: updatedWallets,
       })
 
       let updatedCategory = [...categoriesData.gain].find(category => category.ref['@ref'].id === transaction.category_ref)
@@ -230,11 +244,16 @@ export const getServerSideProps = withSSRAuth(async (ctx: withSSRAuthContext) =>
 
   // ensureAuth middleware not working when this request is made
   const initialStatementData = await getStatement(session?.id)
+  const initialDayHistoricData = await getDayHistoric(session?.id)
+  const initialCategoriesData = await getCategories(session?.id)
+  //FAZER PARA CATEGORIES
 
   return {
     props: {
       session,
-      initialStatementData
+      initialStatementData,
+      initialDayHistoricData,
+      initialCategoriesData
     }
   }
 })

@@ -14,7 +14,7 @@
 
   transition: background-color 0.4s;
 
-  &[data-editMode="true"] {
+  &[data-editmode="true"] {
     background-color: var(--green);
   }
 

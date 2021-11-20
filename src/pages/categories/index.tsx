@@ -3,7 +3,7 @@ import { withSSRAuthContext } from '../../@types/withSSRAuthContext';
 import styles from './styles.module.scss'
 
 import { Header } from "../../components/Header";
-import { useCategories } from "../../hooks/useCategories";
+import { getCategories, useCategories } from "../../hooks/useCategories";
 import { withSSRAuth } from "../../utils/withSSRAuth";
 import { AddCategory } from '../../components/AddCategory';
 import { ListCategories } from '../../components/ListCategories';
@@ -11,9 +11,11 @@ import {FiMinusCircle, FiPlusCircle} from 'react-icons/fi'
 import { useMutation } from 'react-query';
 import { api } from '../../services/api';
 import { queryClient } from '../../services/queryClient';
+import { Categories as CategoriesType } from '../../@types/Categories';
 
 interface CategoriesProps {
-  session: Session
+  session: Session;
+  initialCategoriesData: CategoriesType
 }
 
 type CreateCategoryFormData = {
@@ -21,9 +23,9 @@ type CreateCategoryFormData = {
   type?: "spent" | "gain";
 }
 
-export default function Categories({session}: CategoriesProps) {
+export default function Categories({session, initialCategoriesData}: CategoriesProps) {
 
-  const { data } = useCategories(session?.id as string)
+  const { data } = useCategories({id: session?.id as string, initialData: initialCategoriesData})
 
   const createCategory = useMutation(async (category: CreateCategoryFormData) => {
     const response = await api.post("/categories", {
@@ -62,9 +64,12 @@ export default function Categories({session}: CategoriesProps) {
 export const getServerSideProps = withSSRAuth(async (ctx: withSSRAuthContext) => {
   const { session } = ctx
 
+  const initialCategoriesData = await getCategories(session?.id)
+
   return {
     props: {
-      session
+      session,
+      initialCategoriesData
     }
   }
 })

@@ -8,7 +8,10 @@ import { PeriodButton } from '../PeriodButton';
 import styles from './styles.module.scss';
 
 interface GainSpentSectionProps {
-  data: any
+  data: {
+    gain: number[];
+    spent: number[];
+  }
 }
 
 export function GainSpentSection({ data }: GainSpentSectionProps) {
@@ -20,11 +23,7 @@ export function GainSpentSection({ data }: GainSpentSectionProps) {
   }
 
   const chartData = mode ==='gain' ? data.gain : data.spent
-  const valueData = mode === 'gain' ? data.gain.reduce((total, current) => total + current.value, 0) : data.spent.reduce((total, current) => total + current.value, 0) 
-  // const valueData = data.gain.reduce((total, current) => {
-  //   console.log(current)
-  //   return total + current.value
-  // }, 0)
+  const valueData = mode === 'gain' ? data.gain.reduce((total, current) => total + current, 0) : data.spent.reduce((total, current) => total + current, 0) 
 
   return (
     <div className={styles.gain_spent_container} >

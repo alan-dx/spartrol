@@ -39,7 +39,7 @@ export function AddSpentModal({
 
   const handleCreateSpent = async (values: any) => {
 
-    let data = {...values, type: "spent", id: uuid()};//imutabilty
+    let data = {...values, type: "spent", id: uuid()};
     
     data.value = Number(data.value.replace(",", "."))
     

@@ -20,7 +20,7 @@ export const MoreButton = ({editMode = false,...rest}: MoreButtonProps) => {
         1.05
       }}
       className={styles.container}
-      data-editMode={editMode}
+      data-editmode={editMode}
     >
       {
         editMode

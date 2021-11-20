@@ -89,7 +89,45 @@ class CreateUserService {
       )
     )
 
-    //create all fields on Fauna DB here
+    await fauna.query(//Create previous categories
+      q.If(
+        q.Not(
+          q.Exists(
+            q.Match(
+              q.Index('categories_by_user_id'),
+              q.Casefold(id)
+            )
+          )
+        ),
+        q.Map(
+          [
+            {title: 'Alimentação', type: 'spent'},
+            {title: 'Lazer', type: 'spent'},
+            {title: 'Casa', type: 'spent'},
+            {title: 'Pagamentos', type: 'spent'},
+            {title: 'Salário', type: 'gain'}
+          ],
+          q.Lambda(
+            'category',
+            q.Create(
+              q.Collection('categories'),
+              {
+                data: {
+                  userId: id,
+                  title: q.Select(['title'], q.Var('category')),
+                  type: q.Select(['type'], q.Var('category')),
+                  month_financial: 0,
+                  month_target: 0
+                }
+              }
+            )
+          )
+        ),
+        null
+      )
+    )
+
+     //create all fields on Fauna DB here
 
     return user
   }
