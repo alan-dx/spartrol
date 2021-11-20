@@ -22,12 +22,12 @@
 
     margin-bottom: -0.5rem;
 
-    span {
+    small {
       @include text4;
       line-height: 0.5rem;
     }
   
-    strong {
+    span {
       @include heading1;
       color: var(--red);
   

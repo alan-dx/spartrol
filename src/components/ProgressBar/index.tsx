@@ -11,7 +11,7 @@ interface ProgressBarProps {
 
 export function ProgressBar({monthSpent, monthTarget}: ProgressBarProps) {
 
-  const monthTargetFormatted = new Intl.NumberFormat('pt-BR', {style: 'currency', currency: 'BRL'}).format(monthTarget).replace(/\s/g, '')
+  const monthTargetFormatted = new Intl.NumberFormat('pt-BR', {style: 'currency', currency: 'BRL'}).format(monthTarget)
 
   const monthSpentFormatted = monthSpent ? new Intl.NumberFormat('pt-BR', {style: 'currency', currency: 'BRL'}).format(monthSpent).replace(/\s/g, '') : new Intl.NumberFormat('pt-BR', {style: 'currency', currency: 'BRL'}).format(0.0).replace(/\s/g, '')
 
@@ -40,7 +40,7 @@ export function ProgressBar({monthSpent, monthTarget}: ProgressBarProps) {
         <div />
       </div>
       <div className={styles.goalsRange}>
-        <small>R$0</small>
+        <small>R$ 0</small>
         {
           monthSpent ? 
           <CounterCurrency from={0} to={monthSpent} element={<small className={styles.center} />} /> : 

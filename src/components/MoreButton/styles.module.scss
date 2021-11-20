@@ -12,4 +12,10 @@
   border-radius: 0.3rem;
   border: 0;
 
+  transition: background-color 0.4s;
+
+  &[data-editmode="true"] {
+    background-color: var(--green);
+  }
+
 }

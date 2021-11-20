@@ -20,11 +20,11 @@ export function DayExpence({daySpent, monthSpent, monthTarget, windowSize}: DayE
   return (
     <div className={styles.container}>
       <div className={styles.container__day_spent_info}>
-        <span>Hoje, você gastou:</span>
+        <small>Hoje, você gastou:</small>
         {
           daySpent ?
-          (<CounterCurrency from={0} to={daySpent} element={<strong />} />) :
-          (<strong>{new Intl.NumberFormat('pt-BR', {style: 'currency', currency: 'BRL'}).format(0.00)}</strong>)
+          (<CounterCurrency from={0} to={daySpent} element={<span />} />) :
+          (<span>{new Intl.NumberFormat('pt-BR', {style: 'currency', currency: 'BRL'}).format(0.00)}</span>)
         }
         {/* <strong>
           {daySpentFormated}

@@ -33,6 +33,8 @@ class UpdateDayHistoric {
       throw new Error("User id not provided") 
     }
 
+    console.log('update', transaction, old_historic)
+
     const newHistoric = await fauna.query<DayHistoric>(
       q.Update(
         q.Ref(q.Collection("day_historic"), old_historic.ref['@ref'].id),
@@ -43,6 +45,26 @@ class UpdateDayHistoric {
         }
       )
     )
+
+    // const newHistoric = {
+    //   ref: {
+    //     "@ref": {
+    //       id: '1'
+    //     }
+    //   },
+    //   data: {
+    //     userId: '1',
+    //     historic: [{
+    //       title: 'Teste',
+    //       category_ref: "309222678243312196",
+    //       wallet_id: "05ae4480-2645-4e9c-b6ba-57cfb604f7e5",
+    //       value: 14,
+    //       type: "gain",
+    //       id: "6ad29288-7329-4cc2-89e8-81b8150a617c"
+    //     }]
+    //   },
+    //   ts: 1637073035030000
+    // }
 
     return newHistoric
 

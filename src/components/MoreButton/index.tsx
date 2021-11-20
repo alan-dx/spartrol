@@ -1,9 +1,13 @@
 import { motion, HTMLMotionProps} from 'framer-motion'
-import { FiPlus } from 'react-icons/fi'
+import { FiPlus, FiEdit } from 'react-icons/fi'
 
 import styles from './styles.module.scss'
 
-export const MoreButton = ({...rest}: HTMLMotionProps<"button">) => {
+interface MoreButtonProps extends HTMLMotionProps<"button"> {
+  editMode?: boolean
+}
+
+export const MoreButton = ({editMode = false,...rest}: MoreButtonProps) => {
   return (
     <motion.button
       {...rest}
@@ -16,8 +20,15 @@ export const MoreButton = ({...rest}: HTMLMotionProps<"button">) => {
         1.05
       }}
       className={styles.container}
+      data-editmode={editMode}
     >
-      <FiPlus size={20} color="#FFF" />
+      {
+        editMode
+        ?
+          <FiEdit size={20} color="#FFF" />
+        :
+          <FiPlus size={20} color="#FFF" />
+      }
     </motion.button>
   )
 }

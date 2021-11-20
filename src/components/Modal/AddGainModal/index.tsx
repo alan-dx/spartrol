@@ -16,7 +16,7 @@ interface AddGainModalProps {
   categories: Category[];
   wallets: Wallet[];
   closeModal: () => void;
-  createGain: (statement: TransactionData) => void;
+  createGain: (statement: TransactionData) => Promise<void>;
   layoutId?: string;
 }
 
@@ -41,7 +41,7 @@ export function AddGainModal({
     let data = {...values, type: "gain", id: uuid()};//imutabilty
 
     data.value = Number(data.value.replace(",", "."))
-    createGain(data)
+    await createGain(data)
   }
 
   const formValidation = (values: FormData) => {
@@ -129,7 +129,11 @@ export function AddGainModal({
                         >
                           Cancelar
                         </button>
-                        <button type="submit" disabled={submitting} >{!submitting ? 'Confirmar' : 'Aguarde...'}</button>
+                        <button
+                          type="submit"
+                          disabled={submitting}
+                          >{!submitting ? 'Confirmar' : 'Criando...'}
+                        </button>
                       </div>
                     </form>
                   )}

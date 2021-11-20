@@ -17,7 +17,7 @@ interface AddSpentModalProps {
   categories: Category[];
   wallets: Wallet[];
   closeModal: () => void;
-  createSpent: (statement: TransactionData) => void;
+  createSpent: (statement: TransactionData) => Promise<void>;
   layoutId?: string;
 }
 
@@ -39,11 +39,11 @@ export function AddSpentModal({
 
   const handleCreateSpent = async (values: any) => {
 
-    let data = {...values, type: "spent", id: uuid()};//imutabilty
+    let data = {...values, type: "spent", id: uuid()};
     
     data.value = Number(data.value.replace(",", "."))
     
-    createSpent(data)
+    await createSpent(data)
   }
 
   const formValidation = (values: FormData) => {
@@ -131,7 +131,10 @@ export function AddSpentModal({
                           >
                             Cancelar
                           </button>
-                          <button type="submit" disabled={submitting}>{!submitting ? 'Confirmar' : 'Aguarde...'}</button>
+                          <button
+                            type="submit"
+                            disabled={submitting}>{!submitting ? 'Confirmar' : 'Criando...'}
+                          </button>
                         </div>
                       </form>
                     )}

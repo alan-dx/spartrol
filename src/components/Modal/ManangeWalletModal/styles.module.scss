@@ -103,6 +103,14 @@
           padding: 0.7rem;
     
           overflow: auto;
+
+          &::-webkit-scrollbar {
+            width: 3px;
+        
+            &-thumb {
+              background-color: var(--gray-900);
+            }
+          }
           
         }
     

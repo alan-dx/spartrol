@@ -1,3 +1,5 @@
+import React from 'react';
+
 import { Balance } from '../../components/Balance'
 import { DayExpence } from '../../components/DayExpence'
 import { Header } from '../../components/Header'
@@ -10,37 +12,49 @@ import { useMemo, useState } from 'react'
 import { AddGainModal } from '../../components/Modal/AddGainModal'
 import { Session } from 'next-auth'
 import { withSSRAuth } from '../../utils/withSSRAuth'
-import { useStatement } from '../../hooks/useStatement'
-import { useCategories } from '../../hooks/useCategories'
-import { withSSRAuthContext } from '../../@types/withSSRAuthContext'
+import { getStatement, GetStatementResponse, useStatement } from '../../hooks/useStatement'
+import { useCategories, getCategories } from '../../hooks/useCategories'
+import { getDayHistoric, useDayHistoric } from '../../hooks/useDayHistoric';
 import { useMutation } from 'react-query'
 import { api } from '../../services/api'
 
-import { TransactionData } from '../../@types/TransactionData'
-import { FinancialStatementData } from '../../@types/FinancialStatementData'
-import { queryClient } from '../../services/queryClient'
-import { useDayHistoric } from '../../hooks/useDayHistoric'
-import useWindowDimensions from '../../hooks/useWindowDimensions'
-import { ManageWalletModal } from '../../components/Modal/ManangeWalletModal'
-import { Wallet } from '../../@types/Wallet'
-import { Category } from '../../@types/category'
-import { AnimateSharedLayout } from 'framer-motion'
+import { queryClient } from '../../services/queryClient';
+import useWindowDimensions from '../../hooks/useWindowDimensions';
+import { ManageWalletModal } from '../../components/Modal/ManangeWalletModal';
+import { AnimateSharedLayout } from 'framer-motion';
+
+import { FinancialStatementData } from '../../@types/FinancialStatementData';
+import { TransactionData } from '../../@types/TransactionData';
+import { Wallet } from '../../@types/Wallet';
+import { Category } from '../../@types/category';
+import { Categories } from '../../@types/Categories';
+import { withSSRAuthContext } from '../../@types/withSSRAuthContext'
+import { DayHistoric } from '../../@types/DayHistoric';
+
 
 interface HomeProps {
   session?: Session;
+  initialStatementData: GetStatementResponse;
+  initialDayHistoricData: DayHistoric;
+  initialCategoriesData: Categories
 }
 
-export default function Home({session}: HomeProps) {
+export default function Home({
+  session,
+  initialStatementData,
+  initialDayHistoricData,
+  initialCategoriesData
+}: HomeProps) {
 
   const [isOpenExpenseModal, setIsOpenExpenseModal] = useState(false)
   const [isOpenGainModal, setIsOpenGainModal] = useState(false)
-  const [isManangeWalletModal, setIsManageWalletModal] = useState(false)
+  const [isManageWalletModal, setIsManageWalletModal] = useState(false)
 
   const windowSize = useWindowDimensions()
 
-  const { data: statementData, isFetching, isLoading, error } = useStatement({id: session?.id as string})
-  const { data: categoriesData } = useCategories(session?.id as string)
-  const { data: dayHistoricData } = useDayHistoric(session?.id as string)
+  const { data: statementData, isFetching, isLoading, error } = useStatement({id: session?.id as string, initialData: initialStatementData})
+  const { data: categoriesData } = useCategories({id: session?.id as string, initialData: initialCategoriesData})
+  const { data: dayHistoricData } = useDayHistoric({id: session?.id as string, initialData: initialDayHistoricData})
 
   const updateFinancialStatement = useMutation(async (statement: FinancialStatementData) => {
 
@@ -48,13 +62,12 @@ export default function Home({session}: HomeProps) {
       updated_data: statement
     })
 
-    // return response.data.data
   }, {
     onSuccess: () => {
       queryClient.invalidateQueries("statement")
       if (isOpenExpenseModal) setIsOpenExpenseModal(false)
       if (isOpenGainModal) setIsOpenGainModal(false)
-      if (isManangeWalletModal) setIsManageWalletModal(false)
+      if (isManageWalletModal) setIsManageWalletModal(false)
     },
     onError: () => {
       alert("Houve um erro ao atualizar os dados!")
@@ -67,10 +80,10 @@ export default function Home({session}: HomeProps) {
       transaction,
       old_historic: dayHistoricData
     })
-    // response.data.newHistoric
   }, {
     onSuccess: () => {
       queryClient.invalidateQueries('day_historic')
+      queryClient.invalidateQueries('metrics')
     },
     onError: () => {
       alert("Houve um erro ao atualizar o histórico!")
@@ -78,7 +91,7 @@ export default function Home({session}: HomeProps) {
   })
 
   const updateCategories = useMutation(async (updated_data: Category) => {
-    // console.log(updated_data)
+
     await api.put(`categories`, {
       updated_data,
       id: session?.id
@@ -93,7 +106,7 @@ export default function Home({session}: HomeProps) {
     }
   })
 
-  const handleCreateTransaction = (transaction: TransactionData) => {
+  const handleCreateTransaction = async (transaction: TransactionData) => {
 
     let updatedWallets = [...statementData.wallets]
 
@@ -107,7 +120,7 @@ export default function Home({session}: HomeProps) {
         
       })
 
-      updateFinancialStatement.mutateAsync({
+      await updateFinancialStatement.mutateAsync({
         day_spent: statementData.daySpent + transaction.value,
         month_spent: statementData.monthSpent + transaction.value,
         wallets: updatedWallets,
@@ -115,7 +128,7 @@ export default function Home({session}: HomeProps) {
 
       let updatedCategory = [...categoriesData.spent].find(category => category.ref['@ref'].id === transaction.category_ref)
       updatedCategory.data.month_financial = updatedCategory.data.month_financial ? updatedCategory.data.month_financial + transaction.value : transaction.value
-      updateCategories.mutateAsync(updatedCategory)
+      await updateCategories.mutateAsync(updatedCategory)
 
     } else if (transaction.type === "gain") {//create gain transaction
 
@@ -126,27 +139,30 @@ export default function Home({session}: HomeProps) {
         }
         
       })
-
-      updateFinancialStatement.mutateAsync({
-        wallets: updatedWallets
+      
+      // It is necessary to send day_spent and month_spent to avoid the day_spent bug (keep the data from the previous day)
+      await updateFinancialStatement.mutateAsync({
+        day_spent: statementData.daySpent,
+        month_spent: statementData.monthSpent,
+        wallets: updatedWallets,
       })
 
       let updatedCategory = [...categoriesData.gain].find(category => category.ref['@ref'].id === transaction.category_ref)
       updatedCategory.data.month_financial = updatedCategory.data.month_financial ? updatedCategory.data.month_financial + transaction.value : transaction.value
-      updateCategories.mutateAsync(updatedCategory)
+      await updateCategories.mutateAsync(updatedCategory)
 
     }
 
     //Add transaction in the history of the day
-    addTransactionOnHistoric.mutateAsync(transaction)
+    await addTransactionOnHistoric.mutateAsync(transaction)
 
   }
 
-  const handleUpdateWallets = (wallet_data: Wallet) => {
+  const handleUpdateWallets = async (wallet_data: Wallet) => {
     //Reutilizar a uptadeFinancialStatemetn
     
-    let wallets_updated = {...statementData.wallets}
-    const isWalletAlreadyExists = statementData.wallets.findIndex(wallet => wallet === wallet_data )
+    let wallets_updated = [...statementData.wallets]
+    const isWalletAlreadyExists = statementData.wallets.findIndex(wallet => wallet.id === wallet_data.id )
 
     if (isWalletAlreadyExists !== -1) {
       wallets_updated[isWalletAlreadyExists] = wallet_data
@@ -154,9 +170,7 @@ export default function Home({session}: HomeProps) {
       wallets_updated = [...statementData.wallets, wallet_data]
     }
 
-    // const data = {...statementData}
-
-    updateFinancialStatement.mutateAsync({wallets: wallets_updated})
+    await updateFinancialStatement.mutateAsync({wallets: wallets_updated})
   }
 
   return (
@@ -178,7 +192,7 @@ export default function Home({session}: HomeProps) {
         layoutId="add_gain_modal"
       />
       <ManageWalletModal 
-        isOpen={isManangeWalletModal}
+        isOpen={isManageWalletModal}
         closeModal={() => setIsManageWalletModal(false)}
         updateWallet={handleUpdateWallets}
         wallets={statementData?.wallets}
@@ -229,11 +243,17 @@ export const getServerSideProps = withSSRAuth(async (ctx: withSSRAuthContext) =>
   const { session } = ctx
 
   // ensureAuth middleware not working when this request is made
-  // await api.get(`statement/${session?.id}`).then(res => console.log(res.data)).catch(err => console.log(err.data))
+  const initialStatementData = await getStatement(session?.id)
+  const initialDayHistoricData = await getDayHistoric(session?.id)
+  const initialCategoriesData = await getCategories(session?.id)
+  //FAZER PARA CATEGORIES
 
   return {
     props: {
-      session
+      session,
+      initialStatementData,
+      initialDayHistoricData,
+      initialCategoriesData
     }
   }
 })

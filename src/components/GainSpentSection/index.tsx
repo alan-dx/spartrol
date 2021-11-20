@@ -8,7 +8,10 @@ import { PeriodButton } from '../PeriodButton';
 import styles from './styles.module.scss';
 
 interface GainSpentSectionProps {
-  data: any
+  data: {
+    gain: number[];
+    spent: number[];
+  }
 }
 
 export function GainSpentSection({ data }: GainSpentSectionProps) {
@@ -20,11 +23,7 @@ export function GainSpentSection({ data }: GainSpentSectionProps) {
   }
 
   const chartData = mode ==='gain' ? data.gain : data.spent
-  const valueData = mode === 'gain' ? data.gain.reduce((total, current) => total + current.value, 0) : data.spent.reduce((total, current) => total + current.value, 0) 
-  // const valueData = data.gain.reduce((total, current) => {
-  //   console.log(current)
-  //   return total + current.value
-  // }, 0)
+  const valueData = mode === 'gain' ? data.gain.reduce((total, current) => total + current, 0) : data.spent.reduce((total, current) => total + current, 0) 
 
   return (
     <div className={styles.gain_spent_container} >
@@ -34,15 +33,13 @@ export function GainSpentSection({ data }: GainSpentSectionProps) {
       </div>
       <GainSpentSelectButton mode={mode} changeMode={handleChangeMode} />
       <div className={styles.gain_spent_container__value_box}>
-        {
-          mode === 'gain' 
-          ? 
-            <CounterCurrency from={0} to={valueData} element={<span className={styles.gain_spent_container__value_box__value} />} /> 
-          :
-            <CounterCurrency from={0} to={valueData} element={<span data-mode="spent" className={styles.gain_spent_container__value_box__value} />} /> 
-
-        }
-        
+        <CounterCurrency 
+          from={0} 
+          to={valueData} 
+          element={<span data-mode={mode === "spent" ? "spent" : ""} 
+          className={styles.gain_spent_container__value_box__value} />} 
+          disableInitialAnimation 
+        /> 
         <small className={styles.gain_spent_container__value_box__label}>{mode == 'gain' ? 'ganhos' : 'gastos'} no período</small>
       </div>
       <AreaChart data={chartData} />
