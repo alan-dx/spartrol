@@ -75,11 +75,10 @@ export const getServerSideProps = withSSRAuth(async (ctx: withSSRAuthContext) =>
   //   }
   // })
 
-  //ISSO AQ SÓ DEVE OCORRER SE NÃO HOUVER CASH
+  //ISSO AQ SÓ DEVE OCORRER SE NÃO HOUVER CACHE
   const metricsData = await getMetricsData(session?.id)
   
-  // console.log('asda', querClie.findAll('metrics'))
-  console.log('asda', queryClient.getQueryData('metrics'))
+  // console.log('asda', queryClient.findAll('metrics'))
 
 
   return {

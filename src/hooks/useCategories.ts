@@ -16,6 +16,8 @@ export async function getCategories(id: string): Promise<Categories> {
     }
   })
 
+  console.log(response.data.categories.data[0])
+
   const categories: Categories = {
     gain: [],
     spent: []
@@ -37,6 +39,6 @@ export async function getCategories(id: string): Promise<Categories> {
 export function useCategories({id, initialData}: useCategoriesParams) {
   return useQuery('categories', () => getCategories(id), {
     staleTime: 1000 * 60 * 10,
-    initialData
+    // initialData
   })
 }

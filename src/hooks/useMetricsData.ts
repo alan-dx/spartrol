@@ -1,4 +1,4 @@
-import { useQuery } from 'react-query';
+import { QueryCache, useQuery } from 'react-query';
 import { api } from './../services/api';
 
 import { TransactionData } from './../@types/TransactionData';
@@ -14,7 +14,18 @@ type UseMetricsParams = {
 }
 
 export async function getMetricsData(id: string):Promise<MetricsData> {
-  console.log('1111')
+
+  const queryCache = new QueryCache({
+    onError: error => {
+      console.log(error)
+    },
+    onSuccess: data => {
+      console.log(data)
+    }
+  })
+
+  console.log('asda', queryCache.find('metrics'), process.browser)
+
   const metricsData: MetricsData = {
     gain_spent: {
       gain: [],
