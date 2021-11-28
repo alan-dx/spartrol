@@ -1,4 +1,5 @@
-import { AppProps } from 'next/app'
+import React from 'react'
+import { AppProps } from 'next/app';
 import { Provider } from 'next-auth/client'
 import '../styles/global.scss'
 import Head from 'next/head';
@@ -6,22 +7,28 @@ import Head from 'next/head';
 import { SidebarContextProvider } from '../contexts/SidebarContext'
 import { Sidebar } from '../components/Sidebar'
 
-import { QueryClientProvider } from 'react-query'
-import { queryClient } from '../services/queryClient'
+import { QueryClientProvider, QueryClient } from 'react-query'
+import { Hydrate } from 'react-query/hydration';
+import { queryClient as newQueryClient } from '../services/queryClient'
 import { ReactQueryDevtools } from 'react-query/devtools'
 
 function MyApp({ Component, pageProps }: AppProps) {
+
+  const [queryClient] = React.useState(() => newQueryClient)
+
   return (
     <QueryClientProvider client={queryClient}>
-      <Provider session={pageProps.session} >
-        <SidebarContextProvider>
-          <Sidebar />
-          <Head>
-            <title>Spartrol</title>
-          </Head>
-          <Component {...pageProps} />
-        </SidebarContextProvider>
-      </Provider>
+      <Hydrate state={pageProps.dehydratedState} >
+        <Provider session={pageProps.session} >
+          <SidebarContextProvider>
+            <Sidebar />
+            <Head>
+              <title>Spartrol</title>
+            </Head>
+            <Component {...pageProps} />
+          </SidebarContextProvider>
+        </Provider>
+      </Hydrate>
       {process.env.NODE_ENV === 'development' && <ReactQueryDevtools />}
     </QueryClientProvider>
   )

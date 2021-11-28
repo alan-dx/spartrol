@@ -132,7 +132,8 @@ export function AddGainModal({
                         <button
                           type="submit"
                           disabled={submitting}
-                          >{!submitting ? 'Confirmar' : 'Criando...'}
+                        >
+                          {!submitting ? 'Confirmar' : 'Criando...'}
                         </button>
                       </div>
                     </form>

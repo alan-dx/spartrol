@@ -19,11 +19,11 @@ export function AreaChart({data = []}: AreaChartProps) {
   let datesInterval = React.useMemo(() => {
 
     return eachDayOfInterval({
-      start: subDays(new Date(), data.length - 1),
+      start: subDays(new Date(), data?.length - 1),
       end: new Date()
     })
     
-  }, [data.length])//make it clear date.length
+  }, [data?.length])//make it clear date.length
   
   const options: ApexOptions = {
     chart: {
@@ -62,7 +62,7 @@ export function AreaChart({data = []}: AreaChartProps) {
   }
   
   const series = [
-    { name: 'Valor',  data: data}
+    { name: 'Valor',  data: data.map(item => item.toFixed(0))}
   ]
 
   return (

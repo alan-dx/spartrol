@@ -5,7 +5,6 @@ import { DayHistoric } from '../@types/DayHistoric';
 
 type useDayHistoricParams = {
   id: string;
-  initialData: DayHistoric
 }
 
 //CONTINUAR AQ
@@ -30,9 +29,9 @@ export async function getDayHistoric(id: string): Promise<DayHistoric> {
   return dayHistoric
 }
 
-export function useDayHistoric({id, initialData}: useDayHistoricParams) {
+export function useDayHistoric({id}: useDayHistoricParams) {
   return useQuery('day_historic', () => getDayHistoric(id), {
     staleTime: 1000 * 60 * 10,//10 min
-    initialData
+    // initialData
   })
 }

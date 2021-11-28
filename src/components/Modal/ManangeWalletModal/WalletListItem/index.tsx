@@ -21,28 +21,30 @@ export const WalletListItem = ({ wallet, onClick, editMode, cancelEditMode }: Wa
         </strong>
         <small className={styles.wallet_list_item_container__info_box__wallet}>{wallet.title}</small>
       </div>
-      {
-        editMode
-        ?
-          <motion.button
-          whileHover={{ scale: 1.10 }}
-          whileTap={{ scale: 0.95 }} 
-          className={styles.wallet_list_item_container__button}
-          onClick={cancelEditMode}
-          data-editMode={true}
-          >
-            {<FiX size={18} color="#FFFFFF" />}
-          </motion.button>
-        :
-          <motion.button
-            whileHover={{ scale: 1.10 }}
-            whileTap={{ scale: 0.95 }} 
-            className={styles.wallet_list_item_container__button}
-            onClick={onClick}
-          >
-            {<FiEdit size={18} color="#303030" />}
-          </motion.button>
-      }
+      <div className={styles.wallet_list_item_container__button_box}>
+        {
+          editMode
+          ?
+            <motion.button
+            whileHover={{ scale: 0.95 }}
+            whileTap={{ scale: 0.9 }} 
+            className={styles.wallet_list_item_container__button_box__button}
+            onClick={cancelEditMode}
+            data-editMode={true}
+            >
+              {<FiX size={18} color="#FFFFFF" />}
+            </motion.button>
+          :
+            <motion.button
+              whileHover={{ scale: 0.95 }}
+              whileTap={{ scale: 0.9 }} 
+              className={styles.wallet_list_item_container__button_box__button}
+              onClick={onClick}
+            >
+              {<FiEdit size={18} color="#303030" />}
+            </motion.button>
+        }
+      </div>
     </div>
   )
 }

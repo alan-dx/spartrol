@@ -5,7 +5,6 @@ import { api } from '../services/api';
 
 type useCategoriesParams = {
   id: string;
-  initialData: Categories
 }
 
 export async function getCategories(id: string): Promise<Categories> {
@@ -15,8 +14,6 @@ export async function getCategories(id: string): Promise<Categories> {
       id
     }
   })
-
-  console.log(response.data.categories.data[0])
 
   const categories: Categories = {
     gain: [],
@@ -36,7 +33,7 @@ export async function getCategories(id: string): Promise<Categories> {
   return categories
 }
 
-export function useCategories({id, initialData}: useCategoriesParams) {
+export function useCategories({id}: useCategoriesParams) {
   return useQuery('categories', () => getCategories(id), {
     staleTime: 1000 * 60 * 10,
     // initialData

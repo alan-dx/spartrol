@@ -22,8 +22,8 @@ export function GainSpentSection({ data }: GainSpentSectionProps) {
     setMode(mode)
   }
 
-  const chartData = mode ==='gain' ? data.gain : data.spent
-  const valueData = mode === 'gain' ? data.gain.reduce((total, current) => total + current, 0) : data.spent.reduce((total, current) => total + current, 0) 
+  const chartData = mode ==='gain' ? data?.gain : data?.spent
+  const valueData = mode === 'gain' ? data?.gain.reduce((total, current) => total + current, 0) : data?.spent.reduce((total, current) => total + current, 0) 
 
   return (
     <div className={styles.gain_spent_container} >

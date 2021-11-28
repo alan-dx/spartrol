@@ -10,21 +10,9 @@ type GetMetricsResponse = {
 
 type UseMetricsParams = {
   id: string;
-  initialData: MetricsData
 }
 
 export async function getMetricsData(id: string):Promise<MetricsData> {
-
-  const queryCache = new QueryCache({
-    onError: error => {
-      console.log(error)
-    },
-    onSuccess: data => {
-      console.log(data)
-    }
-  })
-
-  console.log('asda', queryCache.find('metrics'), process.browser)
 
   const metricsData: MetricsData = {
     gain_spent: {
@@ -71,13 +59,13 @@ export async function getMetricsData(id: string):Promise<MetricsData> {
   return metricsData
 }
 
-export function useMetricsData({id, initialData}: UseMetricsParams) {
+export function useMetricsData({id}: UseMetricsParams) {
   return useQuery('metrics', () => {
     console.log('222')
     return getMetricsData(id)
   }, {
     staleTime: 1000 * 60 * 10,
-    initialData
+    // initialData
   })
 
 }

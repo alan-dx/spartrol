@@ -8,9 +8,19 @@ interface ListCategoriesProps {
   title: string;
   data: Category[];
   icon: ReactNode;
+  onItemClick: (id: Category) => void;
+  editMode: Category;
+  cancelEditMode: () => void;
 }
 
-export const ListCategories = ({title, data, icon}:ListCategoriesProps) => {
+export const ListCategories = ({
+  title, 
+  data, 
+  icon, 
+  onItemClick, 
+  cancelEditMode, 
+  editMode
+}: ListCategoriesProps) => {
 
   const [ showList, setShowList ] = useState(true)
 
@@ -20,13 +30,23 @@ export const ListCategories = ({title, data, icon}:ListCategoriesProps) => {
         {icon}
         <h3 className={styles.container__button_title__title}>{title}</h3>
         {
-          showList ? (<FiChevronUp size={18} color="#8C8C8C" />) : (<FiChevronDown size={18} color="#8C8C8C" />)
+          showList ? (<FiChevronUp size={15} color="#8C8C8C" />) : (<FiChevronDown size={15} color="#8C8C8C" />)
         }
       </button>
       {
         showList &&
         <ul className={styles.container__list}>
-          {data?.map(item => (<ListItem key={item.ref['@ref'].id} item={item} />))}
+          {data?.map(item => 
+            (
+             <ListItem 
+                key={item.ref['@ref'].id} 
+                item={item} 
+                editMode={!!(editMode?.ref === item.ref)}
+                onClick={onItemClick}
+                cancelEditMode={cancelEditMode}
+             />
+            )
+          )}
         </ul>
       }
     </div>
