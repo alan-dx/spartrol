@@ -44,7 +44,7 @@ export function Navigation() {
         page="/metrics" 
         icon={<FiPieChart size={25} />} 
       />
-      <SidebarItem 
+      {/* <SidebarItem 
         onClick={() => {
           router.push('categories')
           toogleSideBar()
@@ -52,7 +52,7 @@ export function Navigation() {
         text="Categorias"
         page="/categories"
         icon={<FiList size={25} />} 
-      />
+      /> */}
       <SidebarItem 
         onClick={() => {
           router.push('goals')

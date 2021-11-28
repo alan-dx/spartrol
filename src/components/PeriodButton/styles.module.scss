@@ -1,7 +1,13 @@
+@import '../../styles/mixins/typography';
+
 .period_button_container {
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+  small {
+    @include text3; 
+  }
 
   padding: 0.2rem 0.5rem;
 
