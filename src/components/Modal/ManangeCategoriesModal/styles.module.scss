@@ -39,48 +39,26 @@
         justify-content: space-between;
     
         &__title {
-          @include heading3;
+          @include heading4;
         }
       }
     
       &__inputs_box {
-        label {
-          margin-top: 0.5rem;
-        }
-    
+            
         display: flex;
-        justify-content: center;
-        align-items: flex-end;
-        flex-direction: row;
+        flex-direction: column;
         border-bottom: 1px solid var(--gray-200);
         
-        gap: 0.5rem;
-        padding-bottom: 1rem;
-    
-        .valueBox {
+        
+        &__buttons {
+          padding: 1rem 0;
           display: flex;
           flex-direction: row;
+
+          gap: 0.5rem;
+
           align-items: center;
-          flex: 1;
-    
-          margin-top: 0.5rem; 
-    
-          div {
-            flex: 1;
-    
-            label {
-              margin-top: 0;
-            }
-    
-          }
-          
-          strong {
-            font-size: 1.35rem;
-    
-            margin-right: 0.55rem;
-            margin-top: 1.5rem;
-          }
-    
+          justify-content: space-between;
         }
     
       }
@@ -97,10 +75,10 @@
           flex-direction: column;
           max-height: 12.7rem;
           background-color: var(--white-smoke);
-          border-radius: 0.5rem;
+          border-radius: 0.6rem;
           border: 2px solid var(--white-smoke);
     
-          gap: 0.4rem;
+          gap: 0.8rem;
           padding: 0.7rem;
     
           overflow: auto;

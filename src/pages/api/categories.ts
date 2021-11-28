@@ -32,8 +32,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {//controlle
     try {
       const { id, updated_data } = req.body
 
-      console.log(id, updated_data)
-
       const updateCategoriesService = new UpdateCategoriesService()
 
       const category = await updateCategoriesService.execute({

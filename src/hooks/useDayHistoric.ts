@@ -5,11 +5,11 @@ import { DayHistoric } from '../@types/DayHistoric';
 
 type useDayHistoricParams = {
   id: string;
-  initialData: DayHistoric
 }
 
 //CONTINUAR AQ
 export async function getDayHistoric(id: string): Promise<DayHistoric> {
+
   const response = await api.get(`day_historic`, {
     params: {
       id,
@@ -19,8 +19,7 @@ export async function getDayHistoric(id: string): Promise<DayHistoric> {
 
   const dayHistoric: DayHistoric = response.data.dayHistoric
 
-  const ts = dayHistoric.ts.toString().slice(0,-3)
-  console.log(new Date(Number(ts)), new Date())
+  // const ts = dayHistoric.ts.toString().slice(0,-3)
 
   // //MOVER PARA O BACKEND
   // if (!isSameDay(new Date(Number(ts)), new Date())) {//new day, clear day historic
@@ -30,9 +29,9 @@ export async function getDayHistoric(id: string): Promise<DayHistoric> {
   return dayHistoric
 }
 
-export function useDayHistoric({id, initialData}: useDayHistoricParams) {
+export function useDayHistoric({id}: useDayHistoricParams) {
   return useQuery('day_historic', () => getDayHistoric(id), {
     staleTime: 1000 * 60 * 10,//10 min
-    initialData
+    // initialData
   })
 }

@@ -1,4 +1,4 @@
-import { useQuery } from 'react-query';
+import { QueryCache, useQuery } from 'react-query';
 import { api } from './../services/api';
 
 import { TransactionData } from './../@types/TransactionData';
@@ -10,11 +10,10 @@ type GetMetricsResponse = {
 
 type UseMetricsParams = {
   id: string;
-  initialData: MetricsData
 }
 
 export async function getMetricsData(id: string):Promise<MetricsData> {
-  console.log('1111')
+
   const metricsData: MetricsData = {
     gain_spent: {
       gain: [],
@@ -60,13 +59,13 @@ export async function getMetricsData(id: string):Promise<MetricsData> {
   return metricsData
 }
 
-export function useMetricsData({id, initialData}: UseMetricsParams) {
+export function useMetricsData({id}: UseMetricsParams) {
   return useQuery('metrics', () => {
     console.log('222')
     return getMetricsData(id)
   }, {
     staleTime: 1000 * 60 * 10,
-    initialData
+    // initialData
   })
 
 }

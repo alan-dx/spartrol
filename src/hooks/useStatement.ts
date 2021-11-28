@@ -15,10 +15,10 @@ export type GetStatementResponse = {
 
 type UseStatementParams = {
   id: string;
-  initialData?: GetStatementResponse
 }
 
 export async function getStatement(id: string): Promise<GetStatementResponse> {
+
   const response = await api.get(`statement/${id}`, {
     params: {
       current_ts: new Date().getTime()
@@ -47,9 +47,10 @@ export async function getStatement(id: string): Promise<GetStatementResponse> {
   return formattedData
 }
 
-export function useStatement({id, initialData}: UseStatementParams) {
+export function useStatement({id}: UseStatementParams) {
+
   return useQuery('statement', () => getStatement(id), {
     staleTime: 1000 * 60 * 10,//10 min
-    initialData
+    // initialData
   })
 }

@@ -2,8 +2,6 @@
 
 .container {
 
-  margin: 2rem 0;
-
   &__button_title {
     display: flex;
     align-items: center;
@@ -18,7 +16,7 @@
     }
     
     &__title {
-      @include heading3;
+      @include text2;
       color: var(--black);
     }
   }

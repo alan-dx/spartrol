@@ -2,6 +2,10 @@ import { Session } from 'next-auth'
 import { withSSRAuthContext } from '../../@types/withSSRAuthContext';
 import styles from './styles.module.scss'
 
+import { QueryClient } from 'react-query';
+import { dehydrate } from 'react-query/hydration';
+
+
 import { Header } from "../../components/Header";
 import { getCategories, useCategories } from "../../hooks/useCategories";
 import { withSSRAuth } from "../../utils/withSSRAuth";
@@ -10,12 +14,11 @@ import { ListCategories } from '../../components/ListCategories';
 import {FiMinusCircle, FiPlusCircle} from 'react-icons/fi'
 import { useMutation } from 'react-query';
 import { api } from '../../services/api';
-import { queryClient } from '../../services/queryClient';
-import { Categories as CategoriesType } from '../../@types/Categories';
+
+import { queryClient as queryClientCache } from '../../services/queryClient';
 
 interface CategoriesProps {
   session: Session;
-  initialCategoriesData: CategoriesType
 }
 
 type CreateCategoryFormData = {
@@ -23,9 +26,9 @@ type CreateCategoryFormData = {
   type?: "spent" | "gain";
 }
 
-export default function Categories({session, initialCategoriesData}: CategoriesProps) {
+export default function Categories({session}: CategoriesProps) {
 
-  const { data } = useCategories({id: session?.id as string, initialData: initialCategoriesData})
+  const { data } = useCategories({id: session?.id as string})
 
   const createCategory = useMutation(async (category: CreateCategoryFormData) => {
     const response = await api.post("/categories", {
@@ -35,8 +38,8 @@ export default function Categories({session, initialCategoriesData}: CategoriesP
     })
     return response.data.category
   }, {
-    onSuccess: () => {
-      queryClient.invalidateQueries("categories")
+    onSuccess: async () => {
+      await queryClientCache.invalidateQueries("categories")
     },
     onError: () => {
       alert("Deu erro")
@@ -64,12 +67,28 @@ export default function Categories({session, initialCategoriesData}: CategoriesP
 export const getServerSideProps = withSSRAuth(async (ctx: withSSRAuthContext) => {
   const { session } = ctx
 
-  const initialCategoriesData = await getCategories(session?.id)
+  const queryClient = new QueryClient()
+
+  if (ctx.req.url === '/categories') {//On req.url there is a difference when the user navigates from another page and accesses it for the first time
+    //this condition prevents unnecessary request to this routes. This way the requests below will 
+    //not be performed when the user changes pages, for example, only when render at first time.
+    //This was a way I found to prevent requests from being made unnecessarily, 
+    //as the data will possibly already be cached
+    //Even if the data is not cached, requests will be made on the client side
+    await queryClient.prefetchQuery('categories', () => getCategories(session?.id), {
+      staleTime: 1000 * 60 * 10
+    })
+
+    console.log('make requests at /categories')
+
+  }
+
+  // const initialCategoriesData = await getCategories(session?.id)
 
   return {
     props: {
       session,
-      initialCategoriesData
+      dehydratedState: dehydrate(queryClient),
     }
   }
 })

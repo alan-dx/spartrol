@@ -1,16 +1,24 @@
 import React from 'react';
 
+import { QueryClient } from 'react-query';
+import { dehydrate } from 'react-query/hydration';
+
+import { FiList } from 'react-icons/fi';
+
 import { Balance } from '../../components/Balance'
 import { DayExpence } from '../../components/DayExpence'
 import { Header } from '../../components/Header'
 import { LargeButton } from '../../components/LargeButton'
 import { HistoricMemoized } from '../../components/Historic'
 
-import styles from './styles.module.scss'
 import { AddSpentModal } from '../../components/Modal/AddSpentModal'
-import { useMemo, useState } from 'react'
 import { AddGainModal } from '../../components/Modal/AddGainModal'
-import { Session } from 'next-auth'
+import { ManageWalletModal } from '../../components/Modal/ManangeWalletModal';
+import { ManageCategoriesModal } from '../../components/Modal/ManangeCategoriesModal';
+
+import styles from './styles.module.scss';
+import { useMemo, useState } from 'react';
+import { Session } from 'next-auth';
 import { withSSRAuth } from '../../utils/withSSRAuth'
 import { getStatement, GetStatementResponse, useStatement } from '../../hooks/useStatement'
 import { useCategories, getCategories } from '../../hooks/useCategories'
@@ -18,43 +26,37 @@ import { getDayHistoric, useDayHistoric } from '../../hooks/useDayHistoric';
 import { useMutation } from 'react-query'
 import { api } from '../../services/api'
 
-import { queryClient } from '../../services/queryClient';
+import { queryClient as queryClientCache } from '../../services/queryClient';
+
 import useWindowDimensions from '../../hooks/useWindowDimensions';
-import { ManageWalletModal } from '../../components/Modal/ManangeWalletModal';
 import { AnimateSharedLayout } from 'framer-motion';
 
 import { FinancialStatementData } from '../../@types/FinancialStatementData';
 import { TransactionData } from '../../@types/TransactionData';
 import { Wallet } from '../../@types/Wallet';
 import { Category } from '../../@types/category';
-import { Categories } from '../../@types/Categories';
 import { withSSRAuthContext } from '../../@types/withSSRAuthContext'
-import { DayHistoric } from '../../@types/DayHistoric';
+import { CreateCategoryFormData } from '../../@types/CreateCategoryFormData';
 
 
 interface HomeProps {
   session?: Session;
-  initialStatementData: GetStatementResponse;
-  initialDayHistoricData: DayHistoric;
-  initialCategoriesData: Categories
 }
 
 export default function Home({
   session,
-  initialStatementData,
-  initialDayHistoricData,
-  initialCategoriesData
 }: HomeProps) {
 
   const [isOpenExpenseModal, setIsOpenExpenseModal] = useState(false)
   const [isOpenGainModal, setIsOpenGainModal] = useState(false)
   const [isManageWalletModal, setIsManageWalletModal] = useState(false)
+  const [isOpenManangeCategoriesModal, setIsOpenManangeCategoriesModal] = useState(false)
 
   const windowSize = useWindowDimensions()
 
-  const { data: statementData, isFetching, isLoading, error } = useStatement({id: session?.id as string, initialData: initialStatementData})
-  const { data: categoriesData } = useCategories({id: session?.id as string, initialData: initialCategoriesData})
-  const { data: dayHistoricData } = useDayHistoric({id: session?.id as string, initialData: initialDayHistoricData})
+  const { data: statementData, isFetching, isLoading } = useStatement({id: session?.id as string})
+  const { data: categoriesData } = useCategories({ id: session?.id as string })
+  const { data: dayHistoricData } = useDayHistoric({id: session?.id as string})
 
   const updateFinancialStatement = useMutation(async (statement: FinancialStatementData) => {
 
@@ -63,8 +65,8 @@ export default function Home({
     })
 
   }, {
-    onSuccess: () => {
-      queryClient.invalidateQueries("statement")
+    onSuccess: async () => {
+      await queryClientCache.invalidateQueries("statement")
       if (isOpenExpenseModal) setIsOpenExpenseModal(false)
       if (isOpenGainModal) setIsOpenGainModal(false)
       if (isManageWalletModal) setIsManageWalletModal(false)
@@ -81,9 +83,9 @@ export default function Home({
       old_historic: dayHistoricData
     })
   }, {
-    onSuccess: () => {
-      queryClient.invalidateQueries('day_historic')
-      queryClient.invalidateQueries('metrics')
+    onSuccess: async () => {
+      await queryClientCache.invalidateQueries('day_historic')
+      await queryClientCache.invalidateQueries('metrics')
     },
     onError: () => {
       alert("Houve um erro ao atualizar o histórico!")
@@ -98,13 +100,37 @@ export default function Home({
     })
 
   }, {
-    onSuccess: () => {
-      queryClient.invalidateQueries('categories')
+    onSuccess: async () => {
+      await queryClientCache.invalidateQueries('categories')
     },
     onError: () => {
       alert("Houve um erro ao atualizar os dados das categorias!")
     }
   })
+
+  const createCategory = useMutation(async (category: CreateCategoryFormData) => {
+    const response = await api.post("/categories", {
+      id: session?.id,
+      title: category.title,
+      type: category.type
+    })
+    return response.data.category
+  }, {
+    onSuccess: async () => {
+      await queryClientCache.invalidateQueries("categories")
+    },
+    onError: () => {
+      alert("Deu erro")
+    }
+  })
+
+  const handleCreateCategory = async (category: CreateCategoryFormData) => {
+    await createCategory.mutateAsync(category)
+  }
+
+  const handleUpdateCategory = async (category: Category) => {
+    await updateCategories.mutateAsync(category)
+  }
 
   const handleCreateTransaction = async (transaction: TransactionData) => {
 
@@ -198,6 +224,14 @@ export default function Home({
         wallets={statementData?.wallets}
         layoutId="manange_wallet_modal"
       />
+      <ManageCategoriesModal
+        isOpen={isOpenManangeCategoriesModal}
+        closeModal={() => setIsOpenManangeCategoriesModal(false)}
+        categories={categoriesData}
+        createCategory={handleCreateCategory}
+        updateCategories={handleUpdateCategory}
+        layoutId="manange_categories_modal"
+      />
       <Header />
       <main className={styles.main__container} >
         <div className={styles.main__container__wrapper}>
@@ -226,9 +260,9 @@ export default function Home({
               <span className={styles.main__container__wrapper__buttons_box__button_text}>{windowSize.width > 768 && 'Adicionar'} despesa </span>
               <img className={styles.main__container__wrapper__buttons_box__button_icon} src="/icons/money_icon_minus.svg" alt="manage portfolio" />
             </LargeButton>
-            <LargeButton layout disabled={statementData?.wallets.length === 0 || isLoading} onClick={() => setIsOpenGainModal(true)}>
-              <span className={styles.main__container__wrapper__buttons_box__button_text}>Metas {windowSize.width > 768 && 'mensais'}</span>
-              <img className={styles.main__container__wrapper__buttons_box__button_icon} src="/icons/money_icon_target.svg" alt="manage portfolio" />
+            <LargeButton layout layoutId="manange_categories_modal" disabled={statementData?.wallets.length === 0 || isLoading} onClick={() => setIsOpenManangeCategoriesModal(true)}>
+              <span className={styles.main__container__wrapper__buttons_box__button_text}>{windowSize.width > 768 && 'Gerenciar'} categorias</span>
+              <FiList size={25} color="#D8CF5D" />
             </LargeButton>
           </div>
           <HistoricMemoized data={dayHistoricData?.data.historic} categories={categoriesData} />
@@ -242,18 +276,35 @@ export const getServerSideProps = withSSRAuth(async (ctx: withSSRAuthContext) =>
 
   const { session } = ctx
 
+  const queryClient = new QueryClient()
+  console.log(ctx.req.url)
+  if (ctx.req.url === '/home') {//On req.url there is a difference when the user navigates from another page and accesses it for the first time
+    //this condition prevents unnecessary request to this routes. This way the requests below will 
+    //not be performed when the user changes pages, for example, only when render at first time.
+    //This was a way I found to prevent requests from being made unnecessarily, 
+    //as the data will possibly already be cached
+    //Even if the data is not cached, requests will be made on the client side
+    await queryClient.prefetchQuery('statement', () => getStatement(session?.id), {
+      staleTime: 1000 * 60 * 10
+    })
+    await queryClient.prefetchQuery('categories', () => getCategories(session?.id), {
+      staleTime: 1000 * 60 * 10
+    })
+    await queryClient.prefetchQuery('day_historic', () => getDayHistoric(session?.id), {
+      staleTime: 1000 * 60 * 10
+    })
+    console.log('make requests at /home')
+  }
+
   // ensureAuth middleware not working when this request is made
-  const initialStatementData = await getStatement(session?.id)
-  const initialDayHistoricData = await getDayHistoric(session?.id)
-  const initialCategoriesData = await getCategories(session?.id)
-  //FAZER PARA CATEGORIES
+  // const initialStatementData = await getStatement(session?.id)
+  // const initialDayHistoricData = await getDayHistoric(session?.id)
+  // const initialCategoriesData = await getCategories(session?.id)
 
   return {
     props: {
       session,
-      initialStatementData,
-      initialDayHistoricData,
-      initialCategoriesData
+      dehydratedState: dehydrate(queryClient),
     }
   }
 })
