@@ -1,4 +1,6 @@
 import React from 'react';
+import { Categories } from '../../@types/Categories';
+import { MetricsData } from '../../@types/MetricsData';
 
 import { BarChart } from '../Charts/BarChart';
 import { GainSpentSelectButton } from '../GainSpentSelectButton';
@@ -6,12 +8,12 @@ import { PeriodButton } from '../PeriodButton';
 
 import styles from './styles.module.scss';
 
-
 interface BalanceByCategorySectionProps {
-  data: any
+  data: MetricsData["categories"];
+  categories: Categories
 }
 
-export function BalanceByCategorySection({data}: BalanceByCategorySectionProps) {
+export function BalanceByCategorySection({data, categories}: BalanceByCategorySectionProps) {
 
   const [mode, setMode] = React.useState<'gain' | 'spent'>('gain')
 
@@ -19,7 +21,8 @@ export function BalanceByCategorySection({data}: BalanceByCategorySectionProps) 
     setMode(mode)
   }
 
-  const chartData = mode ==='gain' ? data.gain : data.spent
+  const chartData: [string, number][][] = mode ==='gain' ? data.gain : data.spent
+  const categoriesByType: Categories["gain" | "spent"] = mode === 'gain' ? categories.gain : categories.spent
 
   return (
     <div className={styles.balance_by_category_container}>
@@ -29,7 +32,7 @@ export function BalanceByCategorySection({data}: BalanceByCategorySectionProps) 
       </div>
       <GainSpentSelectButton mode={mode} changeMode={handleChangeMode} />
       <div className={styles.balance_by_category_container__chart_box}>
-        <BarChart data={chartData} />
+        <BarChart data={chartData} categories={categoriesByType} />
       </div>
     </div>
   )

@@ -18,6 +18,7 @@ import { getStatement, useStatement } from '../../hooks/useStatement';
 import { withSSRAuth } from '../../utils/withSSRAuth';
 import { withSSRAuthContext } from '../../@types/withSSRAuthContext';
 import { getMetricsData, useMetricsData } from '../../hooks/useMetricsData';
+import { getCategories, useCategories } from '../../hooks/useCategories';
 
 
 interface MetricsProps {
@@ -32,6 +33,7 @@ export default function Metrics({
 
   const { data: statementData, isFetching, isLoading, error } = useStatement({id: session?.id as string})
   const { data: metricsData } = useMetricsData({id: session?.id as string})
+  const { data: categoriesData } = useCategories({id: session?.id as string})
 
   const historicData = historicTestData
 
@@ -49,7 +51,7 @@ export default function Metrics({
           </i>
           <GainSpentSection data={metricsData?.gain_spent} />
           <TargetSpentSection monthSpent={statementData?.monthSpent} monthTarget={statementData?.monthTarget} />
-          <BalanceByCategorySection data={historicData.historic} />
+          <BalanceByCategorySection data={metricsData?.categories} categories={categoriesData} />
           <PortfolioSection data={statementData} />
         </div>
       </main>      
@@ -69,7 +71,6 @@ export const getServerSideProps = withSSRAuth(async (ctx: withSSRAuthContext) =>
     staleTime: 1000 * 60 * 10
   })
 
-  console.log(ctx.req.url)
   if (ctx.req.url === '/metrics') {//On req.url there is a difference when the user navigates from another page and accesses it for the first time
     //this condition prevents unnecessary request to this routes. This way the requests below will 
     //not be performed when the user changes pages, for example.
@@ -77,6 +78,9 @@ export const getServerSideProps = withSSRAuth(async (ctx: withSSRAuthContext) =>
     //as the data will possibly already be cached
     //Even if the data is not cached, requests will be made on the client side
     await queryClient.prefetchQuery('statement', () => getStatement(session?.id), {
+      staleTime: 1000 * 60 * 10
+    })
+    await queryClient.prefetchQuery('categories', () => getCategories(session?.id), {
       staleTime: 1000 * 60 * 10
     })
     console.log('make requests at /metrics', ctx.req.url)

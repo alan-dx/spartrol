@@ -11,7 +11,7 @@ class ListMetricsDataService {
     let metrics = []
     //6 5 4 3 2 1 0
     //0 1 2 3 4 5 6 7
-    for (let count = period - 1; count >= 0; count --) {
+    for (let count = period - 1; count >= 0; count--) {
       let ts: number;
       if (count > 0) {
         let date = endOfDay(subDays(new Date(current_ts), count))
@@ -23,7 +23,7 @@ class ListMetricsDataService {
       }
       
       //SOLVE: Instance not found here
-      const eachDayMetric = await fauna.query<HistoricDayMetricsData>(
+      await fauna.query<HistoricDayMetricsData>(
         q.At(
           ts,
           q.Select(
@@ -36,11 +36,16 @@ class ListMetricsDataService {
           )
         )
       )
-      
-      // console.log(eachDayMetric.historic, count)
-      metrics.push(eachDayMetric.historic)//maior data > menor data
-    }
+      .then(response => {
+        metrics.push(response.historic)//maior data > menor data
+      }).catch(err => {
+        // console.log(err)
+        metrics.push([])
+      })
 
+      
+      // metrics.push(eachDayMetric.historic)//maior data > menor data
+    }
 
     return metrics
 

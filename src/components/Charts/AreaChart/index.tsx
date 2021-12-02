@@ -62,7 +62,7 @@ export function AreaChart({data = []}: AreaChartProps) {
   }
   
   const series = [
-    { name: 'Valor',  data: data.map(item => item.toFixed(0))}
+    { name: 'Valor',  data: data.map(item => item.toFixed(2))}
   ]
 
   return (

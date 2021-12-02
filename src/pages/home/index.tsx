@@ -246,23 +246,20 @@ export default function Home({
           </div>
           <div className={styles.main__container__wrapper__buttons_box} >
             <LargeButton layout layoutId="manange_wallet_modal" disabled={isLoading} onClick={() => setIsManageWalletModal(true)}>
-              {/* <FiCreditCard size={20} color="#59D266" /> */}
               <span className={styles.main__container__wrapper__buttons_box__button_text}>{windowSize.width > 768 && 'Gerenciar'} carteira</span>
               <img className={styles.main__container__wrapper__buttons_box__button_icon} src="/icons/wallet_icon_manage.svg" alt="manage portfolio" />
             </LargeButton>
             <LargeButton layout layoutId="add_gain_modal" disabled={statementData?.wallets.length === 0 || isLoading} onClick={() => setIsOpenGainModal(true)}>
-              {/* <FiPlusCircle size={20} color="#59D266" /> */}
               <span className={styles.main__container__wrapper__buttons_box__button_text}>{windowSize.width > 768 && 'Adicionar'} ganho</span>
               <img className={styles.main__container__wrapper__buttons_box__button_icon} src="/icons/money_icon_add.svg" alt="manage portfolio" />
             </LargeButton>
             <LargeButton layout layoutId="add_spent_modal" disabled={statementData?.wallets.length === 0 || isLoading} onClick={() => setIsOpenExpenseModal(true)}>
-              {/* <FiMinusCircle size={20} color="#F03E35" /> */}
               <span className={styles.main__container__wrapper__buttons_box__button_text}>{windowSize.width > 768 && 'Adicionar'} despesa </span>
               <img className={styles.main__container__wrapper__buttons_box__button_icon} src="/icons/money_icon_minus.svg" alt="manage portfolio" />
             </LargeButton>
             <LargeButton layout layoutId="manange_categories_modal" disabled={statementData?.wallets.length === 0 || isLoading} onClick={() => setIsOpenManangeCategoriesModal(true)}>
               <span className={styles.main__container__wrapper__buttons_box__button_text}>{windowSize.width > 768 && 'Gerenciar'} categorias</span>
-              <FiList size={25} color="#D8CF5D" />
+              <FiList size={35} color="#D8CF5D" />
             </LargeButton>
           </div>
           <HistoricMemoized data={dayHistoricData?.data.historic} categories={categoriesData} />

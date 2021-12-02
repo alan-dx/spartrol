@@ -39,14 +39,24 @@ export async function getMetricsData(id: string):Promise<MetricsData> {
     let sumGainValues = 0
     let sumSpentValues = 0
 
-    let sumGainCategories = []
-    let sumValueCategories = []
+    let sumGainCategories = new Map()//it's easier to iterate over Map objects
+    let sumSpentCategories = new Map()
 
     metrics_of_day.forEach(metric => {
       if (metric.type === 'gain') {
         sumGainValues += metric.value
+
+        sumGainCategories.set(
+          metric.category_ref, 
+          sumGainCategories.has(metric.category_ref) ? sumGainCategories.get(metric.category_ref) + metric.value : metric.value
+        )
       } else {
         sumSpentValues += metric.value
+
+        sumSpentCategories.set(
+          metric.category_ref, 
+          sumSpentCategories.has(metric.category_ref) ? sumSpentCategories.get(metric.category_ref) + metric.value : metric.value
+        )
       }
 
     })
@@ -54,14 +64,18 @@ export async function getMetricsData(id: string):Promise<MetricsData> {
     metricsData.gain_spent.gain.push(sumGainValues)
     metricsData.gain_spent.spent.push(sumSpentValues)
     
-  })
+    //transform a map into a 2D key-value Array because Map object cannot be serialized as JSON and it's cause a error when SSR (Error serializing)
+    //metricsData.categories.spent.push(sumSpentCategories)  //uncomment to see the error
+    metricsData.categories.gain.push(Array.from(sumGainCategories))
+    metricsData.categories.spent.push(Array.from(sumSpentCategories))
+    
+  }) 
 
   return metricsData
 }
 
 export function useMetricsData({id}: UseMetricsParams) {
   return useQuery('metrics', () => {
-    console.log('222')
     return getMetricsData(id)
   }, {
     staleTime: 1000 * 60 * 10,

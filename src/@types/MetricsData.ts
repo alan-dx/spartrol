@@ -4,7 +4,7 @@ export type MetricsData = {
     spent: number[]
   },
   categories: {
-    gain: number[],
-    spent: number[]
+    gain: Array<[string, number][]>,//array with many 2d key-value arrays
+    spent: any
   }
 }
