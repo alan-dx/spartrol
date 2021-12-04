@@ -2,46 +2,52 @@
 
 .gain_spent_select_button_container {
   display: flex;
-
-  &__button {
-    border: 0;
-    background-color: transparent;
-    
-    display: flex;
-    flex-direction: column;
-
-    @include text3;
-    color: var(--gray-900);
-
-    &:first-child {
-      margin-right: 0.6rem;
-    }
-
-    &[data-select="gain"] {
-      color: var(--black-700);
-      font-weight: 700;
-      &::after {
-        content: '';
-        height: 3px;
-        width: 100%;
-        background-color: var(--green);
-      }
-
-      }
-
-    &[data-select="spent"] {
-      color: var(--black-700);
-      font-weight: 600;
-
-      &::after {
-        content: '';
-        height: 3px;
-        width: 100%;
-        background-color: var(--red);
-      }
-
-    }
+  justify-content: space-between;
   
+  &__buttons_box {
+    display: flex;
 
+    &__button {
+      border: 0;
+      background-color: transparent;
+      
+      display: flex;
+      flex-direction: column;
+  
+      @include text3;
+      color: var(--gray-900);
+  
+      &:first-child {
+        margin-right: 0.6rem;
+      }
+  
+      &[data-select="gain"] {
+        color: var(--black-700);
+        font-weight: 700;
+        &::after {
+          content: '';
+          height: 3px;
+          width: 100%;
+          background-color: var(--green);
+        }
+  
+        }
+  
+      &[data-select="spent"] {
+        color: var(--black-700);
+        font-weight: 600;
+  
+        &::after {
+          content: '';
+          height: 3px;
+          width: 100%;
+          background-color: var(--red);
+        }
+  
+      }
+    
+  
+    }
+    
   }
 }

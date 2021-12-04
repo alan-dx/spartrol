@@ -2,7 +2,7 @@ import dynamic from 'next/dynamic';
 import React from 'react';
 import { ApexOptions } from 'apexcharts'
 
-import { eachDayOfInterval, subDays } from 'date-fns';
+import { eachDayOfInterval, subDays, format } from 'date-fns';
 
 import styles from './styles.module.scss'
 
@@ -57,7 +57,12 @@ export function AreaChart({data = []}: AreaChartProps) {
       enabled: false
     },
     xaxis: {
-      categories: datesInterval.map(date => date.getUTCDate()),
+      categories: datesInterval.map(date => format(date, 'dd/MM')),
+      labels: {
+        style: {
+          fontSize: '0.7rem'
+        }
+      }
     }
   }
   

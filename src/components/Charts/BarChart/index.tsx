@@ -63,6 +63,12 @@ export function BarChart({ data, categories }:BarChartProps) {
       categories: Array.from(XAxisCategories.keys()).map(category_id => {
         return categories.find(category => category_id === category.ref['@ref'].id).data.title
       }),
+      labels: {
+        trim: true,
+        style: {
+          fontSize: '0.7rem'
+        }
+      }
     }
   }
   
