@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from './styles.module.scss';
+import { format, subDays, parseISO } from 'date-fns';
 
 interface GainSpentSelectButtonProps {
   mode: 'gain' | 'spent';
@@ -26,7 +27,11 @@ export function GainSpentSelectButton({ mode, changeMode }: GainSpentSelectButto
           Despesas
         </button>
       </div>
-      <span>17/11 - 24/11</span>
+      <small 
+        className={styles.gain_spent_select_button_container__period_box}
+      >
+        {format(subDays(new Date(), 6), 'dd/MM')} - {format(new Date(), 'dd/MM')}
+      </small>
     </div>
   )
 }

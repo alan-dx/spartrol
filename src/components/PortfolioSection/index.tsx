@@ -18,7 +18,7 @@ export function PortfolioSection({ data }: PortfolioSectionProps) {
   return (
     <div className={styles.gain_spent_container} >
       <div className={styles.gain_spent_container__title_box} >
-        <h3 className={styles.gain_spent_container__title_box__title}>Composição da carteira</h3>
+        <h3 className={styles.gain_spent_container__title_box__title}>Composição do patrimônio</h3>
       </div>
       <div className={styles.gain_spent_container__value_box}>
         <span className={styles.gain_spent_container__value_box__value}>

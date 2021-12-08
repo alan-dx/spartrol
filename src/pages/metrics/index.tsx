@@ -46,9 +46,9 @@ export default function Metrics({
       <Header />
       <main className={styles.metrics__container}>
         <div className={styles.metrics__container__wrapper}>
-          <i className={styles.metrics__container__wrapper__alert}>
+          {/* <i className={styles.metrics__container__wrapper__alert}>
             As funcionalidades desta página ainda estão em desenvolvimento, alguns dos dados aqui mostrados são apenas ilustrativos!
-          </i>
+          </i> */}
           <GainSpentSection data={metricsData?.gain_spent} />
           <TargetSpentSection monthSpent={statementData?.monthSpent} monthTarget={statementData?.monthTarget} />
           <BalanceByCategorySection data={metricsData?.categories} categories={categoriesData} />

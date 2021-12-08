@@ -1,4 +1,6 @@
 @import '../styles/mixins/details';
+@import '../styles/mixins/typography';
+
 
 .container {
   height: 100vh;
@@ -21,6 +23,7 @@
     h1 {
       margin-bottom: 1.6rem;
       font-size: 1.8rem;
+      @include heading1;
     }
 
     h2 {

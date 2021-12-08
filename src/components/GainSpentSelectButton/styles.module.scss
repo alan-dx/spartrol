@@ -3,6 +3,8 @@
 .gain_spent_select_button_container {
   display: flex;
   justify-content: space-between;
+
+  margin-top: 0.3rem;
   
   &__buttons_box {
     display: flex;
@@ -49,5 +51,17 @@
   
     }
     
+  }
+
+  &__period_box {
+    @include text3;
+    color: var(--black-700);
+
+    border-radius: 1rem;
+
+    padding: 0.3rem 0.5rem;
+    
+
+    background-color: var(--gray-200);
   }
 }
