@@ -16,16 +16,32 @@
   @include border-radius;
   box-shadow: 4px 3px 10px rgba($color: #8AD7D7, $alpha: 0.5);
   
-  &__title {
-    @include text3;
-    width: fit-content;
-    color: var(--white);
+  &__title_box {
+    display: flex;
 
-    background-color: var(--blue-dark);
-    border-radius: 1rem;
+    &__title {
+      @include text3;
+      width: fit-content;
+      color: var(--white);
+  
+      background-color: var(--blue-dark);
+      border-radius: 1rem;
+  
+      padding: 0.3rem 0.5rem;
+      margin-bottom: 0.3rem; 
+    }
 
-    padding: 0.3rem 0.5rem;
-    margin-bottom: 0.3rem;
+    &__hidden_button {
+      display: flex;
+
+      align-items: center;
+      justify-content: center;
+      margin-left: 0.5rem;
+
+      border: 0;
+      background-color: var(--transparent);
+
+    }
   }
 
   &__equity_box {
@@ -36,14 +52,21 @@
       @include heading1;
   
       color: var(--white); 
+
+      &[data-hidden = "false"] {
+        background: rgb(138,215,215);
+        background: linear-gradient(90deg, rgba(138,215,215,1) 0%, rgba(121,201,201,1) 35%, rgba(121,201,201,1) 50%, rgba(121,201,201,1) 65%, rgba(138,215,215,1) 100%);
+        color: transparent;
+      }
     }
 
     &__chart_button {
       display: flex;
       align-items: center;
-      justify-content: center ;
+      justify-content: center;
       
       background-color: var(--white);
+      border: 0;
 
       height: 2.2rem;
       width: 2.2rem;

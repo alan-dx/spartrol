@@ -1,5 +1,5 @@
 import React, { ReactElement } from 'react'
-import { motion, animate, AnimationPlaybackControls } from 'framer-motion'
+import { animate, AnimationPlaybackControls } from 'framer-motion'
 
 interface CounterProps {
   from: number;
