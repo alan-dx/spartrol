@@ -37,6 +37,7 @@ import { Wallet } from '../../@types/Wallet';
 import { Category } from '../../@types/category';
 import { withSSRAuthContext } from '../../@types/withSSRAuthContext'
 import { CreateCategoryFormData } from '../../@types/CreateCategoryFormData';
+import { SideNavbar } from '../../components/SideNavbar';
 
 
 interface HomeProps {
@@ -232,39 +233,41 @@ export default function Home({
         updateCategories={handleUpdateCategory}
         layoutId="manange_categories_modal"
       />
-      <Header />
-      <main className={styles.main__container} >
-        <div className={styles.main__container__wrapper}>
-          <div className={styles.main__container__wrapper__info_box} >
-            <Balance isLoading={isLoading} balance={statementData?.equity} wallets={statementData?.wallets} />
-            <DayExpence 
-              daySpent={statementData?.daySpent} 
-              monthSpent={useMemo(() => Number(statementData?.monthSpent), [statementData?.monthSpent])} 
-              monthTarget={statementData?.monthTarget}
-              windowSize={windowSize}
-            />
+      <div className={styles.container}>
+        <SideNavbar />
+        <main className={styles.container__main__container} >
+          <div className={styles.container__main__container__wrapper}>
+            <div className={styles.container__main__container__wrapper__info_box} >
+              <Balance isLoading={isLoading} balance={statementData?.equity} wallets={statementData?.wallets} />
+              <DayExpence 
+                daySpent={statementData?.daySpent} 
+                monthSpent={useMemo(() => Number(statementData?.monthSpent), [statementData?.monthSpent])} 
+                monthTarget={statementData?.monthTarget}
+                windowSize={windowSize}
+              />
+            </div>
+            <div className={styles.container__main__container__wrapper__buttons_box} >
+              <LargeButton layout layoutId="manange_wallet_modal" disabled={isLoading} onClick={() => setIsManageWalletModal(true)}>
+                <span className={styles.container__main__container__wrapper__buttons_box__button_text}>{windowSize.width > 768 && 'Gerenciar'} carteiras</span>
+                <img className={styles.container__main__container__wrapper__buttons_box__button_icon} src="/icons/wallet_icon_manage.svg" alt="manage portfolio" />
+              </LargeButton>
+              <LargeButton layout layoutId="add_gain_modal" disabled={statementData?.wallets.length === 0 || isLoading} onClick={() => setIsOpenGainModal(true)}>
+                <span className={styles.container__main__container__wrapper__buttons_box__button_text}>{windowSize.width > 768 && 'Adicionar'} ganho</span>
+                <img className={styles.container__main__container__wrapper__buttons_box__button_icon} src="/icons/money_icon_add.svg" alt="manage portfolio" />
+              </LargeButton>
+              <LargeButton layout layoutId="add_spent_modal" disabled={statementData?.wallets.length === 0 || isLoading} onClick={() => setIsOpenExpenseModal(true)}>
+                <span className={styles.container__main__container__wrapper__buttons_box__button_text}>{windowSize.width > 768 && 'Adicionar'} despesa </span>
+                <img className={styles.container__main__container__wrapper__buttons_box__button_icon} src="/icons/money_icon_minus.svg" alt="manage portfolio" />
+              </LargeButton>
+              <LargeButton layout layoutId="manange_categories_modal" disabled={statementData?.wallets.length === 0 || isLoading} onClick={() => setIsOpenManangeCategoriesModal(true)}>
+                <span className={styles.container__main__container__wrapper__buttons_box__button_text}>{windowSize.width > 768 && 'Gerenciar'} categorias</span>
+                <FiList size={35} color="#D8CF5D" />
+              </LargeButton>
+            </div>
+            <HistoricMemoized data={dayHistoricData?.data.historic} categories={categoriesData} />
           </div>
-          <div className={styles.main__container__wrapper__buttons_box} >
-            <LargeButton layout layoutId="manange_wallet_modal" disabled={isLoading} onClick={() => setIsManageWalletModal(true)}>
-              <span className={styles.main__container__wrapper__buttons_box__button_text}>{windowSize.width > 768 && 'Gerenciar'} carteiras</span>
-              <img className={styles.main__container__wrapper__buttons_box__button_icon} src="/icons/wallet_icon_manage.svg" alt="manage portfolio" />
-            </LargeButton>
-            <LargeButton layout layoutId="add_gain_modal" disabled={statementData?.wallets.length === 0 || isLoading} onClick={() => setIsOpenGainModal(true)}>
-              <span className={styles.main__container__wrapper__buttons_box__button_text}>{windowSize.width > 768 && 'Adicionar'} ganho</span>
-              <img className={styles.main__container__wrapper__buttons_box__button_icon} src="/icons/money_icon_add.svg" alt="manage portfolio" />
-            </LargeButton>
-            <LargeButton layout layoutId="add_spent_modal" disabled={statementData?.wallets.length === 0 || isLoading} onClick={() => setIsOpenExpenseModal(true)}>
-              <span className={styles.main__container__wrapper__buttons_box__button_text}>{windowSize.width > 768 && 'Adicionar'} despesa </span>
-              <img className={styles.main__container__wrapper__buttons_box__button_icon} src="/icons/money_icon_minus.svg" alt="manage portfolio" />
-            </LargeButton>
-            <LargeButton layout layoutId="manange_categories_modal" disabled={statementData?.wallets.length === 0 || isLoading} onClick={() => setIsOpenManangeCategoriesModal(true)}>
-              <span className={styles.main__container__wrapper__buttons_box__button_text}>{windowSize.width > 768 && 'Gerenciar'} categorias</span>
-              <FiList size={35} color="#D8CF5D" />
-            </LargeButton>
-          </div>
-          <HistoricMemoized data={dayHistoricData?.data.historic} categories={categoriesData} />
-        </div>
-      </main>
+        </main>
+      </div>
     </AnimateSharedLayout>
   )
 }
@@ -274,7 +277,7 @@ export const getServerSideProps = withSSRAuth(async (ctx: withSSRAuthContext) =>
   const { session } = ctx
 
   const queryClient = new QueryClient()
-  console.log(ctx.req.url)
+  
   if (ctx.req.url === '/home') {//On req.url there is a difference when the user navigates from another page and accesses it for the first time
     //this condition prevents unnecessary request to this routes. This way the requests below will 
     //not be performed when the user changes pages, for example, only when render at first time.

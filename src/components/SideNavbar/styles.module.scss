@@ -1,0 +1,133 @@
+@import '../../styles/mixins/responsive';
+@import '../../styles/mixins/typography';
+
+
+.navbar__container {
+  display: none;
+  
+  @include md {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 4rem;
+  
+    padding: 0.5rem 0 0.5rem 0.5rem;
+    justify-content: space-between;
+    position: relative;
+  
+    background-color: var(--blue);
+
+    will-change: width;
+    transition: all 0.6s ease;
+
+    &[data-open="true"] {
+      width: 13rem;
+    }
+  }
+
+  &__open_button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0.7rem;
+    margin-right: 0.5rem;
+
+    border: 0;
+    line-height: 0px;
+    background-color: transparent;
+    transition: background-color 0.6s;
+
+    @include md {
+      justify-content: space-between;
+    }
+
+    &:hover {
+      border-radius: 0.3rem;
+      background-color: var(--blue-dark);
+    }
+
+    &__label {
+      display: none;
+      color: var(--white-smoke);
+      @include text2;
+      
+      &[data-open='true'] {
+        display: block;
+      }
+      
+    }
+
+    i {
+      line-height: 0px;
+    }
+  }
+
+  &__logout_box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin-right: 0.7rem;
+
+    height: 3.5rem;
+    padding: 0 0.5rem;
+    
+    border-radius: 0.3rem;
+    background-color: var(--blue-dark);
+
+    overflow: hidden;
+
+    &__profile {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      margin-right: 0.6rem;
+
+      &[data-open="false"] {
+        display: none;
+      }
+      
+      &__photo {
+
+        width: 2.8rem;
+        border-radius: 0.3rem;
+        padding: 0;
+        margin: 0;
+        
+        margin-right: 0.4rem;
+      }
+      &__text_box {
+        display: flex;
+        flex-direction: column;
+        pointer-events: none;
+        
+        &__name {
+          color: var(--white-smoke);
+          @include text3;
+  
+          align-self: flex-start;
+          
+          white-space: nowrap;
+          line-height: 0.6rem;
+        }
+
+        &__day {
+          @include text4;
+          color: var(--blue-extra-dark);
+        }
+
+      }
+    }
+    
+    &__button {
+      line-height: 0px;
+      
+      background-color: transparent;
+      border: 0;
+
+    }
+  }
+}
+

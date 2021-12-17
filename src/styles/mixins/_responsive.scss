@@ -8,9 +8,9 @@ $screen-xxl-min: 1400px;
 $container-max-width-xs: 100vw;
 $container-max-width-sm: 540px;
 $container-max-width-md: 720px;
-$container-max-width-lg: 960px;
-$container-max-width-xl: 1140px;
-$container-max-width-xll: 1320px;
+$container-max-width-lg: 900px;
+$container-max-width-xl: 1000px;
+$container-max-width-xll: 1200px;
 
 //responsive
 @mixin xs {
@@ -67,21 +67,28 @@ $container-max-width-xll: 1320px;
   @include md {
     margin: 0 auto;
     flex-basis: $container-max-width-md;
+    padding: 0 35px;
   }
   
   @include lg {
     margin: 0 auto;
     flex-basis: $container-max-width-lg;
+    padding: 0 35px;
+
   }
   
   @include xl {
     margin: 0 auto;
     flex-basis: $container-max-width-xl;
+    padding: 0 35px;
+
   }
   
   @include xxl {
     margin: 0 auto;
     flex-basis: $container-max-width-xll;
+    padding: 0 35px;
+
   }
  
 }

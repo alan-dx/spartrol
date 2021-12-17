@@ -23,7 +23,7 @@ export function Sidebar() {
   return (
     <AnimatePresence>
       {
-        isOpen && (
+        false && (
           <div className={styles.container}>
             <motion.nav
               initial={{

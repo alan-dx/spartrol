@@ -37,6 +37,9 @@ export function DonutChart({ data = [] }: DonutChartProps) {
               offsetY: -10,
               formatter: (percent: string) => `${new Intl.NumberFormat('pt-BR', {style: 'currency', currency: 'BRL'}).format(Number(percent))}`
             },
+            total:{
+              show: false
+            }
           }
         }
       }

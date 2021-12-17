@@ -1,0 +1,89 @@
+@import '../../../styles/mixins/responsive';
+@import '../../../styles/mixins/typography';
+
+
+.navigation__container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+
+  &__links_list {
+    list-style: none;
+    width: 100%;
+
+    &__link {
+      display: flex;
+      height: 3.5rem;
+      width: 100%;
+
+      padding: 0 0.7rem;
+      align-items: center;
+      justify-content: center;
+      
+      position: relative;
+      cursor: pointer;
+
+      i {
+        line-height: 0px;
+      }
+
+      color: var(--blue-extra-dark);
+      @include text2;
+
+      @include md {
+        justify-content: flex-start;
+
+        &__label {
+          margin-left: 0.8rem;
+          overflow-x: hidden;
+        }
+      }
+     
+      &[data-active='true'] {
+        background-color: var(--white-smoke);
+        border-top-left-radius: 0.6rem;
+        border-bottom-left-radius: 0.6rem;
+
+        color: var(--black);
+        
+        svg {
+          stroke: var(--black);
+        }
+
+        //outline curve
+        &::after {
+          content: '';
+          width: 1.3rem;
+          height: 1.3rem;
+
+          position: absolute;
+          right: 0;
+          bottom: 3.5rem;
+
+          background-color: transparent;
+          border-radius: 7px;
+          box-shadow: 8px 10px 0 3px var(--white-smoke);
+
+        }
+
+        &::before {
+          content: '';
+          width: 1.3rem;
+          height: 1.3rem;
+
+          position: absolute;
+          right: 0;
+          top: 3.5rem;
+
+          background-color: transparent;
+          border-radius: 7px;
+          box-shadow: 8px -10px 0 3px var(--white-smoke);
+          
+        }
+        //outline curve
+      }
+
+    }
+  }
+}

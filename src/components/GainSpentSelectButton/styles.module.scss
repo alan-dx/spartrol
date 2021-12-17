@@ -1,5 +1,6 @@
 @import '../../styles/mixins/typography';
 
+
 .gain_spent_select_button_container {
   display: flex;
   justify-content: space-between;
@@ -47,21 +48,19 @@
         }
   
       }
-    
   
     }
     
   }
 
   &__period_box {
-    @include text3;
-    color: var(--black-700);
-
-    border-radius: 1rem;
-
-    padding: 0.3rem 0.5rem;
+    @include text4;
     
+    padding: 0.3rem 0.7rem;
+    
+    border-radius: 1rem;
+    color: var(--black-700);
+    background-color: var(--gray-100);
 
-    background-color: var(--gray-200);
   }
 }

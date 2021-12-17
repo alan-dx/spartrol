@@ -1,54 +1,60 @@
 @import '../../styles/mixins/responsive';
 @import '../../styles/mixins/typography';
 
-.main__container {
-
+.container {
   display: flex;
-  justify-content: center;
+  flex-direction: row;
+
+  &__main__container {
+    display: flex;
+    flex: 1;
+
+    margin-top: 4rem;
+
+    &__wrapper {
+      
+      @include wrapper;
+      
+      &__info_box {
+        
+        display: flex;
+        flex-direction: column;
+        
+        @include md {
+          flex-direction: row;
+        }
+      }
   
-  &__wrapper {
-    
-    @include wrapper;
-    
-    &__info_box {
-      
-      display: flex;
-      flex-direction: column;
-      
-      @include md {
+      &__buttons_box {
+        display: flex;
         flex-direction: row;
-      }
-    }
-
-    &__buttons_box {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      height: 4.67rem;
-      
-      margin-top: 1.5rem;
-      
-      &__button_text {
-        // @include text3;
-        font-size: 0.75rem;
-        color: var(--black-700);
-        text-transform: capitalize;
-        margin-top: 0.2rem;
+        align-items: center;
+        height: 4.67rem;
         
-        @include md {
-          text-transform: none;
-          margin: 0;
+        margin-top: 1.5rem;
+        
+        &__button_text {
+          // @include text3;
+          font-size: 0.75rem;
+          color: var(--black-700);
+          text-transform: capitalize;
+          margin-top: 0.2rem;
+          
+          @include md {
+            text-transform: none;
+            margin: 0;
+          }
         }
-      }
-      
-      &__button_icon {
-        height: 1.7rem;
         
-        @include md {
-          height: 1.2rem;
+        &__button_icon {
+          height: 1.7rem;
+          
+          @include md {
+            height: 1.2rem;
+          }
         }
       }
     }
+  
   }
-
 }

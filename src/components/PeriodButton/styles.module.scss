@@ -1,4 +1,6 @@
 @import '../../styles/mixins/typography';
+@import '../../styles/mixins/details';
+
 
 .period_button_container {
   display: flex;
@@ -9,9 +11,10 @@
     @include text3; 
   }
 
-  padding: 0.2rem 0.5rem;
+  padding: 0.3rem 0.7rem;
 
-  background-color: var(--gray-100);
+  background-color: var(--white);
   border: 0;
   border-radius: 1rem;
+  @include box-shadow;
 }
