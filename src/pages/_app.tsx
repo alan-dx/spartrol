@@ -29,7 +29,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           </SidebarContextProvider>
         </Provider>
       </Hydrate>
-      {false && <ReactQueryDevtools />}
+      {process.env.NODE_ENV === 'development' && <ReactQueryDevtools />}
     </QueryClientProvider>
   )
 }
