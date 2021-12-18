@@ -1,0 +1,14 @@
+[
+  {
+    "name": "Home",
+    "path": "/home"
+  },
+  {
+    "name": "Relatórios",
+    "path": "/metrics"
+  },
+  {
+    "name": "Objetivos",
+    "path": "/goals"
+  }
+]

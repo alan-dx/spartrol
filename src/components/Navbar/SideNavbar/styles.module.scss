@@ -1,28 +1,27 @@
-@import '../../styles/mixins/responsive';
-@import '../../styles/mixins/typography';
+@import '../../../styles/mixins/responsive';
+@import '../../../styles/mixins/typography';
 
 
 .navbar__container {
-  display: none;
-  
-  @include md {
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-    width: 4rem;
-  
-    padding: 0.5rem 0 0.5rem 0.5rem;
-    justify-content: space-between;
-    position: relative;
-  
-    background-color: var(--blue);
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 4rem;
 
-    will-change: width;
-    transition: all 0.6s ease;
+  padding: 0.5rem 0 0.5rem 0.5rem;
+  justify-content: space-between;
+  position: relative;
 
-    &[data-open="true"] {
-      width: 13rem;
-    }
+  background-color: var(--blue);
+  overflow: hidden;
+  border-radius: 0;
+  border-top: none;
+
+  will-change: width;
+  transition: all 0.6s ease;
+
+  &[data-open="true"] {
+    width: 13rem;
   }
 
   &__open_button {
@@ -38,9 +37,7 @@
     background-color: transparent;
     transition: background-color 0.6s;
 
-    @include md {
-      justify-content: space-between;
-    }
+    justify-content: space-between;
 
     &:hover {
       border-radius: 0.3rem;
@@ -130,4 +127,3 @@
     }
   }
 }
-

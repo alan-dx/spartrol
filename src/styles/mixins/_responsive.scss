@@ -1,6 +1,6 @@
 $screen-xs-min: 0;
 $screen-sm-min: 576px;
-$screen-md-min: 768px;
+$screen-md-min: 769px;
 $screen-lg-min: 992px;
 $screen-xl-min: 1200px;
 $screen-xxl-min: 1400px;
@@ -80,7 +80,7 @@ $container-max-width-xll: 1200px;
   @include xl {
     margin: 0 auto;
     flex-basis: $container-max-width-xl;
-    padding: 0 35px;
+    padding: 0 15px;
 
   }
   

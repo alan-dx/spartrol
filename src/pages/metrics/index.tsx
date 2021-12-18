@@ -19,6 +19,7 @@ import { withSSRAuth } from '../../utils/withSSRAuth';
 import { withSSRAuthContext } from '../../@types/withSSRAuthContext';
 import { getMetricsData, useMetricsData } from '../../hooks/useMetricsData';
 import { getCategories, useCategories } from '../../hooks/useCategories';
+import { Navbar } from '../../components/Navbar';
 
 
 interface MetricsProps {
@@ -42,11 +43,11 @@ export default function Metrics({
   // }, [])
 
   return (
-    <>
-      <Header />
-      <main className={styles.metrics__container}>
-        <div className={styles.metrics__container__wrapper}>
-          {/* <i className={styles.metrics__container__wrapper__alert}>
+    <div className={styles.container} >
+      <Navbar />
+      <main className={styles.container__metrics__container}>
+        <div className={styles.container__metrics__container__wrapper}>
+          {/* <i className={styles.container__metrics__container__wrapper__alert}>
             As funcionalidades desta página ainda estão em desenvolvimento, alguns dos dados aqui mostrados são apenas ilustrativos!
           </i> */}
           <GainSpentSection data={metricsData?.gain_spent} />
@@ -55,7 +56,7 @@ export default function Metrics({
           <PortfolioSection data={statementData} />
         </div>
       </main>      
-    </>
+    </div>
   )
 }
 

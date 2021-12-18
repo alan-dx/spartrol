@@ -7,7 +7,6 @@ import { FiList } from 'react-icons/fi';
 
 import { Balance } from '../../components/Balance'
 import { DayExpence } from '../../components/DayExpence'
-import { Header } from '../../components/Header'
 import { LargeButton } from '../../components/LargeButton'
 import { HistoricMemoized } from '../../components/Historic'
 
@@ -37,8 +36,7 @@ import { Wallet } from '../../@types/Wallet';
 import { Category } from '../../@types/category';
 import { withSSRAuthContext } from '../../@types/withSSRAuthContext'
 import { CreateCategoryFormData } from '../../@types/CreateCategoryFormData';
-import { SideNavbar } from '../../components/SideNavbar';
-
+import { Navbar } from '../../components/Navbar';
 
 interface HomeProps {
   session?: Session;
@@ -200,6 +198,10 @@ export default function Home({
     await updateFinancialStatement.mutateAsync({wallets: wallets_updated})
   }
 
+  const monthSpentMemoized = React.useMemo(() => 
+    Number(statementData?.monthSpent), [statementData?.monthSpent]
+  )
+
   return (
     <AnimateSharedLayout type="crossfade" >
       <AddSpentModal 
@@ -208,7 +210,7 @@ export default function Home({
         closeModal={() => setIsOpenExpenseModal(false)} 
         createSpent={handleCreateTransaction}
         wallets={statementData?.wallets}
-        layoutId="add_spent_modal"
+        layoutId="adSideNavbard_spent_modal"
       />
       <AddGainModal 
         categories={categoriesData?.gain} 
@@ -234,14 +236,14 @@ export default function Home({
         layoutId="manange_categories_modal"
       />
       <div className={styles.container}>
-        <SideNavbar />
+        <Navbar />
         <main className={styles.container__main__container} >
           <div className={styles.container__main__container__wrapper}>
             <div className={styles.container__main__container__wrapper__info_box} >
               <Balance isLoading={isLoading} balance={statementData?.equity} wallets={statementData?.wallets} />
               <DayExpence 
                 daySpent={statementData?.daySpent} 
-                monthSpent={useMemo(() => Number(statementData?.monthSpent), [statementData?.monthSpent])} 
+                monthSpent={monthSpentMemoized} 
                 monthTarget={statementData?.monthTarget}
                 windowSize={windowSize}
               />
@@ -277,7 +279,7 @@ export const getServerSideProps = withSSRAuth(async (ctx: withSSRAuthContext) =>
   const { session } = ctx
 
   const queryClient = new QueryClient()
-  
+
   if (ctx.req.url === '/home') {//On req.url there is a difference when the user navigates from another page and accesses it for the first time
     //this condition prevents unnecessary request to this routes. This way the requests below will 
     //not be performed when the user changes pages, for example, only when render at first time.

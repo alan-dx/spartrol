@@ -31,7 +31,7 @@ export function DayExpence({daySpent, monthSpent, monthTarget, windowSize}: DayE
         </strong> */}
       </div>
       {
-        windowSize.width < 768 
+        windowSize.width < 769 
         ?
           <ProgressBar monthSpent={monthSpent} monthTarget={monthTarget} /> 
         :

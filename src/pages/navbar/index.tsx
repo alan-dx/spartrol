@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { SideNavbar } from '../../components/SideNavbar';
+import { SideNavbar } from '../../components/Navbar/SideNavbar';
 
 import styles from './style.module.scss';
 

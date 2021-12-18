@@ -1,0 +1,119 @@
+@import '../../../styles/mixins/typography';
+@import '../../../styles/mixins/responsive';
+
+
+.tabnavbar__container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 4.7rem;
+  
+  position: fixed;
+  bottom: 0;
+  z-index: 1;
+
+  background-color: var(--white);
+  border: 1px solid var(--gray-200);
+  border-top-right-radius: 0.6rem;
+  border-top-left-radius: 0.6rem;
+
+  &__wrapper {
+    
+    @include wrapper;
+    &__list_links {//ul
+      display: flex;
+      flex: 1;
+      justify-content: space-between;
+      
+      &__link {
+        display: flex;
+        align-items: center;
+  
+        list-style: none;
+        position: relative;
+        width: 4.5rem;
+        height: 4.5rem;
+        z-index: 1;
+  
+        &[data-active="true"] &__box i {
+          transform: translateY(-2.3rem);
+          color: var(--white);
+  
+          background-color: var(--red);
+          border-radius: 0.6rem;
+          line-height: 0px;
+          padding: 1.15rem;
+  
+        }
+  
+        &__box {
+  
+          position: relative;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          width: 100%;
+  
+          i {
+            
+            svg {
+              width: 1.7rem;
+              height: auto;
+            }
+  
+            position: relative;
+            display: block;
+            text-align: center;
+            transition: 0.5s;
+            color: var(--black);
+            
+          }
+          
+          &__label {
+            position: absolute;
+            @include text2;
+            color: var(--black);
+            transition: 0.5s;
+            opacity: 0;
+            transform: translateY(0.8rem);
+          }
+          
+        }
+        
+        // &__square {
+        //   height: 4.7rem;
+        //   width: 4.7rem;
+      
+        //   border: 4px solid var(--white-smoke);
+      
+        //   border-radius: 0.6rem;
+        //   background-color: var(--red);
+        // }
+        &[data-active='true'] &__box__label {
+          opacity: 1;
+        }
+      }
+      
+    }
+
+  }
+
+}
+
+// .tabnavbar__container__list_links__link:nth-child(1)[data-active='true'] ~ .tabnavbar__container__list_links__square {
+//   //remember note: on element with class .tabnavbar__container__list_links__square 
+//   //preceded for element with class .tabnavbar__container__list_links__link add this:
+//   //nth-child() is necessary to select and calculate the correct translateX
+//   //without him, it's difficult know the multiple number below
+//   transform: translateX(calc(11.2rem * -1));
+// }
+
+// .tabnavbar__container__list_links__link:nth-child(2)[data-active='true'] ~ .tabnavbar__container__list_links__square {
+//   transform: translateX(calc(11.2rem * 0));
+// }
+
+// .tabnavbar__container__list_links__link:nth-child(3)[data-active='true'] ~ .tabnavbar__container__list_links__square {
+//   transform: translateX(calc(11.2rem * 1));
+// }
