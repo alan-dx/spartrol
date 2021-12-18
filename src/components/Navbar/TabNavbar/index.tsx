@@ -23,6 +23,7 @@ export function TabNavbar() {
                 className={styles.tabnavbar__container__wrapper__list_links__link} 
                 data-active={router.asPath === route.path ? true : false}
                 onClick={() => router.push(route.path)}
+                key={route.path}
               >
                 <div className={styles.tabnavbar__container__wrapper__list_links__link__box} >
                   <i>

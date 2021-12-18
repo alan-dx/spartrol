@@ -18,6 +18,7 @@ export function Navigation() {
               className={styles.navigation__container__links_list__link}
               data-active={router.asPath === route.path ? true : false}
               onClick={() => router.push(route.path)}
+              key={route.path}
             >
               <i>
                 {getNavbarIcon(route.name)}
