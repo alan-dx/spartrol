@@ -210,7 +210,7 @@ export default function Home({
         closeModal={() => setIsOpenExpenseModal(false)} 
         createSpent={handleCreateTransaction}
         wallets={statementData?.wallets}
-        layoutId="adSideNavbard_spent_modal"
+        layoutId="add_spent_modal"
       />
       <AddGainModal 
         categories={categoriesData?.gain} 
