@@ -1,0 +1,42 @@
+@import '../../styles/mixins/responsive';
+@import '../../styles/mixins/typography';
+
+.goals__container {
+  display: flex;
+
+  &__main {
+    display: flex;
+    flex: 1;
+    
+    margin: auto;
+    
+    &__wrapper {
+      @include wrapper;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      flex-direction: column;
+
+
+      img {
+        width: 10rem;
+        height: auto;
+
+        @include md {
+          width: 40rem
+        }
+      }
+
+      h1 {
+        @include heading4;
+        margin-top: 4rem;
+      }
+
+      span {
+        @include text2;
+      }
+    }
+
+  }
+}
