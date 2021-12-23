@@ -3,10 +3,12 @@
 
 .goals__container {
   display: flex;
+  height: 100vh;
 
   &__main {
     display: flex;
     flex: 1;
+    flex-direction: column;
     
     margin: auto;
     
@@ -18,9 +20,8 @@
 
       flex-direction: column;
 
-
       img {
-        width: 10rem;
+        width: 18rem;
         height: auto;
 
         @include md {

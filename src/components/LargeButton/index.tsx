@@ -12,7 +12,7 @@ export function LargeButton({ children, ...rest }: ButtonProps) {
       className={styles.container}
       {...rest}
       whileTap={{
-        scale: 0.90
+        scale: 0.93
       }}
     >
       {children}

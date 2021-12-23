@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 import { useRouter } from 'next/router';
 import { signOut } from 'next-auth/client';
 
@@ -19,11 +20,14 @@ export function TabNavbar() {
         <ul className={styles.tabnavbar__container__wrapper__list_links} >
           {
             routes.map(route => (
-              <li 
+              <motion.li 
                 className={styles.tabnavbar__container__wrapper__list_links__link} 
                 data-active={router.asPath === route.path ? true : false}
                 onClick={() => router.push(route.path)}
                 key={route.path}
+                whileTap={{
+                  scale: 0.93
+                }}
               >
                 <div className={styles.tabnavbar__container__wrapper__list_links__link__box} >
                   <i>
@@ -36,7 +40,7 @@ export function TabNavbar() {
                     {route.name}
                   </span>
                 </div>
-              </li>
+              </motion.li>
             ))
           }
           <li 
