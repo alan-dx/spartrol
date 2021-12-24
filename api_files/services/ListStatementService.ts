@@ -1,7 +1,7 @@
 import { query as q } from 'faunadb';
 
 import { fauna } from '../../src/services/faunadb';
-import { isSameDay, isSameMonth } from 'date-fns';
+import { isSameDay, isSameMonth,  isSameMinute } from 'date-fns';
 
 type FinancialStatementData = {
   ts: number;
@@ -24,8 +24,8 @@ class ListStatementService {
     )
 
     const ts = statement.ts.toString().slice(0,-3)
-    //1637101501891
-    if (!isSameDay(new Date(Number(ts)), new Date(current_ts))) {//new day => clear day spent
+    //1637101501891 !isSameDay(new Date(Number(ts)), new Date(current_ts))
+    if (!isSameMinute(new Date(Number(ts)), new Date(current_ts))) {//new day => clear day spent
       statement.data.day_spent = 0
     }
 

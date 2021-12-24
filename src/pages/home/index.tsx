@@ -16,7 +16,7 @@ import { ManageWalletModal } from '../../components/Modal/ManangeWalletModal';
 import { ManageCategoriesModal } from '../../components/Modal/ManangeCategoriesModal';
 
 import styles from './styles.module.scss';
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import { Session } from 'next-auth';
 import { withSSRAuth } from '../../utils/withSSRAuth'
 import { getStatement, GetStatementResponse, useStatement } from '../../hooks/useStatement'
@@ -165,7 +165,7 @@ export default function Home({
         
       })
       
-      // It is necessary to send day_spent and month_spent to avoid the day_spent bug (keep the data from the previous day)
+      // It is necessary to send day_spent and month_spent to avoid the day_spent bug (keep data from the previous day)
       await updateFinancialStatement.mutateAsync({
         day_spent: statementData.daySpent,
         month_spent: statementData.monthSpent,
