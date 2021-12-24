@@ -34,9 +34,7 @@ function Historic({data, categories}: HistoricProps) {
         data && //A div animada só deve ser renderizada quando os dados (data) estiverem carregados, caso contrário a animação não funcionará corretamente
         <motion.ol initial="hidden" animate="visible" variants={listVariants} >
           {data.map(item => (
-            <>
-              <HistoricItem key={item.id} item={item} categories={categories}/>
-            </>
+            <HistoricItem key={item.id} item={item} categories={categories}/>
           ))}
         </motion.ol>
       }

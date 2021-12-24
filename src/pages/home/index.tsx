@@ -1,4 +1,5 @@
 import React from 'react';
+import dynamic from 'next/dynamic'
 
 import { QueryClient } from 'react-query';
 import { dehydrate } from 'react-query/hydration';
@@ -36,7 +37,10 @@ import { Wallet } from '../../@types/Wallet';
 import { Category } from '../../@types/category';
 import { withSSRAuthContext } from '../../@types/withSSRAuthContext'
 import { CreateCategoryFormData } from '../../@types/CreateCategoryFormData';
-import { Navbar } from '../../components/Navbar';
+
+const Navbar = dynamic(() => import('../../components/Navbar'), {
+  ssr: false
+})
 
 interface HomeProps {
   session?: Session;

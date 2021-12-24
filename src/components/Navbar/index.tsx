@@ -4,7 +4,7 @@ import useWindowDimensions from '../../hooks/useWindowDimensions';
 import { SideNavbar } from './SideNavbar';
 import { TabNavbar } from './TabNavbar';
 
-export function Navbar() {
+export default function Navbar() {
 
   const window = useWindowDimensions()
 

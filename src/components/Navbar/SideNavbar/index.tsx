@@ -33,7 +33,7 @@ export function SideNavbar() {
   }
   
   return (
-    <div 
+    <nav 
       className={styles.navbar__container}
       data-open={isOpen ? true : false}
     >
@@ -70,7 +70,7 @@ export function SideNavbar() {
             <span
               className={styles.navbar__container__logout_box__profile__text_box__name}
             >
-              {name[0] + ' ' + name[1]}
+              {name ? name[0] + ' ' + name[1] : 'Usuário'}
             </span>
             <small
               className={styles.navbar__container__logout_box__profile__text_box__day}
@@ -87,6 +87,6 @@ export function SideNavbar() {
         </button>
       </div>
 
-    </div>
+    </nav>
  );
 }

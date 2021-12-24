@@ -12,6 +12,10 @@
     
     margin: auto;
     
+    @include md {
+      flex: none;
+      flex-direction: row
+    }
     &__wrapper {
       @include wrapper;
       display: flex;
@@ -25,8 +29,9 @@
         height: auto;
 
         @include md {
-          width: 40rem
+          width: 30rem;
         }
+
       }
 
       h1 {

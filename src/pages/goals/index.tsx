@@ -1,7 +1,14 @@
 import React from 'react';
-import { Navbar } from '../../components/Navbar';
+import dynamic from 'next/dynamic';
+import { withSSRAuthContext } from '../../@types/withSSRAuthContext';
+// import { Navbar } from '../../components/Navbar';
+import { withSSRAuth } from '../../utils/withSSRAuth';
 
 import styles from './styles.module.scss';
+
+const Navbar = dynamic(() => import('../../components/Navbar'), {
+  ssr: false
+})
 
 export default function Goals() {
   return (
@@ -17,3 +24,14 @@ export default function Goals() {
     </div>
  );
 }
+
+export const getServerSideProps = withSSRAuth(async (ctx: withSSRAuthContext) => {
+
+  const { session } = ctx
+
+  return {
+    props: {
+      session
+    }
+  }
+})

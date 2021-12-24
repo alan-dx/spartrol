@@ -11,7 +11,7 @@ export function Navigation() {
   const router = useRouter()
 
   return (
-    <nav className={styles.navigation__container} >
+    <div className={styles.navigation__container} >
         <ul className={styles.navigation__container__links_list}>
           {routes.map(route => (
             <li 
@@ -31,6 +31,6 @@ export function Navigation() {
             </li>
           ))}
         </ul>
-    </nav>
+    </div>
  );
 }

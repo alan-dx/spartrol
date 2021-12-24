@@ -1,5 +1,5 @@
 import React from 'react'
-import { Header } from "../../components/Header";
+import dynamic from 'next/dynamic';
 import { Session } from 'next-auth';
 
 import { QueryClient } from 'react-query';
@@ -19,7 +19,10 @@ import { withSSRAuth } from '../../utils/withSSRAuth';
 import { withSSRAuthContext } from '../../@types/withSSRAuthContext';
 import { getMetricsData, useMetricsData } from '../../hooks/useMetricsData';
 import { getCategories, useCategories } from '../../hooks/useCategories';
-import { Navbar } from '../../components/Navbar';
+
+const Navbar = dynamic(() => import('../../components/Navbar'), {
+  ssr: false
+})
 
 
 interface MetricsProps {
