@@ -5,7 +5,6 @@ import '../styles/global.scss'
 import Head from 'next/head';
 
 import { SidebarContextProvider } from '../contexts/SidebarContext'
-import { Sidebar } from '../components/Sidebar'
 
 import { QueryClientProvider, QueryClient } from 'react-query'
 import { Hydrate } from 'react-query/hydration';
@@ -21,7 +20,6 @@ function MyApp({ Component, pageProps }: AppProps) {
       <Hydrate state={pageProps.dehydratedState} >
         <Provider session={pageProps.session} >
           <SidebarContextProvider>
-            <Sidebar />
             <Head>
               <title>Spartrol</title>
             </Head>

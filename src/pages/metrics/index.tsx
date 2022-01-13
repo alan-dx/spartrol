@@ -39,12 +39,6 @@ export default function Metrics({
   const { data: metricsData } = useMetricsData({id: session?.id as string})
   const { data: categoriesData } = useCategories({id: session?.id as string})
 
-  const historicData = historicTestData
-
-  // useEffect(() => {
-  //   alert("Mensagem do Dev: As funcionalidades desta página ainda estão em desenvolvimento, alguns dos dados aqui mostrados são apenas ilustrativos!")
-  // }, [])
-
   return (
     <div className={styles.container} >
       <Navbar />
@@ -81,10 +75,10 @@ export const getServerSideProps = withSSRAuth(async (ctx: withSSRAuthContext) =>
     //This was a way I found to prevent requests from being made unnecessarily, 
     //as the data will possibly already be cached
     //Even if the data is not cached, requests will be made on the client side
-    await queryClient.prefetchQuery('statement', () => getStatement(session?.id), {
+    await queryClient.prefetchQuery('statement', () => getStatement(session?.id, ctx), {
       staleTime: 1000 * 60 * 10
     })
-    await queryClient.prefetchQuery('categories', () => getCategories(session?.id), {
+    await queryClient.prefetchQuery('categories', () => getCategories(session?.id, ctx), {
       staleTime: 1000 * 60 * 10
     })
     console.log('make requests at /metrics', ctx.req.url)

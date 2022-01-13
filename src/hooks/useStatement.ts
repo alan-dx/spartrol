@@ -1,5 +1,5 @@
 import { useQuery } from "react-query";
-import { api } from "../services/api";
+import { api as apiClient } from "../services/api";
 
 import { Wallet } from "../@types/Wallet";
 
@@ -17,7 +17,9 @@ type UseStatementParams = {
   id: string;
 }
 
-export async function getStatement(id: string): Promise<GetStatementResponse> {
+export async function getStatement(id: string, ctx = undefined): Promise<GetStatementResponse> {
+
+  const api = apiClient(ctx)
 
   const response = await api.get(`statement/${id}`, {
     params: {

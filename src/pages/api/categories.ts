@@ -1,10 +1,11 @@
+import { ensureAuth } from './../../../api_files/middleware/ensureAuth';
 import { NextApiRequest, NextApiResponse } from "next";
 
 import { CreateCategoriesService } from "../../../api_files/services/CreateCategorieService";
 import { ListUserCategories } from "../../../api_files/services/ListUserCategories";
 import { UpdateCategoriesService } from "../../../api_files/services/UpdateCategoriesService";
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {//controller
+export default ensureAuth(async (req: NextApiRequest, res: NextApiResponse) => {//controller
   if (req.method === 'GET') {
     try {
       const { id } = req.query
@@ -47,4 +48,4 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {//controlle
     res.setHeader('Allow', 'POST')
     res.status(405).json('Method not allowed')
   }
-}
+})

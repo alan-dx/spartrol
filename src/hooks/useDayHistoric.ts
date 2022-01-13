@@ -1,4 +1,4 @@
-import { api } from '../services/api';
+import { api as apiClient } from '../services/api';
 import { useQuery } from 'react-query';
 
 import { DayHistoric } from '../@types/DayHistoric';
@@ -8,7 +8,9 @@ type useDayHistoricParams = {
 }
 
 //CONTINUAR AQ
-export async function getDayHistoric(id: string): Promise<DayHistoric> {
+export async function getDayHistoric(id: string, ctx = undefined): Promise<DayHistoric> {
+  
+  const api = apiClient(ctx)
 
   const response = await api.get(`day_historic`, {
     params: {

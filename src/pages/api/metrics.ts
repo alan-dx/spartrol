@@ -1,4 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
+import { ensureAuth } from "../../../api_files/middleware/ensureAuth";
 import { ListMetricsDataService } from "../../../api_files/services/ListMetricsDataService";
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {

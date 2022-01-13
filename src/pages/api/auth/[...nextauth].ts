@@ -1,4 +1,4 @@
-import { api } from './../../../services/api';
+import { api as apiClient } from './../../../services/api';
 import NextAuth from 'next-auth'
 import Providers from 'next-auth/providers'
 
@@ -12,18 +12,23 @@ export default NextAuth({
   session: {
     maxAge: 60 * 60 * 24 * 3, //3 days
   },
+  jwt: {//needed to getToken() on ensureAuth works correctly
+    secret: process.env.SECRET,
+    maxAge: 60 * 60 * 24 * 3
+  },
   callbacks: {
     async signIn(user) {
 
       const { email, id } = user
 
       try {
+        const api = apiClient()
         await api.post('/users', {
           email,
           id
         })
         
-        return true//MOVER PRA DENTRO DO CALL
+        return true
       } catch (error) {
         console.error(error)
         return false

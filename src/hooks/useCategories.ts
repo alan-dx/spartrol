@@ -1,14 +1,14 @@
 import { useQuery } from 'react-query';
 import { Categories } from '../@types/Categories';
 import { Category } from '../@types/category';
-import { api } from '../services/api';
+import { api as apiClient } from '../services/api';
 
 type useCategoriesParams = {
   id: string;
 }
 
-export async function getCategories(id: string): Promise<Categories> {
-
+export async function getCategories(id: string, ctx = undefined): Promise<Categories> {
+  const api = apiClient(ctx)
   const response = await api.get('categories', {
     params: {
       id

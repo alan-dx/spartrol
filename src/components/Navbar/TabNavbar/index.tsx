@@ -22,23 +22,23 @@ export function TabNavbar() {
             routes.map(route => (
               <motion.li 
                 className={styles.tabnavbar__container__wrapper__list_links__link} 
-                data-active={router.asPath === route.path ? true : false}
+                data-active={router.asPath.replace(/[#]/i, '') === route.path ? true : false}
                 onClick={() => router.push(route.path)}
                 key={route.path}
                 whileTap={{
-                  scale: 0.93
+                  scale: 0.9
                 }}
               >
                 <div className={styles.tabnavbar__container__wrapper__list_links__link__box} >
                   <i>
                     {getNavbarIcon(route.name)}
                   </i>
-                  <span
+                  <a
                     className={styles.tabnavbar__container__wrapper__list_links__link__box__label}
-                    data-active={router.asPath === route.path ? true : false}
+                    data-active={router.asPath.replace(/[#]/i, '') === route.path ? true : false}
                   >
                     {route.name}
-                  </span>
+                  </a>
                 </div>
               </motion.li>
             ))

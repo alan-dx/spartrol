@@ -118,7 +118,7 @@ export function ManageWalletModal({
                     validate={formValidation}
                     initialValues={walletInEditMode.id && {
                       title: walletInEditMode.title,
-                      value: String(walletInEditMode.value)
+                      value: walletInEditMode.value.toFixed(2)
                     }}
                     render={({ handleSubmit, form, submitting, pristine, values }) => (
                       <>

@@ -4,8 +4,6 @@ import dynamic from 'next/dynamic'
 import { QueryClient } from 'react-query';
 import { dehydrate } from 'react-query/hydration';
 
-import { FiList } from 'react-icons/fi';
-
 import { Balance } from '../../components/Balance'
 import { DayExpence } from '../../components/DayExpence'
 import { LargeButton } from '../../components/LargeButton'
@@ -20,11 +18,11 @@ import styles from './styles.module.scss';
 import { useState } from 'react';
 import { Session } from 'next-auth';
 import { withSSRAuth } from '../../utils/withSSRAuth'
-import { getStatement, GetStatementResponse, useStatement } from '../../hooks/useStatement'
+import { getStatement, useStatement } from '../../hooks/useStatement'
 import { useCategories, getCategories } from '../../hooks/useCategories'
 import { getDayHistoric, useDayHistoric } from '../../hooks/useDayHistoric';
 import { useMutation } from 'react-query'
-import { api } from '../../services/api'
+import { api as apiClient } from '../../services/api'
 
 import { queryClient as queryClientCache } from '../../services/queryClient';
 
@@ -62,7 +60,7 @@ export default function Home({
   const { data: dayHistoricData } = useDayHistoric({id: session?.id as string})
 
   const updateFinancialStatement = useMutation(async (statement: FinancialStatementData) => {
-
+    const api = apiClient()
     await api.put(`statement/${session.id}`, {
       updated_data: statement
     })
@@ -80,6 +78,7 @@ export default function Home({
   })
 
   const addTransactionOnHistoric = useMutation(async (transaction: TransactionData) => {
+    const api = apiClient()
     await api.post('day_historic', {
       id: session?.id,
       transaction,
@@ -96,6 +95,8 @@ export default function Home({
   })
 
   const updateCategories = useMutation(async (updated_data: Category) => {
+    
+    const api = apiClient()
 
     await api.put(`categories`, {
       updated_data,
@@ -112,6 +113,8 @@ export default function Home({
   })
 
   const createCategory = useMutation(async (category: CreateCategoryFormData) => {
+    const api = apiClient()
+
     const response = await api.post("/categories", {
       id: session?.id,
       title: category.title,
@@ -267,7 +270,8 @@ export default function Home({
               </LargeButton>
               <LargeButton layout layoutId="manange_categories_modal" disabled={statementData?.wallets.length === 0 || isLoading} onClick={() => setIsOpenManangeCategoriesModal(true)}>
                 <span className={styles.container__main__container__wrapper__buttons_box__button_text}>{windowSize.width > 768 && 'Gerenciar'} categorias</span>
-                <FiList size={35} color="#D8CF5D" />
+                <img className={styles.container__main__container__wrapper__buttons_box__button_icon} src="/icons/categories_icon.svg" alt="manage portfolio" />
+                {/* <FiList size={35} color="#D8CF5D" /> */}
               </LargeButton>
             </div>
             <HistoricMemoized data={dayHistoricData?.data.historic} categories={categoriesData} />
@@ -290,13 +294,13 @@ export const getServerSideProps = withSSRAuth(async (ctx: withSSRAuthContext) =>
     //This was a way I found to prevent requests from being made unnecessarily, 
     //as the data will possibly already be cached
     //Even if the data is not cached, requests will be made on the client side
-    await queryClient.prefetchQuery('statement', () => getStatement(session?.id), {
+    await queryClient.prefetchQuery('statement', () => getStatement(session?.id, ctx), {
       staleTime: 1000 * 60 * 10
     })
-    await queryClient.prefetchQuery('categories', () => getCategories(session?.id), {
+    await queryClient.prefetchQuery('categories', () => getCategories(session?.id, ctx), {
       staleTime: 1000 * 60 * 10
     })
-    await queryClient.prefetchQuery('day_historic', () => getDayHistoric(session?.id), {
+    await queryClient.prefetchQuery('day_historic', () => getDayHistoric(session?.id, ctx), {
       staleTime: 1000 * 60 * 10
     })
     console.log('make requests at /home')

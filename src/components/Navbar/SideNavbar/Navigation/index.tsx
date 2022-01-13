@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 
 import routes from '../../routes.json';
 import { getNavbarIcon } from '../../../../utils/getNavbarIcon';
+import { ro } from 'date-fns/locale';
 
 export function Navigation() {
 
@@ -16,18 +17,18 @@ export function Navigation() {
           {routes.map(route => (
             <li 
               className={styles.navigation__container__links_list__link}
-              data-active={router.asPath === route.path ? true : false}
+              data-active={router.asPath.replace(/[#]/i, '') === route.path ? true : false}
               onClick={() => router.push(route.path)}
               key={route.path}
             >
               <i>
                 {getNavbarIcon(route.name)}
               </i>
-              <span 
+              <a 
                 className={styles.navigation__container__links_list__link__label}
               >
                 {route.name}
-              </span>
+              </a>
             </li>
           ))}
         </ul>

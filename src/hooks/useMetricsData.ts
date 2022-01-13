@@ -1,5 +1,5 @@
 import { QueryCache, useQuery } from 'react-query';
-import { api } from './../services/api';
+import { api as apiClient } from './../services/api';
 
 import { TransactionData } from './../@types/TransactionData';
 import { MetricsData } from '../@types/MetricsData';
@@ -24,6 +24,8 @@ export async function getMetricsData(id: string):Promise<MetricsData> {
       spent: []
     }
   }
+
+  const api = apiClient()
 
   const response = await api.get<GetMetricsResponse>(`metrics`, {
     params: {
