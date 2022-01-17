@@ -202,7 +202,11 @@ export default function Home({
       wallets_updated = [...statementData.wallets, wallet_data]
     }
 
-    await updateFinancialStatement.mutateAsync({wallets: wallets_updated})
+    await updateFinancialStatement.mutateAsync({
+      day_spent: statementData.daySpent,
+      month_spent: statementData.monthSpent,
+      wallets: wallets_updated
+    })
   }
 
   const monthSpentMemoized = React.useMemo(() => 
